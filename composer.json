@@ -1,0 +1,23 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\router\\": "App/router",
+            "App\\controller\\": "App/controller",
+            "App\\entity\\": "App/entity",
+            "App\\model\\": "App/model"
+        }
+    },
+
+    "name": "genty/blog-p5",
+    "description": "5e projet formation PHP Symfony",
+    "require": {
+        "twig/twig": "^2.13",
+        "symfony/var-dumper": "^4.4"
+    },
+    "authors": [
+        {
+            "name": "Edwige Genty",
+            "email": "edwige.gentymail@gmail.com"
+        }
+    ]
+}

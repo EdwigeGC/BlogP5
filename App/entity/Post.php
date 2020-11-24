@@ -6,6 +6,7 @@ class Post
 {
     private $id,
             $date,
+            $update,
             $author,
             $title,
             $chapo,
@@ -18,6 +19,16 @@ class Post
        //modifictaion du status de brouillon à publié ;
     }
 
+    public function creationDate()
+    {
+       //modifictaion du status de brouillon à publié ;
+
+    }public function creationUpdate()
+    {
+       //modifictaion du status de brouillon à publié ;
+    }
+
+    
     // SETTERS //
   
      public function setId($id)

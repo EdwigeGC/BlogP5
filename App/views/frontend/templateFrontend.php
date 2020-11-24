@@ -1,3 +1,6 @@
+<?php 
+session_start();?>
+
 <!doctype html>
 <html lang="en">
 
@@ -8,8 +11,8 @@
     <link href="App/public/bootstrap-4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="App/public/bootstrap-4.5.3/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="App/public/bootstrap-4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="App/public/Bootstrap-4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="App/public/style.css" rel="stylesheet">
-    <i class="fab fa-twitter"></i>
     <title>Blog</title>
 
   </head>
@@ -19,36 +22,34 @@
     <header>
     
         <nav class="navbar navbar-expand-lg navbar-expand-xl navbar-dark bg-dark">  
-            <a class="navbar-brand" href="/home.phtml">EG-development</a>
+            <a class="navbar-brand" href="/home">EG-development</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsExample05">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/home.phtml">Accueil <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Les articles</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown05">
-                        <a class="dropdown-item" href="#">Développement</a>
-                        <a class="dropdown-item" href="#">Formation</a>
-                        <a class="dropdown-item" href="#">Projets Web</a>
-                        <a class="dropdown-item" href="/listPosts.phtml">Tous les articles</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/home.phtml#contact-anchor">Contact</a>
+                        <a class="nav-link" href="/listPosts">Tous les articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home#contact-anchor">Contact</a>
                     </li>
                 </ul>
-
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Follow on Twitter</a></li>
-                    <li><a href="#" class="text-white">Like on Facebook</a></li>
-                    <li><a href="#" class="text-white">Email me</a></li>
-                </ul>
-            </div>  
+                <nav class="my-2 my-md-0 mr-md-3">
+                    <?php if (isset($_SESSION['login'])){?>
+                        <a class="p-2 text-light" href="/userForm?id=<?= $_SESSION['id']?>">Bienvenue <?= $_SESSION['login'] ?></a>
+                        <a class="btn btn-outline-primary" href="/logOut">Déconnexion</a>
+                    <?php }
+                    else { ?>
+                        <a class="btn btn-outline-primary" href="/login">Connexion</a>
+                    <?php } ?>
+                </nav>
+               
+            </div>
         </nav>
 
     </header>
@@ -57,9 +58,9 @@
 
         <section class="jumbotron text-center">
             <div class="container">
-            <h1><?= $leadTitle ?></h1>
+            <h1><?php $leadTitle ?></h1>
             <p class="lead text-muted"><?= $leadText ?><p>
-                <a href="/home.phtml#contact-anchor" class="btn btn-primary my-2">Contactez-moi</a>
+                <a href="/home#contact-anchor" class="btn btn-primary my-2">Me contacter</a>
                 <a href="#" class="btn btn-secondary my-2">Télécharger mon CV</a>
             </p>
             </div>
@@ -85,16 +86,16 @@
                 <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample10">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                        <a class="nav-link" href="/home.phtml">EG-development <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/home">EG-development <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="/listPosts.phtml">Les articles</a>
+                        <a class="nav-link" href="/listPosts">Les articles</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="/home.phtml#contact-anchor">Contact</a>
+                        <a class="nav-link" href="/home#contact-anchor">Contact</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="/admin.phtml">Administration</a>
+                        <a class="nav-link" href="/login">Connexion</a>
                         </li>
                         <li class="nav-item">
                         <a class="nav-link" href="/legacy.phtml">Mentions légales</a>

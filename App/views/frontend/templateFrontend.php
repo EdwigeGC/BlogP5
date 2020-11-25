@@ -98,7 +98,7 @@ session_start();?>
                         <a class="nav-link" href="/login">Connexion</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="/legacy.phtml">Mentions légales</a>
+                        <a class="nav-link" href="/legacy.php">Mentions légales</a>
                         </li>
                     </ul>
 

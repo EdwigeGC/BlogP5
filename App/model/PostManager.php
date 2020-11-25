@@ -24,7 +24,7 @@ class PostManager
     {
         $db = new PDOManager();
         $connexion = $db->getMysqlConnexion();
-        $query = $connexion->query('SELECT id, title, chapo, content, file, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr, DATE_FORMAT(modification_date, \'%d/%m/%Y\') AS modification_date_fr FROM post WHERE published= 1 ORDER BY creation_date DESC') ;
+        $query = $connexion->query('SELECT id, title, chapo, content, file, published, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr, DATE_FORMAT(modification_date, \'%d/%m/%Y\') AS modification_date_fr FROM post ORDER BY creation_date DESC') ;
         $query->execute();
        
         return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ class PostManager
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
         $query = $connexion->prepare('SELECT id, title, chapo, content, author, file, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr, DATE_FORMAT(modification_date, \'%d/%m/%Y\') AS modification_date_fr FROM post WHERE published= 1 AND id = ? ');
-        $query->execute(array($_GET['id']));
+        $query->execute(array($postId));
 
         return $query->fetch(PDO::FETCH_ASSOC);
     }
@@ -45,7 +45,7 @@ class PostManager
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
         $query = $connexion->prepare('SELECT id, title, chapo, content, author, file, published, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr, DATE_FORMAT(modification_date, \'%d/%m/%Y\') AS modification_date_fr FROM post WHERE id = ? ');
-        $query->execute(array($_GET['id']));
+        $query->execute(array($postId));
 
         return $query->fetch(PDO::FETCH_ASSOC);
     }
@@ -77,12 +77,12 @@ class PostManager
         }
     }
 
-    public function deletePost()
+    public function deletePost($postId)
     {
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
         $query = $connexion->prepare('DELETE FROM post WHERE id = ? ');
-        $query->execute(array($_GET['id']));
+        $query->execute(array($postId));
     }
 
     

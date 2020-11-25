@@ -25,12 +25,11 @@ class Backend {
         $user = new UserManager;
         $resultat = $user->session($login);
 
-            if ($resultat['login'] == $_POST['login'] && password_verify($_POST['password'], $resultat['password'])) {
+            if (isset($resultat['login']) AND isset($resultat['password']) && $resultat['login'] == $_POST['login'] && password_verify($_POST['password'], $resultat['password'])) {
               
                 session_start ();
                 $_SESSION['id'] = $resultat['id'];
                 $_SESSION['login'] = $resultat['login'];
-                $_SESSION['password'] = $resultat['password'];
                 $_SESSION['role'] = $resultat['role'];
                 
                 if($resultat['role'] == "administrateur"){
@@ -42,18 +41,20 @@ class Backend {
                 
             }
             else{
+        //message d'erreur d'authentification
                 $titleAction="Erreur";
                 $actionConfirmation= "/connexion";
                 $textConfirmation="Erreur d'authentification: login ou mot de passe erroné";
-                require 'App/views/backend/confirmationTemplate.phtml';
+                require 'App/views/backend/confirmationTemplate.php';
             }
         }
 
         else {
+        //message d'erreur 
             $titleAction="Erreur";
             $actionConfirmation= "/connexion";
             $textConfirmation="Erreur lors de l'enregistrement de vos informations. Merci de réitérer l'opération.";
-            require 'App/views/backend/confirmationTemplate.phtml';
+            require 'App/views/backend/confirmationTemplate.php';
         }
     }  
     
@@ -69,37 +70,37 @@ class Backend {
         $this->logAdmin();
         $posts = new PostManager;
         $resultat = $posts->getPostsAdmin();
-        require 'App/views/backend/admin.phtml';
+        require 'App/views/backend/admin.php';
        
     }
 
     public function modifyPostForm($postId){
         $this->logAdmin();
         $post= new PostManager;
-        $resultat= $post->getPostAdmin($_GET['id']);
+        $resultat= $post->getPostAdmin($postId);
         $comment= new CommentManager;
-        $resultat['comments'] = $comment-> getComments($_GET['id']);
+        $resultat['comments'] = $comment-> getComments($postId);
         $subtitle="Modifier l'article";
         $action='/updatePost';
-        require 'App/views/backend/postTemplate.phtml';
+        require 'App/views/backend/postTemplate.php';
     }
 
-    public function updatePost(){
+    public function updatePost($param){
         $this->logAdmin();
-
+        $param = $_POST;
         $newPost= new PostManager;
-        $newPost->updatePost($_POST,$_GET['id']);
-        
+        $newPost->updatePost($param);
+    //message de confirmation
         $titleAction="Confirmation d'enregistrement";
         $actionConfirmation= "/admin";
         $textConfirmation="Les modifications ont bien été enregistrées";
-        require 'App/views/backend/confirmationTemplate.phtml';
+        require 'App/views/backend/confirmationTemplate.php';
     }
 
-    public function publishComment(){
+    public function publishComment($commentId){
         $this->logAdmin();
         $newComment= new CommentManager;
-        $newComment->publishComment($_GET['id']);
+        $newComment->publishComment($commentId);
         header ('Location:/commentsManagerView');
     }
 
@@ -108,40 +109,41 @@ class Backend {
         $posts = new PostManager;
         $subtitle="Ajouter un article";
         $action='/addPost';
-        require 'App/views/backend/postTemplate.phtml';
+        require 'App/views/backend/postTemplate.php';
     }
 
     public function addPost(){
         $this->logAdmin();
+        $param = $_POST;
         $newPost= new PostManager;
-        $newPost->createPost($_POST);
+        $newPost->createPost($param);
        header ('Location:/admin');
     }
 
     public function deletePost($postId){
         $this->logAdmin();
         $post= new PostManager;
-        $resultat= $post->deletePost($_GET['id']);
+        $resultat= $post->deletePost($postId);
         $comment= new CommentManager;
-        $resultat['comments'] = $comment->deleteComment($_GET['post_id']);
-        
+        $resultat['comments'] = $comment->deleteComment($postId);
+        //message de confirmation
         $titleAction="Confirmation d'enregistrement";
         $actionConfirmation= "/admin";
         $textConfirmation="L'article a bien été supprimé";
-        require'App/views/backend/confirmationTemplate.phtml';
+        require 'App/views/backend/confirmationTemplate.php';
     }
 
     public function adminCommentsList(){
         $this->logAdmin();
         $comments= new CommentManager;
         $resultat= $comments->adminComments();
-        require'App/views/backend/commentsManagerView.phtml';
+        require 'App/views/backend/commentsManagerView.php';
     }
 
-    public function deleteComment(){
+    public function deleteComment($commentId){
         $this->logAdmin();
         $comment= new CommentManager;
-        $resultat= $comment->deleteComment($_GET['id']);
+        $resultat= $comment->deleteComment($commentId);
         header ('Location:/commentsManagerView');
     }
 
@@ -155,7 +157,7 @@ class Backend {
             $resultat= $user->getUser($_GET['id']);
             $subtitle="Modifier vos informations";
             $action='/updateUser';
-            require 'App/views/backend/userFormTemplate.phtml';
+            require 'App/views/backend/userFormTemplate.php';
         }
        
     }
@@ -190,7 +192,7 @@ class Backend {
                 $errors['password'] = "Votre mot de passe n'est pas valide";
             }
             if(!empty($errors)){
-                require 'App/views/frontend/adminConnexionView.phtml';
+                require 'App/views/frontend/adminConnexionView.php';
             }
             if(empty($errors)){
                     $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
@@ -199,14 +201,15 @@ class Backend {
                     $titleAction="Confirmation d'enregistrement";
                     $actionConfirmation= "/home";
                     $textConfirmation="Votre compte a bien été créé";
-                    require 'App/views/backend/confirmationTemplate.phtml';
+                    require 'App/views/backend/confirmationTemplate.php';
             }
         }
         else{
+            //message d'erreur
             $titleAction="Erreur";
             $actionConfirmation= "/connexion";
             $textConfirmation="Erreur lors de l'enrgistrement de vos informations. Merci de réitérer l'opération.";
-            require 'App/views/backend/confirmationTemplate.phtml';
+            require 'App/views/backend/confirmationTemplate.php';
         }
     }
        
@@ -220,10 +223,11 @@ class Backend {
            if (!isset($_POST['role'])){
                 $_POST['role'] = "visiteur";
                 $user->updateUser($_POST,$_GET['id']);
+                //message de confirmation
                 $titleAction="Confirmation d'enregistrement";
                 $actionConfirmation= "/home";
                 $textConfirmation="Vos informations ont bien été mises à jour.";
-                require 'App/views/backend/confirmationTemplate.phtml';
+                require 'App/views/backend/confirmationTemplate.php';
            }
            else {
 
@@ -231,7 +235,7 @@ class Backend {
             $titleAction="Confirmation d'enregistrement";
             $actionConfirmation= "/admin";
             $textConfirmation="Vos informations ont bien été mises à jour.";
-            require 'App/views/backend/confirmationTemplate.phtml';
+            require 'App/views/backend/confirmationTemplate.php';
 
            }
         }

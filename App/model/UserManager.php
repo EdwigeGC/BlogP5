@@ -56,7 +56,7 @@ class UserManager
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
         $query = $connexion->prepare('SELECT * FROM user WHERE id = ?');
-        $query->execute(array($_GET['id']));
+        $query->execute(array($userId));
 
         return $query->fetch(PDO::FETCH_ASSOC);
     }

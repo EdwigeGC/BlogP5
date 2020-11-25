@@ -75,7 +75,7 @@ session_start();?>
 
 <?php $content = ob_get_clean();
 if ($_SESSION['role'] == "administrateur"){
-    require('templateBackend.phtml');
+    require('templateBackend.php');
 }
 else {
     require('App/views/frontend/templateFrontend.php');

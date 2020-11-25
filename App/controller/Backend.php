@@ -45,7 +45,7 @@ class Backend {
                 $titleAction="Erreur";
                 $actionConfirmation= "/connexion";
                 $textConfirmation="Erreur d'authentification: login ou mot de passe erroné";
-                require('App/views/backend/confirmationTemplate.phtml');
+                require 'App/views/backend/confirmationTemplate.phtml';
             }
         }
 
@@ -53,7 +53,7 @@ class Backend {
             $titleAction="Erreur";
             $actionConfirmation= "/connexion";
             $textConfirmation="Erreur lors de l'enregistrement de vos informations. Merci de réitérer l'opération.";
-            require('App/views/backend/confirmationTemplate.phtml');
+            require 'App/views/backend/confirmationTemplate.phtml';
         }
     }  
     
@@ -69,7 +69,7 @@ class Backend {
         $this->logAdmin();
         $posts = new PostManager;
         $resultat = $posts->getPostsAdmin();
-        require('App/views/backend/admin.phtml');
+        require 'App/views/backend/admin.phtml';
        
     }
 
@@ -81,7 +81,7 @@ class Backend {
         $resultat['comments'] = $comment-> getComments($_GET['id']);
         $subtitle="Modifier l'article";
         $action='/updatePost';
-        require('App/views/backend/postTemplate.phtml');
+        require 'App/views/backend/postTemplate.phtml';
     }
 
     public function updatePost(){
@@ -93,7 +93,7 @@ class Backend {
         $titleAction="Confirmation d'enregistrement";
         $actionConfirmation= "/admin";
         $textConfirmation="Les modifications ont bien été enregistrées";
-        require('App/views/backend/confirmationTemplate.phtml');
+        require 'App/views/backend/confirmationTemplate.phtml';
     }
 
     public function publishComment(){
@@ -108,7 +108,7 @@ class Backend {
         $posts = new PostManager;
         $subtitle="Ajouter un article";
         $action='/addPost';
-        require('App/views/backend/postTemplate.phtml');
+        require 'App/views/backend/postTemplate.phtml';
     }
 
     public function addPost(){
@@ -128,14 +128,14 @@ class Backend {
         $titleAction="Confirmation d'enregistrement";
         $actionConfirmation= "/admin";
         $textConfirmation="L'article a bien été supprimé";
-        require('App/views/backend/confirmationTemplate.phtml');
+        require'App/views/backend/confirmationTemplate.phtml';
     }
 
     public function adminCommentsList(){
         $this->logAdmin();
         $comments= new CommentManager;
         $resultat= $comments->adminComments();
-        require('App/views/backend/commentsManagerView.phtml');
+        require'App/views/backend/commentsManagerView.phtml';
     }
 
     public function deleteComment(){
@@ -155,7 +155,7 @@ class Backend {
             $resultat= $user->getUser($_GET['id']);
             $subtitle="Modifier vos informations";
             $action='/updateUser';
-            require('App/views/backend/userFormTemplate.phtml');
+            require 'App/views/backend/userFormTemplate.phtml';
         }
        
     }
@@ -190,7 +190,7 @@ class Backend {
                 $errors['password'] = "Votre mot de passe n'est pas valide";
             }
             if(!empty($errors)){
-                require ('App/views/frontend/adminConnexionView.phtml');
+                require 'App/views/frontend/adminConnexionView.phtml';
             }
             if(empty($errors)){
                     $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
@@ -199,14 +199,14 @@ class Backend {
                     $titleAction="Confirmation d'enregistrement";
                     $actionConfirmation= "/home";
                     $textConfirmation="Votre compte a bien été créé";
-                    require('App/views/backend/confirmationTemplate.phtml');
+                    require 'App/views/backend/confirmationTemplate.phtml';
             }
         }
         else{
             $titleAction="Erreur";
             $actionConfirmation= "/connexion";
             $textConfirmation="Erreur lors de l'enrgistrement de vos informations. Merci de réitérer l'opération.";
-            require('App/views/backend/confirmationTemplate.phtml');
+            require 'App/views/backend/confirmationTemplate.phtml';
         }
     }
        
@@ -223,7 +223,7 @@ class Backend {
                 $titleAction="Confirmation d'enregistrement";
                 $actionConfirmation= "/home";
                 $textConfirmation="Vos informations ont bien été mises à jour.";
-                require('App/views/backend/confirmationTemplate.phtml');
+                require 'App/views/backend/confirmationTemplate.phtml';
            }
            else {
 
@@ -231,7 +231,7 @@ class Backend {
             $titleAction="Confirmation d'enregistrement";
             $actionConfirmation= "/admin";
             $textConfirmation="Vos informations ont bien été mises à jour.";
-            require('App/views/backend/confirmationTemplate.phtml');
+            require 'App/views/backend/confirmationTemplate.phtml';
 
            }
         }

@@ -9,20 +9,12 @@ use Exception;
 
 class CommentManager
 {
-
-    public function countComments($postId = null)
-    {
-        $db = new PDOManager();
-        $connexion = $db->getMysqlConnexion();
-        $query = $connexion->query('SELECT COUNT(id) FROM comments');
-    }
-
     public function getComments($postId) 
     {
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
         $comments= $connexion->prepare('SELECT id, author, message, status, DATE_FORMAT(date, \'%d/%m/%Y\') AS comment_date_fr FROM comment WHERE post_id = ? ORDER BY date DESC');
-        $comments->execute(array($_GET['id']));
+        $comments->execute(array($postId));
 
         return $comments->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -49,30 +41,30 @@ class CommentManager
 
     }
 
-    public function deleteComments($post_id)
+    public function deleteComments($postId)
     {
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
         $query = $connexion->prepare('DELETE FROM comment WHERE post_id = ? ');
      
-        $query->execute(array($_GET['id']));
+        $query->execute(array($postId));
     }
 
-    public function deleteComment()
+    public function deleteComment($commentId)
     {
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
         $query = $connexion->prepare('DELETE FROM comment WHERE id = ? ');
-        $query->execute(array($_GET['id']));
+        $query->execute(array($commentId));
     }
 
-    public function publishComment()
+    public function publishComment($commentId)
     {
         $db= new PDOManager ();
         try {
             $connexion = $db->getMysqlConnexion();
-            $datas= $connexion ->prepare('UPDATE comment SET status= "agreed" WHERE id= ?');
-            $datas->execute(array($_GET['id']));
+            $comment= $connexion ->prepare('UPDATE comment SET status= "agreed" WHERE id= ?');
+            $comment->execute(array($commentId));
         }
         catch (Exception $e) {
             dump($e);die;

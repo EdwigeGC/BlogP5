@@ -29,5 +29,5 @@ mail('edwige.gentymail@gmail.com', $from, $message, $name);
     $titleAction="Confirmation d'enregistrement";
     $actionConfirmation= "/home";
     $textConfirmation="Votre message a bien été envoyé";
-    require ('App/views/backend/confirmationTemplate.phtml');
+    require ('App/views/backend/confirmationTemplate.php');
 }

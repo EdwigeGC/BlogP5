@@ -60,4 +60,4 @@ $leadText='liste des articles';?>
 
 <?php $content = ob_get_clean();
 
-require('templateBackend.phtml');?>
+require('templateBackend.php');?>

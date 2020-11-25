@@ -126,7 +126,7 @@ class Router
         }
     
         else 
-            require ('App/views/frontend/404.phtml');
+            require 'App/views/frontend/404.php';
     }
 
 }

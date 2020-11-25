@@ -48,4 +48,4 @@ $leadText='gestion des commentaires';?>
 
 <?php $content = ob_get_clean();
 
-require('templateBackend.phtml');?>
+require('templateBackend.php');?>

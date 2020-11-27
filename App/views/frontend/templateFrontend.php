@@ -59,7 +59,7 @@ session_start();?>
         <section class="jumbotron text-center">
             <div class="container">
             <h1><?php $leadTitle ?></h1>
-            <p class="lead text-muted"><?= $leadText ?><p>
+            <p class="lead text-muted"><?= htmlspecialchars($leadText) ?><p>
                 <a href="/home#contact-anchor" class="btn btn-primary my-2">Me contacter</a>
                 <a href="#" class="btn btn-secondary my-2">Télécharger mon CV</a>
             </p>

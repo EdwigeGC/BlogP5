@@ -52,7 +52,7 @@ session_start();?>
         <section class="jumbotron text-center">
             <div class="container">
                 <h1><?= $leadTitle ?></h1>
-                <p class="lead text-muted"><?= $leadText ?></p>
+                <p class="lead text-muted"><?=htmlspecialchars($leadText) ?></p>
             </div>
         </section>
 

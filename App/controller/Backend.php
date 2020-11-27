@@ -153,6 +153,7 @@ class Backend extends AbstractController{
     }
 
     public function addUser(){
+        
         $superglobals= $this->getSuperglobals()->get_POST();
     //gestion des erreurs, vérification du formulaire avant ajout
         if (!empty($superglobals)){

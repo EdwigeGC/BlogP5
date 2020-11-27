@@ -2,6 +2,8 @@
 
 namespace App\controller; 
 
+use App\entity\Superglobals;
+
 class AbstractController{
 
     //public function Error($param)`
@@ -10,6 +12,8 @@ class AbstractController{
         
     }
        
-    
+    public function getSuperglobals(){
+        return new Superglobals;
+    }
 
 }

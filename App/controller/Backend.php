@@ -5,54 +5,47 @@ namespace App\controller;
 use App\model\PostManager;
 use App\model\CommentManager;
 use App\model\UserManager;
-use App\entity\Post;
 
-class Backend {
 
-    public function logAdmin(){
-        if(!isset($_SESSION['id'])){
-            session_start();
-        }
-        if($_SESSION['role'] != "administrateur"){
-            header ('Location: /home');
+class Backend extends AbstractController{
+
+    public function adminAccess(){
+
+        session_start();
+        $superglobals = $this->getSuperglobals()->get_SESSION();
+        if(empty($superglobals['id']) && $superglobals['role'] !== "administrateur"){
+        header ('Location: /home');
         }
     }
 
     public function connexion(){
-        $login= $_POST['login'];
-
-        if (!empty($_POST['login']) && !empty($_POST['password']) && isset($_POST['login']) AND isset($_POST['password'])) {
+        $superglobalsPost = $this->getSuperglobals()->get_POST();
+        if (!empty($superglobalsPost['login']) && !empty($superglobalsPost['password'])) {
         $user = new UserManager;
-        $resultat = $user->session($login);
-
-            if (isset($resultat['login']) AND isset($resultat['password']) && $resultat['login'] == $_POST['login'] && password_verify($_POST['password'], $resultat['password'])) {
-              
+        $resultat = $user->checkLogin($superglobalsPost['login']);
+            if (isset($resultat['login'], $resultat['password']) && $resultat['login'] == $superglobalsPost['login'] && password_verify($superglobalsPost['password'], $resultat['password'])) {
                 session_start ();
                 $_SESSION['id'] = $resultat['id'];
                 $_SESSION['login'] = $resultat['login'];
                 $_SESSION['role'] = $resultat['role'];
-                
                 if($resultat['role'] == "administrateur"){
                     header ('Location:/admin');
                 }
                 else {
                     header ('Location:/home');
                 }
-                
             }
             else{
-        //message d'erreur d'authentification
+       
                 $titleAction="Erreur";
-                $actionConfirmation= "/connexion";
+                $actionConfirmation= "/login";
                 $textConfirmation="Erreur d'authentification: login ou mot de passe erroné";
                 require 'App/views/backend/confirmationTemplate.php';
             }
         }
-
         else {
-        //message d'erreur 
             $titleAction="Erreur";
-            $actionConfirmation= "/connexion";
+            $actionConfirmation= "/login";
             $textConfirmation="Erreur lors de l'enregistrement de vos informations. Merci de réitérer l'opération.";
             require 'App/views/backend/confirmationTemplate.php';
         }
@@ -67,7 +60,7 @@ class Backend {
 
     public function admin(){
         
-        $this->logAdmin();
+        $this->adminAccess();
         $posts = new PostManager;
         $resultat = $posts->getPostsAdmin();
         require 'App/views/backend/admin.php';
@@ -75,7 +68,7 @@ class Backend {
     }
 
     public function modifyPostForm($postId){
-        $this->logAdmin();
+        $this->adminAccess();
         $post= new PostManager;
         $resultat= $post->getPostAdmin($postId);
         $comment= new CommentManager;
@@ -85,11 +78,11 @@ class Backend {
         require 'App/views/backend/postTemplate.php';
     }
 
-    public function updatePost($param){
-        $this->logAdmin();
-        $param = $_POST;
+    public function updatePost($superglobals){
+        $this->adminAccess();
+        $superglobals= $this->getSuperglobals()->get_POST();
         $newPost= new PostManager;
-        $newPost->updatePost($param);
+        $newPost->updatePost($superglobals);
     //message de confirmation
         $titleAction="Confirmation d'enregistrement";
         $actionConfirmation= "/admin";
@@ -98,14 +91,14 @@ class Backend {
     }
 
     public function publishComment($commentId){
-        $this->logAdmin();
+        $this->adminAccess();
         $newComment= new CommentManager;
         $newComment->publishComment($commentId);
         header ('Location:/commentsManagerView');
     }
 
     public function addPostForm(){
-        $this->logAdmin();
+        $this->adminAccess();
         $posts = new PostManager;
         $subtitle="Ajouter un article";
         $action='/addPost';
@@ -113,15 +106,15 @@ class Backend {
     }
 
     public function addPost(){
-        $this->logAdmin();
-        $param = $_POST;
+        $this->adminAccess();
+        $superglobals= $this->getSuperglobals()->get_POST();
         $newPost= new PostManager;
-        $newPost->createPost($param);
-       header ('Location:/admin');
+        $newPost->createPost($superglobals);
+        header ('Location:/admin');
     }
 
     public function deletePost($postId){
-        $this->logAdmin();
+        $this->adminAccess();
         $post= new PostManager;
         $resultat= $post->deletePost($postId);
         $comment= new CommentManager;
@@ -134,70 +127,67 @@ class Backend {
     }
 
     public function adminCommentsList(){
-        $this->logAdmin();
+        $this->adminAccess();
         $comments= new CommentManager;
         $resultat= $comments->adminComments();
         require 'App/views/backend/commentsManagerView.php';
     }
 
     public function deleteComment($commentId){
-        $this->logAdmin();
+        $this->adminAccess();
         $comment= new CommentManager;
         $resultat= $comment->deleteComment($commentId);
         header ('Location:/commentsManagerView');
     }
 
-    public function userForm(){
-        if(!isset($_SESSION['id'])){
-            session_start();
-        }
-        if(!empty ($_GET['id']) && $_SESSION['id'] == $_GET['id']){
-    
+    public function userForm($userId){
+        session_start();
+        $superglobals= $this->getSuperglobals()->get_SESSION();
+        if(!empty ($userId) && $superglobals['id'] == $userId){
             $user= new UserManager;
-            $resultat= $user->getUser($_GET['id']);
+            $resultat= $user->getUser($userId);
             $subtitle="Modifier vos informations";
             $action='/updateUser';
             require 'App/views/backend/userFormTemplate.php';
         }
-       
     }
 
     public function addUser(){
-        $this->logAdmin();
-//gestion des erreurs, vérification du formulaire avant ajout
-        if (!empty($_POST)){
+        $superglobals= $this->getSuperglobals()->get_POST();
+    //gestion des erreurs, vérification du formulaire avant ajout
+        if (!empty($superglobals)){
             $errors=[];
-            if (empty($_POST['e_mail']) || !preg_match('/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/', $_POST['e_mail'])){
+            if (empty($superglobals['e_mail']) || !preg_match('/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/', $superglobals['e_mail'])){
                 $errors['e_mail'] = "Votre e-mail n'est pas valide";
             }
             else{
                 $newUser= new UserManager;
-                $resultat= $newUser->checkEmail($_POST['e_mail']);
+                $resultat= $newUser->checkEmail($superglobals['e_mail']);
                 if($resultat){
                     $errors['e_mail'] ="Cet E-mail est déjà utilisé pour un autre compte.";
                 }
             }
             
-            if (empty($_POST['login']) || !preg_match('/^[a-zA-Z0-9_]+$/', $_POST['login'])){
+            if (empty($superglobals['login']) || !preg_match('/^[a-zA-Z0-9_]+$/', $superglobals['login'])){
                 $errors['login'] = "Votre login n'est pas valide. Merci d'utiliser uniquement des caractères alphanumériques.";
             }    
             else{
                     $newUser= new UserManager;
-                    $resultat= $newUser->checkLogin($_POST['login']);
+                    $resultat= $newUser->checkLogin($superglobals['login']);
                     if($resultat){
                         $errors['login'] ="Ce login est déjà utilisé pour un autre compte.";
                     }
             }
-            if (empty($_POST['password'])) {
+            if (empty($superglobals['password'])) {
                 $errors['password'] = "Votre mot de passe n'est pas valide";
             }
             if(!empty($errors)){
                 require 'App/views/frontend/adminConnexionView.php';
             }
             if(empty($errors)){
-                    $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
-                    $_POST['role'] = "visiteur";
-                    $newUser->createUser($_POST);
+                    $superglobals['password'] = password_hash($superglobals['password'], PASSWORD_BCRYPT);
+                    $superglobals['role'] = "visiteur";
+                    $newUser->createUser($superglobals);
                     $titleAction="Confirmation d'enregistrement";
                     $actionConfirmation= "/home";
                     $textConfirmation="Votre compte a bien été créé";
@@ -215,14 +205,15 @@ class Backend {
        
 
     public function updateUser(){
+        $superglobalsPost= $this->getSuperglobals()->get_POST();
+        $superglobalsGet= $this->getSuperglobals()->get_GET();
         $user= new UserManager;
-        $resultat= $user->checkLogin($_POST['login']);
-        $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $resultat= $user->checkLogin($superglobalsPost['login']);
         
-        if (empty($resultat) || $resultat['login'] == $_POST['login']){
-           if (!isset($_POST['role'])){
-                $_POST['role'] = "visiteur";
-                $user->updateUser($_POST,$_GET['id']);
+        if (empty($resultat) || $resultat['login'] == $superglobalsPost['login']){
+           if (!isset($superglobalsPost['role'])){
+                $superglobalsPost['role'] = "visiteur";
+                $user->updateUser($superglobalsPost,$superglobalsGet['id']);
                 //message de confirmation
                 $titleAction="Confirmation d'enregistrement";
                 $actionConfirmation= "/home";
@@ -231,7 +222,7 @@ class Backend {
            }
            else {
 
-            $user->updateUser($_POST,$_GET['id']);
+            $user->updateUser($superglobalsPost,$superglobalsGet['id']);
             $titleAction="Confirmation d'enregistrement";
             $actionConfirmation= "/admin";
             $textConfirmation="Vos informations ont bien été mises à jour.";
@@ -241,8 +232,11 @@ class Backend {
         }
 
     else {
-        // TODO
-        echo "Ce login existe déjà, veuillez choisir un autre nom";
+        $titleAction="Confirmation d'enregistrement";
+        $actionConfirmation= "/admin";
+        $textConfirmation="Vos informations ont bien été mises à jour.";
+        require 'App/views/backend/confirmationTemplate.php';
+
         }
         
     }

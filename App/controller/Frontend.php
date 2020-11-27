@@ -5,9 +5,7 @@ namespace App\controller;
 use App\model\PostManager;
 use App\model\CommentManager;
 
-class Frontend {
-
-
+class Frontend extends AbstractController{
 
     public function home(){
 
@@ -32,12 +30,12 @@ class Frontend {
     }
 
     public function addComment(){
-        $param= $_POST;
+        $superglobalsPost = $this->getSuperglobals()->get_POST();
         $newComment= new CommentManager;
         $param['status'] = "waiting";
         $newComment->createComment($param);
-        if (isset($_POST['post_id'])){
-            $post_id= $_POST['post_id'];
+        if (isset($superglobalsPost['post_id'])){
+            $post_id= $superglobalsPost['post_id'];
         }
         //message de confirmation
         $titleAction="Confirmation d'enregistrement";

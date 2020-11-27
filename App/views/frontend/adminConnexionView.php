@@ -27,7 +27,7 @@
                 <p>Le formulaire est incomplet. Merci de corriger les erreurs suivantes:</p>
                 <ul>
                     <?php foreach($errors as $error): ?>
-                        <li><?= $error; ?></li>
+                        <li><?= htmlspecialchars($error); ?></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

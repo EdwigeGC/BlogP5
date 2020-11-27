@@ -1,4 +1,7 @@
 <?php 
+
+use App\entity\Superglobals;
+
 session_start();?>
 
 <?php ob_start();?>

@@ -9,7 +9,7 @@ $leadText='';?>
 
 <div class="container">
 
-<p><?= $validationText ?></p>
+<p><?= htmlspecialchars($validationText) ?></p>
 
     <div class="row">
        
@@ -19,7 +19,7 @@ $leadText='';?>
                 <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title> <?= $resultat['title']?></title><rect width="100%" height="100%" fill="#55595c"/></svg>
                 <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted"> <?= $resultat['category']?></small>
+                    <small class="text-muted"> <?= htmlspecialchars($resultat['category'])?></small>
                 </div>
                 <p>De <?= $resultat['author'];?>
                     <?php if (isset($resultat['modification_date_fr'])){
@@ -51,7 +51,7 @@ $leadText='';?>
         <div class="col-md-12">
             <div class="card mb-4 shadow-sm">
                  <div class="card-body">
-                    <p>De <?= $key['author']?>, le <?= $key['comment_date_fr']?></p>
+                    <p>De <?= htmlspecialchars($key['author'])?>, le <?= htmlspecialchars($key['comment_date_fr'])?></p>
                     <p class="card-text"><?= $key['message']?></p>
                     <div class="d-flex justify-content-between align-items-center">
                     </div>

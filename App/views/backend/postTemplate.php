@@ -11,7 +11,7 @@
             <form class="needs-validation" method="POST" action="<?= $action ?>" novalidate>
        
                 <div class="col-md-12">
-                        <input type="hidden" name="id" value="<?= $resultat['id']?>" required>
+                        <input type="hidden" name="id" value="<?= htmlspecialchars($resultat['id'])?>" required>
                         
                 </div>
 
@@ -90,7 +90,7 @@
                                 <small class="text-muted">publié</small>
                         <?php }?>
 
-                    <p class="card-text"><?= $key['message']?></p>
+                    <p class="card-text"><?= htmlspecialchars($key['message'])?></p>
                     <div class="d-flex justify-content-between align-items-center">
                     </div>
                 </div>

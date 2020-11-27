@@ -35,4 +35,4 @@ $leadText='';?>
 
 <?php $content = ob_get_clean();
 
-require('templateBackend.php');?>
+require 'templateBackend.php';?>

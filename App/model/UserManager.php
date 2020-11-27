@@ -8,25 +8,14 @@ use Exception;
 
 class UserManager
 {
-    public function session($login)
-    {
-        $db = new PDOManager();
-        $connexion = $db->getMysqlConnexion();
-        $query = $connexion->prepare('SELECT id, password, login, role FROM user WHERE login = :login');
-        $query->execute(array(
-            'login' => $login));
-        return $query->fetch();
-    }
-
     public function checkLogin($login)
     {
         $db = new PDOManager();
         $connexion = $db->getMysqlConnexion();
-        $query = $connexion->prepare('SELECT * FROM user WHERE login = :login ') ;
+        $query = $connexion->prepare('SELECT * FROM user WHERE login = :login');
         $query->execute(array(
             'login' => $login));
-       
-        return $query->fetch(); 
+        return $query->fetch();
     }
 
     public function checkEmail($eMail)
@@ -64,38 +53,25 @@ class UserManager
     public function createUser($param)
     {
         $db= new PDOManager ();
-        try {
-            $connexion = $db->getMysqlConnexion();
-            $datas= $connexion ->prepare('INSERT INTO user SET e_mail= :e_mail, login= :login, password= :password, role= :role ');
-            $datas->execute($param);
-            
-            
-        }
-        catch (Exception $e) {
-            dump($e);die;
-        }  ;
+        $connexion = $db->getMysqlConnexion();
+        $datas= $connexion ->prepare('INSERT INTO user SET e_mail= :e_mail, login= :login, password= :password, role= :role ');
+        $datas->execute($param);
     }
 
     public function updateUser($param)
     {
         $db= new PDOManager ();
-        try {
-            $param['password'] = password_hash($param['password'], PASSWORD_DEFAULT);
-            $connexion = $db->getMysqlConnexion();
-            $datas= $connexion ->prepare('UPDATE user SET e_mail= :e_mail, login= :login, role= :role, password= :password WHERE id=:id');
-            $datas->execute($param);
-        }
-        catch (Exception $e) {
-            dump($e);die;
-        }
+        $connexion = $db->getMysqlConnexion();
+        $datas= $connexion ->prepare('UPDATE user SET e_mail= :e_mail, login= :login, role= :role, password= :password WHERE id=:id');
+        $datas->execute($param);
     }
 
-    public function deleteUser()
+    public function deleteUser($userId)
     {
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
         $query = $connexion->prepare('DELETE FROM user WHERE id = ? ');
-        $query->execute(array($_GET['id']));
+        $query->execute(array($userId));
     }
 
 }

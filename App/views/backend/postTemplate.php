@@ -83,14 +83,12 @@
             <div class="card mb-4 shadow-sm">
                  <div class="card-body">
                     <p>De <?= $key['author']?>, le <?= $key['comment_date_fr']?></p>
-                    <small class="text-muted">
-                        <?php if ($key['status']='waiting'){
-                            echo 'en attente de validation';
-                            }
-                            else if($key['status']='agreed'){
-                                echo 'publié';
-                            
-                            }?></small>
+                        <?php if ($key['status']='waiting'){?>
+                            <small class="text-muted">en attente de validation</small>
+                        <?php }?>
+                        <?php if($key['status']='agreed'){?>
+                                <small class="text-muted">publié</small>
+                        <?php }?>
 
                     <p class="card-text"><?= $key['message']?></p>
                     <div class="d-flex justify-content-between align-items-center">
@@ -116,4 +114,4 @@
 
 
 <?php $content = ob_get_clean();
-require('templateBackend.php');?>
+require 'templateBackend.php';?>

@@ -23,7 +23,7 @@ class PostManager
     {
         $db = new PDOManager();
         $connexion = $db->getMysqlConnexion();
-        $query = $connexion->query('SELECT id, title, chapo, content, file, published, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr, DATE_FORMAT(modification_date, \'%d/%m/%Y\') AS modification_date_fr FROM post ORDER BY creation_date DESC') ;
+        $query = $connexion->query('SELECT id, title, author, chapo, content, file, published, DATE_FORMAT(creation_date, \'%d/%m/%Y\') AS creation_date_fr, DATE_FORMAT(modification_date, \'%d/%m/%Y\') AS modification_date_fr FROM post ORDER BY creation_date DESC') ;
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }

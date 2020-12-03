@@ -5,6 +5,8 @@ $leadText=''?>
 
 <div class="container">
 
+    <h1>Liste des articles</h1>
+
     <div class="row">
 
     <?php foreach ($resultat as $tab){?>
@@ -17,14 +19,7 @@ $leadText=''?>
                 <p class="card-text">
                     <?= $tab['chapo']?></p>
                 <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">dernière modification: 
-                        <?php if (isset($tab['modification_date_fr'])){
-                            echo $tab['modification_date_fr'];
-                        }
-                        else {
-                            echo $tab['creation_date_fr'];
-
-                        } ?>
+                    <small class="text-muted">dernière modification: <?= $tab['date'] ?>
                     </small>
                     <div class="btn-group">
                         <a class="btn btn-sm btn-outline-secondary" href= "/post?id=<?= htmlspecialchars($tab['id'])?>">Lire l'article</a>

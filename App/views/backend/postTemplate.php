@@ -31,12 +31,12 @@
 
                 <div class="col-md-12">
                     <label for="chapo">Chapô</label>
-                    <textarea class="form-control" id="chapo" name="chapo" required> <?= $resultat['chapo']?></textarea>
+                    <textarea class="form-control medium-content" id="chapo" name="chapo" required> <?= $resultat['chapo']?></textarea>
                 </div>
 
                 <div class="col-md-12">
                     <label for="content">Contenu</label>
-                    <textarea class="form-control" id="content" name="content" required><?= $resultat['content']?></textarea>
+                    <textarea class="form-control big-content" id="content" name="content" required><?= $resultat['content']?></textarea>
                 </div>
 
                 <hr class="col-md-12">

@@ -34,6 +34,9 @@ session_start();?>
                     <li class="nav-item active">
                         <a class="nav-link" href="/commentsManagerView">Gestion des commentaires<span class="sr-only"></span></a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/usersManagerView">Gestion des utilisateurs<span class="sr-only"></span></a>
+                    </li>
                 </ul>
 
                 <nav class="my-2 my-md-0 mr-md-3">

@@ -5,11 +5,13 @@ session_start();?>
 $leadTitle= '';
 $leadText='';?>
 
-
-
 <div class="container">
 
-<p><?= htmlspecialchars($validationText) ?></p>
+<div class="row">
+        <div class="col-lg-12">
+            <p><a href="/listPosts">Retour à la liste des articles</a></p>
+        </div>
+    </div>
 
     <div class="row">
        
@@ -21,19 +23,11 @@ $leadText='';?>
                 <div class="d-flex justify-content-between align-items-center">
                     <small class="text-muted"> <?= htmlspecialchars($resultat['category'])?></small>
                 </div>
-                <p>De <?= $resultat['author'];?>
-                    <?php if (isset($resultat['modification_date_fr'])){
-                            echo 'mis à jour le '.$resultat['modification_date_fr'];
-                        }
-                        else {
-                            echo 'créé le '.$resultat['creation_date_fr'];
+                <p class="mini-text">Par <?= $resultat['author'];?></p>
+                <p class="mini-text">Mis à jour le <?= $resultat['date']?></p>
 
-                        } ?>
-                </p>
-
-                <p class="card-text">
-                <?= $resultat['chapo']?></p>
-                <p><?= $resultat['content']?></p>
+                <p class="justify-content"><?= $resultat['chapo']?></p>
+                <p class="justify-content"><?= $resultat['content']?></p>
                 </div>
        
             </div>

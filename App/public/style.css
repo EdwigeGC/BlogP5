@@ -3,8 +3,9 @@
 .jumbotron {
   padding-top: 3rem;
   padding-bottom: 3rem;
-  margin-bottom:0;
-  background-color: #fff;
+  margin-bottom: 0;
+  background:url('images/banner-img.png') no-repeat;
+  background-size: cover ;
 }
 
 @media (min-width: 768px) {
@@ -15,7 +16,7 @@
 }
 
 footer p {
-  margin-bottom: .25rem;
+  margin-bottom: 0.25rem;
 }
 
 .jumbotron p:last-child {
@@ -50,16 +51,69 @@ footer {
   }
 }
 
+.navbar-style{
+  background-color: #f9f8f5;
+}
+
+.navbar-font-color{
+  color: #343a40;
+}
+
+.fa-twitter{
+  color: #3492db;
+}
+.fa-linkedin{
+  color:#1166c2;
+}
+.fa-github{
+  color:#343a40;
+}
+
+.session-text{
+  color: #d3566a;
+}
+
+.main-title{
+  color:#d3566a;
+}
+
+/*posts*/
+
+.mini-text{
+  color: #cda499;
+}
+
+.justify-content{
+  text-align: justify;
+}
+
+textarea {
+  resize: none;
+}
+
+.medium-content{
+  min-height: 200px;
+}
+
+.big-content{
+  min-height: 500px;
+}
+
+/*homeView style*/
+.card-style{
+  background-color:#f9f8f5 ;
+}
+
 /* form style */
 .form-container {
   max-width: 960px;
 }
 
-.lh-condensed { 
-  line-height: 1.25; 
+.lh-condensed {
+  line-height: 1.25;
 }
 
-.admin{
+.admin {
   color: yellow;
 }
 
@@ -99,6 +153,3 @@ footer {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
-
-  

@@ -18,7 +18,7 @@ $leadText='liste des articles';?>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Date de création</th>
+                                <th scope="col">Dernière modification</th>
                                 <th scope="col">Titre</th>
                                 <th scope="col">Author</th>
                                 <th scope="col">Publication</th>
@@ -28,7 +28,7 @@ $leadText='liste des articles';?>
                         <?php foreach ($resultat as $tab){?>
                         <tbody>
                             <tr>
-                                <td><?= $tab['creation_date_fr']?></td>
+                                <td><?= $tab['date']?></td>
                                 <td><?= $tab['title']?></td>
                                 <td><?= $tab['author']?></td>
                                 <td><?php if($tab['published'] == 1)

@@ -1,19 +1,37 @@
 <?php
 
-namespace App\controller; 
+namespace App\controller;
 
 use App\entity\Superglobals;
 
-class AbstractController{
+class AbstractController
+{
 
-    //public function Error($param)`
+    public function prepareListPost($list)
+    {
+        foreach ($list as $index => $post) {
 
-    public function checkSession(){
-        
+            $list[$index]=$this->dateChoice($post);
+        }
+        return $list;
     }
-       
-    public function getSuperglobals(){
+
+    public function dateChoice($post)
+    {
+        $post['date'] = null;
+        if (isset($post['modification_date_fr'])) {
+
+            $post['date'] = $post['modification_date_fr'];
+        } else {
+            $post['date'] = $post['creation_date_fr'];
+        }
+        unset($post['creation_date_fr']);
+        unset($post['modification_date_fr']);
+        return $post;
+    }
+
+    public function getSuperglobals()
+    {
         return new Superglobals;
     }
-
 }

@@ -13,7 +13,8 @@ class Backend extends AbstractController{
 
         session_start();
         $superglobals = $this->getSuperglobals()->get_SESSION();
-        if(empty($superglobals['id']) && $superglobals['role'] !== "administrateur"){
+
+        if(empty($superglobals['id']) || $superglobals['role'] != "administrateur"){
         header ('Location: /home');
         }
     }
@@ -63,6 +64,7 @@ class Backend extends AbstractController{
         $this->adminAccess();
         $posts = new PostManager;
         $resultat = $posts->getPostsAdmin();
+        $resultat= $this->prepareListPost($resultat);
         require 'App/views/backend/admin.php';
        
     }
@@ -138,6 +140,13 @@ class Backend extends AbstractController{
         $comment= new CommentManager;
         $resultat= $comment->deleteComment($commentId);
         header ('Location:/commentsManagerView');
+    }
+
+    public function usersList(){
+        $this->adminAccess();
+        $posts = new UserManager;
+        $resultat = $posts->getUsers();
+        require 'App/views/backend/usersManagerView.php';
     }
 
     public function userForm($userId){
@@ -240,6 +249,12 @@ class Backend extends AbstractController{
 
         }
         
+    }
+    public function deleteUser($userId){
+        $this->adminAccess();
+        $user= new UserManager;
+        $resultat= $user->deleteUser($userId);
+        header ('Location:/usersManagerView');
     }
     
 }

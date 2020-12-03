@@ -10,7 +10,7 @@ use App\entity\Superglobals;
 class Router
 {
     private $url;
-    private $req = [];
+
 
     public function __construct()
 
@@ -52,6 +52,11 @@ class Router
 
             else if ($this->url == '/contact') {
                 require ('App/views/frontend/contact.php');
+            }
+
+            else if ($this->url == '/legalesMentions') {
+                $controller= new Frontend();
+                $controller->legalesMentions();
             }
 
 
@@ -112,6 +117,11 @@ class Router
                 $controller->publishComment($_GET['id']);    
             }
 
+            else if ($this->url == '/usersManagerView') {
+                $controller= new Backend();
+                $controller->usersList();
+            }
+
             else if ($this->url == '/userForm') {
                 $controller= new Backend();
                 $controller->userForm($_GET['id']); 
@@ -125,6 +135,11 @@ class Router
             else if ($this->url == '/updateUser') {
                 $controller= new Backend();
                 $controller->updateUser($_GET['id']);
+            }
+
+            else if ($this->url == '/deleteUser') {
+                $controller= new Backend();
+                $controller->deleteUser($_GET['id']);
             }
         
             else {

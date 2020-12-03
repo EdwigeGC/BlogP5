@@ -17,13 +17,14 @@ class Frontend extends AbstractController{
     public function posts(){
         $posts = new PostManager;
         $resultat = $posts->getPosts(100);
+        $resultat= $this->prepareListPost($resultat);
         require 'App/views/frontend/listPostsView.php';
     }
 
     public function post($postId){
 
         $post= new PostManager;
-        $resultat= $post->getPost($postId);
+        $resultat= $this->dateChoice($post->getPost($postId));
         $comment= new CommentManager;
         $resultat['comments'] = $comment-> getComments($postId);
         require 'App/views/frontend/postView.php';
@@ -32,8 +33,8 @@ class Frontend extends AbstractController{
     public function addComment(){
         $superglobalsPost = $this->getSuperglobals()->get_POST();
         $newComment= new CommentManager;
-        $param['status'] = "waiting";
-        $newComment->createComment($param);
+        $superglobalsPost['status'] = "waiting";
+        $newComment->createComment($superglobalsPost);
         if (isset($superglobalsPost['post_id'])){
             $post_id= $superglobalsPost['post_id'];
         }
@@ -46,6 +47,11 @@ class Frontend extends AbstractController{
     
     public function login(){
         require 'App/views/frontend/adminConnexionView.php';
+    }
+
+    public function legalesMentions(){
+
+        require 'App/views/frontend/legalesMentions.php';
     }
  
 }

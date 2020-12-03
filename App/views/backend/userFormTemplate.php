@@ -48,17 +48,6 @@ session_start();?>
                         </div>
                     </div>
 
-                    <?php if($_SESSION['role'] == "administrateur"){?>
-                    <div class="col-md-12">
-                        <label for="role">Role</label>
-                        <input type="text" class="form-control" id="role" name="role" value="<?= $resultat['role']?>" required>
-                        <div class="invalid-feedback">
-                            Le champ est requis.
-                        </div>
-
-                    </div>
-                    <?php } ?>
-
                 </div>
 
                 <hr class="col-md-12">

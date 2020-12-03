@@ -4,8 +4,8 @@
   padding-top: 3rem;
   padding-bottom: 3rem;
   margin-bottom: 0;
-  background:url('images/banner-img.png') no-repeat;
-  background-size: cover ;
+  background: url('images/banner-img.png') no-repeat;
+  background-size: cover;
 }
 
 @media (min-width: 768px) {
@@ -51,39 +51,41 @@ footer {
   }
 }
 
-.navbar-style{
+.navbar-style {
   background-color: #f9f8f5;
 }
 
-.navbar-font-color{
+.navbar-font-color {
   color: #343a40;
 }
 
-.fa-twitter{
+.fa-twitter {
   color: #3492db;
 }
-.fa-linkedin{
-  color:#1166c2;
-}
-.fa-github{
-  color:#343a40;
+
+.fa-linkedin {
+  color :#1166c2;
 }
 
-.session-text{
+.fa-github {
+  color: #343a40;
+}
+
+.session-text {
   color: #d3566a;
 }
 
-.main-title{
-  color:#d3566a;
+.main-title {
+  color: #d3566a;
 }
 
-/*posts*/
+/* posts*/
 
-.mini-text{
+.mini-text {
   color: #cda499;
 }
 
-.justify-content{
+.justify-content {
   text-align: justify;
 }
 
@@ -91,17 +93,17 @@ textarea {
   resize: none;
 }
 
-.medium-content{
+.medium-content {
   min-height: 200px;
 }
 
-.big-content{
+.big-content {
   min-height: 500px;
 }
 
-/*homeView style*/
-.card-style{
-  background-color:#f9f8f5 ;
+/* homeView style*/
+.card-style {
+  background-color: #f9f8f5 ;
 }
 
 /* form style */

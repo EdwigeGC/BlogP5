@@ -58,7 +58,7 @@ session_start();?>
                 </ul>
                 <nav class="my-2 my-md-0 mr-md-3">
                     <?php if (isset($_SESSION['login'])){?>
-                        <a class="p-2 session-text" href="/userForm?id=<?= $_SESSION['id']?>">Bienvenue<?= $_SESSION['login'] ?></a>
+                        <a class="p-2 session-text" href="/userForm?id=<?= $_SESSION['id']?>">Bienvenue <?= htmlspecialchars($_SESSION['login']) ?></a>
                         <a class="btn btn-outline-dark" href="/logOut">Déconnexion</a>
                     <?php }
                     else { ?>

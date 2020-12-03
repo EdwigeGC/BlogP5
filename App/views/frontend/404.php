@@ -10,4 +10,4 @@ $leadText='Oups';?>
 
 <?php $content = ob_get_clean();
 
-require('templateFrontend.php');?>
+require 'templateFrontend.php'?>

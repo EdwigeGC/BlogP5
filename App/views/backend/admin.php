@@ -28,17 +28,17 @@ $leadText='liste des articles';?>
                         <?php foreach ($resultat as $tab){?>
                         <tbody>
                             <tr>
-                                <td><?= $tab['date']?></td>
-                                <td><?= $tab['title']?></td>
-                                <td><?= $tab['author']?></td>
-                                <td><?php if($tab['published'] == 1)
-                                {
-                                    echo "Publié";
-                                }
+                                <td><?= htmlspecialchars($tab['date']) ?></td>
+                                <td><?= htmlspecialchars($tab['title']) ?></td>
+                                <td><?= htmlspecialchars($tab['author']) ?></td>
+                                <?php if($tab['published'] == 1)
+                                {?>
+                                <td>Publié</td>
+                                <?php } 
                                 else
-                                {
-                                    echo "Non publié";
-                                }?></td>
+                                {?>
+                                 <td>Non publié</td>
+                                <?php } ?>
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-secondary" href= "/modifyPost?id=<?= $tab['id']?>">Modifier</a>
@@ -48,7 +48,7 @@ $leadText='liste des articles';?>
                                     </div>
                                 </td>
                             </tr>
-                        <tbody>
+                        </tbody>
                         <?php }  ?>
                     </table>
                 </div>

@@ -3,14 +3,14 @@
 
 <div class="container">
 
-<h1><?= $titleAction?></h1>
+<h1><?= htmlspecialchars($titleAction) ?></h1>
 
 <!--<form action='/login/check' method='post'>-->
     
-<p><?= $textConfirmation ?></p>
-<a class="btn btn-sm btn-outline-secondary" href= "<?=$actionConfirmation?>">Retour</a>
+<p><?= htmlspecialchars($textConfirmation) ?></p>
+<a class="btn btn-sm btn-outline-secondary" href= "<?= htmlspecialchars($actionConfirmation) ?>">Retour</a>
 
 </div>
 <?php $content = ob_get_clean();
 
-require('App/views/frontend/templateFrontend.php');?>
+require 'App/views/frontend/templateFrontend.php'?>

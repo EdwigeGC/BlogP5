@@ -25,9 +25,9 @@ $leadText='gestion des utilisateurs';?>
                         <?php foreach ($resultat as $tab){?>
                         <tbody>
                             <tr>
-                                <td><?= htmlspecialchars($tab['login'])?></td>
-                                <td><?= htmlspecialchars($tab['e_mail'])?></td>
-                                <td><?= htmlspecialchars($tab['role'])?></td>
+                                <td><?= htmlentities($tab['login'])?></td>
+                                <td><?= htmlentities($tab['e_mail'])?></td>
+                                <td><?= htmlentities($tab['role'])?></td>
                                 <td>
                                     <a class="btn btn-danger" href= "/deleteUser?id=<?= $tab['id']?>" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur?')">Supprimer</a>
                                 </td>

@@ -34,4 +34,8 @@ class AbstractController
     {
         return new Superglobals;
     }
+
+    public function errors(){
+        
+    }
 }

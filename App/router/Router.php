@@ -24,7 +24,8 @@ class Router
     public function route()
     {
         try {
-    //frontend
+
+        // frontend
             if ($this->url == '/' || $this->url == '/home') {
                 $controller= new Frontend();
                 $controller->home();
@@ -59,8 +60,7 @@ class Router
                 $controller->legalesMentions();
             }
 
-
-        //backend
+        // login
             else if ($this->url == '/connexion') {
                 $controller= new Backend();
                 $controller->connexion();
@@ -71,6 +71,7 @@ class Router
                 $controller->logOut();
             }
 
+        // backend
             else if ($this->url == '/admin') {
                 $controller= new Backend();
                 $controller->admin();

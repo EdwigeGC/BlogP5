@@ -25,9 +25,9 @@ $leadText='gestion des commentaires';?>
                         <?php foreach ($resultat as $tab){?>
                         <tbody>
                             <tr>
-                                <td><?= htmlspecialchars($tab['author'])?></td>
-                                <td><?= htmlspecialchars($tab['comment_date_fr'])?></td>
-                                <td><?= htmlspecialchars($tab['message'])?></td>
+                                <td><?= htmlentities($tab['author'])?></td>
+                                <td><?= htmlentities($tab['comment_date_fr'])?></td>
+                                <td><?= htmlentities($tab['message'])?></td>
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-success" href= "/publishComment?id=<?= $tab['id']?>">Publier</a>                                    

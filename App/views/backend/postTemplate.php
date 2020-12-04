@@ -11,32 +11,32 @@
             <form class="needs-validation" method="POST" action="<?= $action ?>" novalidate>
        
                 <div class="col-md-12">
-                        <input type="hidden" name="id" value="<?= htmlspecialchars($resultat['id'])?>" required>
+                        <input type="hidden" name="id" value="<?= htmlentities($resultat['id'])?>" required>
                         
                 </div>
 
                 <div class="col-md-12">
                     <label for="title">Titre de l'article</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="title" name="title" value="<?= htmlspecialchars($resultat['title']) ?>" required>
+                        <input type="text" class="form-control" id="title" name="title" value="<?= htmlentities($resultat['title']) ?>" required>
                     </div>
                 </div>
         
                 <div class="col-md-12">
                     <label for="author">Nom de l'auteur</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="author" name="author" value="<?= htmlspecialchars($resultat['author']) ?>" required>
+                        <input type="text" class="form-control" id="author" name="author" value="<?= htmlentities($resultat['author']) ?>" required>
                     </div>
                 </div>
 
                 <div class="col-md-12">
                     <label for="chapo">Chapô</label>
-                    <textarea class="form-control medium-content" id="chapo" name="chapo" required> <?= htmlspecialchars($resultat['chapo']) ?></textarea>
+                    <textarea class="form-control medium-content" id="chapo" name="chapo" required> <?= htmlentities($resultat['chapo']) ?></textarea>
                 </div>
 
                 <div class="col-md-12">
                     <label for="content">Contenu</label>
-                    <textarea class="form-control big-content" id="content" name="content" required><?= htmlspecialchars($resultat['content']) ?></textarea>
+                    <textarea class="form-control big-content" id="content" name="content" required><?= htmlentities($resultat['content']) ?></textarea>
                 </div>
 
                 <hr class="col-md-12">
@@ -80,7 +80,7 @@
         <div class="col-md-12">
             <div class="card mb-4 shadow-sm">
                  <div class="card-body">
-                    <p>De <?= htmlspecialchars($key['author'])?>, le <?= $key['comment_date_fr']?></p>
+                    <p>De <?= htmlentities($key['author'])?>, le <?= $key['comment_date_fr']?></p>
                         <?php if ($key['status']='waiting'){?>
                             <small class="text-muted">en attente de validation</small>
                         <?php }?>
@@ -88,7 +88,7 @@
                                 <small class="text-muted">publié</small>
                         <?php }?>
 
-                    <p class="card-text"><?= nl2br(htmlspecialchars($key['message'])) ?></p>
+                    <p class="card-text"><?= nl2br(htmlentities($key['message'])) ?></p>
                     <div class="d-flex justify-content-between align-items-center">
                     </div>
                 </div>

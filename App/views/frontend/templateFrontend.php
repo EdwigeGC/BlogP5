@@ -58,7 +58,7 @@ session_start();?>
                 </ul>
                 <nav class="my-2 my-md-0 mr-md-3">
                     <?php if (isset($_SESSION['login'])){?>
-                        <a class="p-2 session-text" href="/userForm?id=<?= $_SESSION['id']?>">Bienvenue <?= htmlspecialchars($_SESSION['login']) ?></a>
+                        <a class="p-2 session-text" href="/userForm?id=<?= $_SESSION['id']?>">Bienvenue <?= htmlentities($_SESSION['login']) ?></a>
                         <a class="btn btn-outline-dark" href="/logOut">Déconnexion</a>
                     <?php }
                     else { ?>
@@ -74,10 +74,9 @@ session_start();?>
 
         <section class="jumbotron text-center">
        
-            <div class="container">
+            <div class="container rounded">
                 <h1 class="main-title">Edwige GENTY</h1>
-                <h2><?php $leadTitle ?></h2>
-                <p class="lead text-muted"><?= htmlspecialchars($leadText) ?><p>
+                <p class="lead text-muted">Développeur PHP/Symfony<p>
                     <a href="/home#contact-anchor" class="btn btn-primary my-2">Me contacter</a>
                     <a href="#" class="btn btn-secondary my-2">Télécharger mon CV</a>
             </p>

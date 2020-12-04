@@ -16,18 +16,18 @@ $leadText='';?>
     <div class="row">
        
         <div class="col-md-12">
-            <h1 class='title-post-details'><?= htmlspecialchars($resultat['title']) ?></h1>
+            <h1 class='title-post-details'><?= htmlentities($resultat['title']) ?></h1>
             <div class="card mb-4 shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title> <?= htmlspecialchars($resultat['title']) ?></title><rect width="100%" height="100%" fill="#55595c"/></svg>
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title> <?= htmlentities($resultat['title']) ?></title><rect width="100%" height="100%" fill="#55595c"/></svg>
                 <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted"> <?= htmlspecialchars($resultat['category'])?></small>
+                    <small class="text-muted"> <?= htmlentities($resultat['category'])?></small>
                 </div>
-                <p class="mini-text">Par <?= htmlspecialchars($resultat['author']) ?></p>
-                <p class="mini-text">Mis à jour le <?= htmlspecialchars($resultat['date']) ?></p>
+                <p class="mini-text">Par <?= htmlentities($resultat['author']) ?></p>
+                <p class="mini-text">Mis à jour le <?= htmlentities($resultat['date']) ?></p>
 
-                <p class="justify-content"><?= htmlspecialchars($resultat['chapo']) ?></p>
-                <p class="justify-content"><?= nl2br(htmlspecialchars($resultat['content'])) ?></p>
+                <p class="justify-content"><?= htmlentities($resultat['chapo']) ?></p>
+                <p class="justify-content"><?= nl2br(htmlentities($resultat['content'])) ?></p>
                 </div>
        
             </div>
@@ -45,8 +45,8 @@ $leadText='';?>
         <div class="col-md-12">
             <div class="card mb-4 shadow-sm">
                  <div class="card-body">
-                    <p>De <?= htmlspecialchars($key['author'])?>, le <?= htmlspecialchars($key['comment_date_fr'])?></p>
-                    <p class="card-text"><?= htmlspecialchars($key['message']) ?></p>
+                    <p>De <?= htmlentities($key['author'])?>, le <?= htmlentities($key['comment_date_fr'])?></p>
+                    <p class="card-text"><?= htmlentities($key['message']) ?></p>
                     <div class="d-flex justify-content-between align-items-center">
                     </div>
                 </div>
@@ -75,7 +75,7 @@ $leadText='';?>
                 <div class="col-md-6">
                 <div class="form-group">
                 <label for="author"><?= $_SESSION['login']?></label>
-                <input type="hidden" name="author" value="<?= htmlspecialchars($_SESSION['login']) ?>"/>
+                <input type="hidden" name="author" value="<?= htmlentities($_SESSION['login']) ?>"/>
                 </div>
                 </div>
 

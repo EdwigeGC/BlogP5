@@ -22,7 +22,7 @@ $leadText=''?>
                     <small class="text-muted">dernière modification: <?= $tab['date'] ?>
                     </small>
                     <div class="btn-group">
-                        <a class="btn btn-sm btn-outline-secondary" href= "/post?id=<?= htmlspecialchars($tab['id'])?>">Lire l'article</a>
+                        <a class="btn btn-sm btn-outline-secondary" href= "/post?id=<?= htmlentities($tab['id'])?>">Lire l'article</a>
                       
                     </div>
                 </div>

@@ -20,22 +20,23 @@ session_start();?>
 
     <header>
     
-        <nav class="navbar navbar-expand-lg navbar-expand-xl navbar-dark bg-dark">  
-            <a class="navbar-brand" href="/home">EG-development</a>
+    <nav class="navbar navbar-expand-lg navbar-expand-xl navbar-style">  
+            <a class="navbar-brand navbar-font-color" href="/home">EG-development
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            </a>
 
             <div class="collapse navbar-collapse" id="navbarsExample05">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/admin">Liste des articles<span class="sr-only"></span></a>
+                        <a class="nav-link navbar-font-color" href="/admin">Liste des articles<span class="sr-only"></span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/commentsManagerView">Gestion des commentaires<span class="sr-only"></span></a>
+                        <a class="nav-link navbar-font-color" href="/commentsManagerView">Gestion des commentaires<span class="sr-only"></span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/usersManagerView">Gestion des utilisateurs<span class="sr-only"></span></a>
+                        <a class="nav-link navbar-font-color" href="/usersManagerView">Gestion des utilisateurs<span class="sr-only"></span></a>
                     </li>
                 </ul>
 
@@ -54,8 +55,8 @@ session_start();?>
 
         <section class="jumbotron text-center">
             <div class="container">
-                <h1><?= htmlspecialchars($leadTitle) ?></h1>
-                <p class="lead text-muted"><?= htmlspecialchars($leadText) ?></p>
+                <h1><?= htmlentities($leadTitle) ?></h1>
+                <p class="lead text-muted"><?= htmlentities($leadText) ?></p>
             </div>
         </section>
 

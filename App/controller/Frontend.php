@@ -46,7 +46,7 @@ class Frontend extends AbstractController{
     }
     
     public function login(){
-        require 'App/views/frontend/adminConnexionView.php';
+        require 'App/views/frontend/connexionView.php';
     }
 
     public function legalesMentions(){

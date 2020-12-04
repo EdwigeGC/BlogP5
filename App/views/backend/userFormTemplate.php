@@ -25,7 +25,7 @@ session_start();?>
 
                     <div class="col-md-12">
                         <label for="e-mail">E-mail</label>
-                        <input type="email" class="form-control" id="e-mail" name="e_mail" value="<?= htmlspecialchars($resultat['e_mail']) ?>" required>
+                        <input type="email" class="form-control" id="e-mail" name="e_mail" value="<?= htmlentities($resultat['e_mail']) ?>" required>
                         <div class="invalid-feedback">
                             Le champ est requis.
                         </div>
@@ -33,7 +33,7 @@ session_start();?>
 
                     <div class="col-md-12">
                         <label for="login">Login</label>
-                        <input type="text" class="form-control" id="login" name="login" value="<?= htmlspecialchars($resultat['login'])?>" required>
+                        <input type="text" class="form-control" id="login" name="login" value="<?= htmlentities($resultat['login'])?>" required>
                         <div class="invalid-feedback">
                             Le champ est requis.
                         </div>
@@ -42,7 +42,7 @@ session_start();?>
                     <div class="col-md-12">
                     
                         <label for="password">Modifier le mot de passe</label>
-                        <input type="password" class="form-control" id="password" name="password" value="<?= htmlspecialchars($resultat['password']) ?>"required>
+                        <input type="password" class="form-control" id="password" name="password" value="<?= htmlentities($resultat['password']) ?>"required>
                         <div class="invalid-feedback">
                             Le champ est requis.
                         </div>

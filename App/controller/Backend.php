@@ -21,7 +21,7 @@ class Backend extends AbstractController{
 
     public function connexion(){
         $superglobalsPost = $this->getSuperglobals()->get_POST();
-        if (!empty($superglobalsPost['login']) && !empty($superglobalsPost['password'])) {
+        if (!empty($superglobalsPost['login']) && !empty($superglobalsPost['password'])) {;
         $user = new UserManager;
         $resultat = $user->checkLogin($superglobalsPost['login']);
             if (isset($resultat['login'], $resultat['password']) && $resultat['login'] == $superglobalsPost['login'] && password_verify($superglobalsPost['password'], $resultat['password'])) {
@@ -37,20 +37,16 @@ class Backend extends AbstractController{
                 }
             }
             else{
-       
-                $titleAction="Erreur";
-                $actionConfirmation= "/login";
-                $textConfirmation="Erreur d'authentification: login ou mot de passe erroné";
-                require 'App/views/backend/confirmationTemplate.php';
+                $failed= "Erreur login et/ou mot de passe";
+                require 'App/views/frontend/connexionView.php';
             }
         }
+
         else {
-            $titleAction="Erreur";
-            $actionConfirmation= "/login";
-            $textConfirmation="Erreur lors de l'enregistrement de vos informations. Merci de réitérer l'opération.";
-            require 'App/views/backend/confirmationTemplate.php';
-        }
-    }  
+            $failed= "Tous les champs sont requis";
+            require 'App/views/frontend/connexionView.php';
+            }
+    } 
     
     public function logOut(){
         session_start ();
@@ -192,16 +188,14 @@ class Backend extends AbstractController{
                 $errors['password'] = "Votre mot de passe n'est pas valide";
             }
             if(!empty($errors)){
-                require 'App/views/frontend/adminConnexionView.php';
+                require 'App/views/frontend/ConnexionView.php';
             }
             if(empty($errors)){
                     $superglobals['password'] = password_hash($superglobals['password'], PASSWORD_BCRYPT);
                     $superglobals['role'] = "visiteur";
                     $newUser->createUser($superglobals);
-                    $titleAction="Confirmation d'enregistrement";
-                    $actionConfirmation= "/home";
-                    $textConfirmation="Votre compte a bien été créé";
-                    require 'App/views/backend/confirmationTemplate.php';
+                    $errors= "Votre compte a bien été créé";
+                    require 'App/views/frontend/ConnexionView.php';
             }
         }
         else{

@@ -29,6 +29,8 @@ footer p {
 
 .jumbotron .container {
   max-width: 40rem;
+  background-color: #f9f8f5;
+
 }
 
 footer {
@@ -64,7 +66,7 @@ footer {
 }
 
 .fa-linkedin {
-  color :#1166c2;
+  color: #1166c2;
 }
 
 .fa-github {
@@ -76,10 +78,10 @@ footer {
 }
 
 .main-title {
-  color: #d3566a;
+  color: #343a40;
 }
 
-/* posts*/
+/* posts */
 
 .mini-text {
   color: #cda499;
@@ -101,9 +103,9 @@ textarea {
   min-height: 500px;
 }
 
-/* homeView style*/
+/* homeView style */
 .card-style {
-  background-color: #f9f8f5 ;
+  background-color: #f9f8f5;
 }
 
 /* form style */

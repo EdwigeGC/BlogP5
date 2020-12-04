@@ -3,12 +3,12 @@
 
 <div class="container">
 
-<h1><?= htmlspecialchars($titleAction) ?></h1>
+<h1><?= htmlentities($titleAction) ?></h1>
 
 <!--<form action='/login/check' method='post'>-->
     
-<p><?= htmlspecialchars($textConfirmation) ?></p>
-<a class="btn btn-sm btn-outline-secondary" href= "<?= htmlspecialchars($actionConfirmation) ?>">Retour</a>
+<p><?= htmlentities($textConfirmation) ?></p>
+<a class="btn btn-sm btn-outline-secondary" href= "<?= htmlentities($actionConfirmation) ?>">Retour</a>
 
 </div>
 <?php $content = ob_get_clean();

@@ -28,9 +28,9 @@ $leadText='liste des articles';?>
                         <?php foreach ($resultat as $tab){?>
                         <tbody>
                             <tr>
-                                <td><?= htmlspecialchars($tab['date']) ?></td>
-                                <td><?= htmlspecialchars($tab['title']) ?></td>
-                                <td><?= htmlspecialchars($tab['author']) ?></td>
+                                <td><?= htmlentities($tab['date']) ?></td>
+                                <td><?= htmlentities($tab['title']) ?></td>
+                                <td><?= htmlentities($tab['author']) ?></td>
                                 <?php if($tab['published'] == 1)
                                 {?>
                                 <td>Publié</td>

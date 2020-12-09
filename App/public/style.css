@@ -2,56 +2,56 @@
 /* main style */
 
 @font-face {
-  font-family:'Pacifico';
+  font-family: 'Pacifico';
   src: url('font/Pacifico/Pacifico-Regular.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family:'Permanent_Marker';
+  font-family: 'Permanent_Marker';
   src: url('font/Permanent_Marker/PermanentMarker-Regular.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
-hr{
+hr {
   border-color: #cda499;
   line-height: 2;
 }
 
-.bg-custom{
+.bg-custom {
   background-color: #f9f8f5;
 }
 
-a:hover{
-  color:#97dfc6;
+a:hover {
+  color: #97dfc6;
 }
 
-.page-title{
+.page-title {
   color: #343a40;
   font-size: large;
 }
 
-.btn-pink{
+.btn-pink {
   background-color: #cda499;
   border-color: #cda499;
   color: #343a40;
   font-family: "Pacifico", Arial, Helvetica, sans-serif;
 }
 
-.btn-pink:hover{
+.btn-pink:hover {
   background-color: #f9f8f5;
 }
 
-.btn-green{
+.btn-green {
   background-color: #97dfc6;
   border-color: #97dfc6;
   color: #343a40;
 }
 
-.btn-green:hover{
-  background-color: #FFFFFF;
+.btn-green:hover {
+  background-color: #ffffff;
 }
 
 /* template style */
@@ -70,7 +70,7 @@ a:hover{
   }
 }
 
-.italic{
+.italic {
   font-style: italic;
 }
 
@@ -94,10 +94,6 @@ footer {
   padding-top: 3rem;
   padding-bottom: 3rem;
   background-color: #343a40;
-}
-
-footer a {
-  color: #FFFFFF;
 }
 
 .bd-placeholder-img {
@@ -140,16 +136,16 @@ footer a {
 }
 
 .main-title-style {
- font-family:'Permanent_Marker', Arial, Helvetica, sans-serif;
+  font-family: 'Permanent_Marker', Arial, Helvetica, sans-serif;
 }
 
-.btn-contact{
+.btn-contact {
   background-color: #224058;
   border-color: #224058;
   color: #FFFFFF;
 }
 
-.btn-contact:hover{
+.btn-contact:hover {
   font-weight: bold;
   color: #FFFFFF;
 }
@@ -197,11 +193,11 @@ textarea {
   background-color: #FFFFFF;
 }
 
-h3{
+h3 {
   font-family: "Pacifico", Arial, Helvetica, sans-serif;
 }
 
-.secondary-title{
+.secondary-title {
   margin-bottom: 30px;
 }
 

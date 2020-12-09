@@ -171,9 +171,9 @@ class Backend extends AbstractController{
     public function sendMail(){
         $mail = new ContactManager;
         $mail->sendMail(
-            htmlspecialchars($_POST['name']),
-            htmlspecialchars($_POST['email']),
-            htmlspecialchars($_POST['message'])
+            htmlentities($_POST['name']),
+            htmlentities($_POST['email']),
+            htmlentities($_POST['message'])
         );
         header('Location:/home');
 }

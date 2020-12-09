@@ -80,7 +80,7 @@ session_start();?>
             </section>
 
             <div class="album py-5 bg-custom">
-                <?= htmlentities($content) ?>
+                <?= ($content) ?>
             </div>
 
         </main>

@@ -25,6 +25,9 @@ class Router
     
     public function route()
     {
+        $superglobals= new Superglobals();
+        $superglobalGet=$superglobals->get_GET();
+
         try {
 
         // frontend
@@ -40,7 +43,8 @@ class Router
 
             else if ($this->url == '/post') {
                 $controller= new Frontend();
-                $controller->post($_GET['id']);
+                $controller->post($superglobalGet['id']);
+               
             }
 
             else if ($this->url == '/addComment') {
@@ -93,22 +97,22 @@ class Router
             else if ($this->url == '/modifyPost') {
                 
                 $controller= new Backend();
-                $controller->modifyPostForm($_GET['id']);
+                $controller->modifyPostForm($superglobalGet['id']);
             }
 
             else if ($this->url == '/updatePost') {
                 $controller= new Backend();
-                $controller->updatePost($_GET['id']);
+                $controller->updatePost($superglobalGet['id']);
             }
 
             else if ($this->url == '/deletePost') {
                 $controller= new Backend();
-                $controller->deletePost($_GET['id']);
+                $controller->deletePost($superglobalGet['id']);
             }
 
             else if ($this->url == '/deleteComment') {
                 $controller= new Backend();
-                $controller->deleteComment($_GET['id']);
+                $controller->deleteComment($superglobalGet['id']);
             }
 
             else if ($this->url == '/commentsManagerView') {
@@ -118,7 +122,7 @@ class Router
 
             else if ($this->url == '/publishComment') {
                 $controller= new Backend();
-                $controller->publishComment($_GET['id']);    
+                $controller->publishComment($superglobalGet['id']);    
             }
 
             else if ($this->url == '/usersManagerView') {
@@ -128,7 +132,7 @@ class Router
 
             else if ($this->url == '/userForm') {
                 $controller= new Backend();
-                $controller->userForm($_GET['id']); 
+                $controller->userForm($superglobalGet['id']); 
             }
 
             else if ($this->url == '/addUser') {
@@ -138,12 +142,12 @@ class Router
 
             else if ($this->url == '/updateUser') {
                 $controller= new Backend();
-                $controller->updateUser($_GET['id']);
+                $controller->updateUser($superglobalGet['id']);
             }
 
             else if ($this->url == '/deleteUser') {
                 $controller= new Backend();
-                $controller->deleteUser($_GET['id']);
+                $controller->deleteUser($superglobalGet['id']);
             }
         
             else {

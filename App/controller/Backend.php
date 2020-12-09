@@ -169,11 +169,12 @@ class Backend extends AbstractController{
     }
 
     public function sendMail(){
+        $superglobals= $this->getSuperglobals()->get_POST();
         $mail = new ContactManager;
         $mail->sendMail(
-            htmlentities($_POST['name']),
-            htmlentities($_POST['email']),
-            htmlentities($_POST['message'])
+            htmlentities($superglobals['name']),
+            htmlentities($superglobals['email']),
+            htmlentities($superglobals['message'])
         );
         header('Location:/home');
 }

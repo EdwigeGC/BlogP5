@@ -5,7 +5,7 @@ namespace App\controller;
 use App\model\PostManager;
 use App\model\CommentManager;
 use App\model\UserManager;
-
+use App\model\ContactManager;
 
 class Backend extends AbstractController{
 
@@ -17,42 +17,6 @@ class Backend extends AbstractController{
         if(empty($superglobals['id']) || $superglobals['role'] != "administrateur"){
         header ('Location: /home');
         }
-    }
-
-    public function connexion(){
-        $superglobalsPost = $this->getSuperglobals()->get_POST();
-        if (!empty($superglobalsPost['login']) && !empty($superglobalsPost['password'])) {;
-        $user = new UserManager;
-        $resultat = $user->checkLogin($superglobalsPost['login']);
-            if (isset($resultat['login'], $resultat['password']) && $resultat['login'] == $superglobalsPost['login'] && password_verify($superglobalsPost['password'], $resultat['password'])) {
-                session_start ();
-                $_SESSION['id'] = $resultat['id'];
-                $_SESSION['login'] = $resultat['login'];
-                $_SESSION['role'] = $resultat['role'];
-                if($resultat['role'] == "administrateur"){
-                    header ('Location:/admin');
-                }
-                else {
-                    header ('Location:/home');
-                }
-            }
-            else{
-                $failed= "Erreur login et/ou mot de passe";
-                require 'App/views/frontend/connexionView.php';
-            }
-        }
-
-        else {
-            $failed= "Tous les champs sont requis";
-            require 'App/views/frontend/connexionView.php';
-            }
-    } 
-    
-    public function logOut(){
-        session_start ();
-        session_unset ();
-        session_destroy ();
-        header ('Location: /home');
     }
 
     public function admin(){
@@ -70,7 +34,14 @@ class Backend extends AbstractController{
         $post= new PostManager;
         $resultat= $post->getPostAdmin($postId);
         $comment= new CommentManager;
-        $resultat['comments'] = $comment-> getComments($postId);
+        $commentList = $comment-> getComments($postId);
+        $resultat['comment'] = [];
+       
+        foreach($commentList as $key => $value){
+            if ($commentList[$key]['status'] === 'agreed'){
+                $resultat['comment'][] = $value;
+            }
+        }
         $subtitle="Modifier l'article";
         $action='/updatePost';
         require 'App/views/backend/postTemplate.php';
@@ -106,9 +77,11 @@ class Backend extends AbstractController{
     public function addPost(){
         $this->adminAccess();
         $superglobals= $this->getSuperglobals()->get_POST();
-        $newPost= new PostManager;
-        $newPost->createPost($superglobals);
-        header ('Location:/admin');
+        if (!empty($superglobals) && isset($superglobals)){
+            $newPost= new PostManager;
+            $newPost->createPost($superglobals);
+            header ('Location:/admin');
+        }
     }
 
     public function deletePost($postId){
@@ -116,7 +89,7 @@ class Backend extends AbstractController{
         $post= new PostManager;
         $resultat= $post->deletePost($postId);
         $comment= new CommentManager;
-        $resultat['comments'] = $comment->deleteComment($postId);
+        $resultat['comment'] = $comment->deleteComments($postId);
         //message de confirmation
         $titleAction="Confirmation d'enregistrement";
         $actionConfirmation= "/admin";
@@ -151,104 +124,58 @@ class Backend extends AbstractController{
         if(!empty ($userId) && $superglobals['id'] == $userId){
             $user= new UserManager;
             $resultat= $user->getUser($userId);
-            $subtitle="Modifier vos informations";
-            $action='/updateUser';
             require 'App/views/backend/userFormTemplate.php';
         }
     }
-
-    public function addUser(){
-        
-        $superglobals= $this->getSuperglobals()->get_POST();
-    //gestion des erreurs, vérification du formulaire avant ajout
-        if (!empty($superglobals)){
-            $errors=[];
-            if (empty($superglobals['e_mail']) || !preg_match('/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/', $superglobals['e_mail'])){
-                $errors['e_mail'] = "Votre e-mail n'est pas valide";
-            }
-            else{
-                $newUser= new UserManager;
-                $resultat= $newUser->checkEmail($superglobals['e_mail']);
-                if($resultat){
-                    $errors['e_mail'] ="Cet E-mail est déjà utilisé pour un autre compte.";
-                }
-            }
-            
-            if (empty($superglobals['login']) || !preg_match('/^[a-zA-Z0-9_]+$/', $superglobals['login'])){
-                $errors['login'] = "Votre login n'est pas valide. Merci d'utiliser uniquement des caractères alphanumériques.";
-            }    
-            else{
-                    $newUser= new UserManager;
-                    $resultat= $newUser->checkLogin($superglobals['login']);
-                    if($resultat){
-                        $errors['login'] ="Ce login est déjà utilisé pour un autre compte.";
-                    }
-            }
-            if (empty($superglobals['password'])) {
-                $errors['password'] = "Votre mot de passe n'est pas valide";
-            }
-            if(!empty($errors)){
-                require 'App/views/frontend/ConnexionView.php';
-            }
-            if(empty($errors)){
-                    $superglobals['password'] = password_hash($superglobals['password'], PASSWORD_BCRYPT);
-                    $superglobals['role'] = "visiteur";
-                    $newUser->createUser($superglobals);
-                    $errors= "Votre compte a bien été créé";
-                    require 'App/views/frontend/ConnexionView.php';
-            }
-        }
-        else{
-            //message d'erreur
-            $titleAction="Erreur";
-            $actionConfirmation= "/connexion";
-            $textConfirmation="Erreur lors de l'enrgistrement de vos informations. Merci de réitérer l'opération.";
-            require 'App/views/backend/confirmationTemplate.php';
-        }
-    }
-       
-
-    public function updateUser(){
+    
+    public function updateUser($userId){
+        session_start();
         $superglobalsPost= $this->getSuperglobals()->get_POST();
-        $superglobalsGet= $this->getSuperglobals()->get_GET();
-        $user= new UserManager;
-        $resultat= $user->checkLogin($superglobalsPost['login']);
-        
-        if (empty($resultat) || $resultat['login'] == $superglobalsPost['login']){
-           if (!isset($superglobalsPost['role'])){
-                $superglobalsPost['role'] = "visiteur";
-                $user->updateUser($superglobalsPost,$superglobalsGet['id']);
-                //message de confirmation
-                $titleAction="Confirmation d'enregistrement";
-                $actionConfirmation= "/home";
-                $textConfirmation="Vos informations ont bien été mises à jour.";
-                require 'App/views/backend/confirmationTemplate.php';
-           }
-           else {
-
-            $user->updateUser($superglobalsPost,$superglobalsGet['id']);
+        $superglobalsSession= $this->getSuperglobals()->get_SESSION();
+       
+        if(isset($superglobalsPost)){
+            $user= new UserManager;
+            $resultat= $user->getUser($userId);
+            if ($resultat['email'] != $superglobalsPost['email']){
+                return $superglobalsPost['email'];
+            }
+            if ($resultat['password'] != $superglobalsPost['password']){
+                $superglobalsPost['password'] = password_hash($superglobalsPost['password'], PASSWORD_BCRYPT);;
+            }
+            $user->updateUser($superglobalsPost,$superglobalsSession['id']);
             $titleAction="Confirmation d'enregistrement";
-            $actionConfirmation= "/admin";
             $textConfirmation="Vos informations ont bien été mises à jour.";
+               if ($superglobalsPost['role'] = "administrateur"){
+                    $actionConfirmation= "/admin";
+                }
+                else {
+                    $actionConfirmation= "/home";
+                }
+                require 'App/views/backend/confirmationTemplate.php';
+        }
+        else {
+            $titleAction="Erreur";
+            $actionConfirmation= "/home";
+            $textConfirmation="Problème lors de la mise à jour de vos informations.";
             require 'App/views/backend/confirmationTemplate.php';
-
-           }
-        }
-
-    else {
-        $titleAction="Confirmation d'enregistrement";
-        $actionConfirmation= "/admin";
-        $textConfirmation="Vos informations ont bien été mises à jour.";
-        require 'App/views/backend/confirmationTemplate.php';
-
-        }
-        
+            }
     }
+
     public function deleteUser($userId){
         $this->adminAccess();
         $user= new UserManager;
         $resultat= $user->deleteUser($userId);
         header ('Location:/usersManagerView');
     }
+
+    public function sendMail(){
+        $mail = new ContactManager;
+        $mail->sendMail(
+            htmlspecialchars($_POST['name']),
+            htmlspecialchars($_POST['email']),
+            htmlspecialchars($_POST['message'])
+        );
+        header('Location:/home');
+}
     
 }

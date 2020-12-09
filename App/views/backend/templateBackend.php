@@ -19,13 +19,12 @@ session_start();?>
   <body>
 
     <header>
-    
-    <nav class="navbar navbar-expand-lg navbar-expand-xl navbar-style">  
-            <a class="navbar-brand navbar-font-color" href="/home">EG-development
+        <nav class="navbar navbar-expand-lg navbar-expand-xl navbar-dark bg-dark navbar-style">
+            <a class="navbar-brand main-title-style navbar-font-color" href="/admin">EG-development</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            </a>
+           
 
             <div class="collapse navbar-collapse" id="navbarsExample05">
                 <ul class="navbar-nav mr-auto">
@@ -38,35 +37,29 @@ session_start();?>
                     <li class="nav-item active">
                         <a class="nav-link navbar-font-color" href="/usersManagerView">Gestion des utilisateurs<span class="sr-only"></span></a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link navbar-font-color" href="/home">Page d'accueil du site<span class="sr-only"></span></a>
+                    </li>
                 </ul>
 
-                <nav class="my-2 my-md-0 mr-md-3">
-                        <a class="p-2 text-light" href="/userForm?id=<?= $_SESSION['id']?>">Bienvenue <?= $_SESSION['login'] ?></a>
-                        <a class="btn btn-outline-primary" href="/logOut">Déconnexion</a>
-                </nav>
-            
-                
+                <a class="p-2 session-text" href="/userForm?id=<?= $_SESSION['id']?>">Bienvenue <?= $_SESSION['login'] ?></a>
+                <a class="btn btn-pink" href="/logOut">Déconnexion</a>
             </div>  
         </nav>
-
     </header>
 
     <main role="main">
-
         <section class="jumbotron text-center">
             <div class="container">
-                <h1><?= htmlentities($leadTitle) ?></h1>
-                <p class="lead text-muted"><?= htmlentities($leadText) ?></p>
+                <h2 class="main-title-style">Administration</h2>
             </div>
         </section>
 
         <div class="album py-5 bg-light">
             <?= $content ?>
         </div>
-
     </main>
-
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-                <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 </html>
 

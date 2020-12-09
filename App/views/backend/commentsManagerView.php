@@ -1,12 +1,10 @@
-<?php ob_start();
-$leadTitle= 'Administration';
-$leadText='gestion des commentaires';?>
+<?php ob_start() ?>
 
 <div class="container">
 
         <div class="row">
             <div class="col-md-12">
-            <p class="lead text-muted">liste des commentaires en attente de validation<p>
+            <h3>liste des commentaires en attente de validation</h3>
             </div>
         </div>
 
@@ -30,10 +28,10 @@ $leadText='gestion des commentaires';?>
                                 <td><?= htmlentities($tab['message'])?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-success" href= "/publishComment?id=<?= $tab['id']?>">Publier</a>                                    
+                                        <a class="btn btn-green" href= "/publishComment?id=<?= $tab['id']?>">Publier</a>                                    
                                     </div>
                                     <div class="btn-group">
-                                        <a class="btn btn-danger" href= "/deleteComment?id=<?= $tab['id']?>" onclick="return confirm('Voulez-vous vraiment supprimer ce commentaire?')">Supprimer</a>
+                                        <a class="btn btn-pink" href= "/deleteComment?id=<?= $tab['id']?>" onclick="return confirm('Voulez-vous vraiment supprimer ce commentaire?')">Supprimer</a>
                                     </div>
                                 </td>
                             </tr>
@@ -48,4 +46,4 @@ $leadText='gestion des commentaires';?>
 
 <?php $content = ob_get_clean();
 
-require('templateBackend.php');?>
+require 'templateBackend.php' ?>

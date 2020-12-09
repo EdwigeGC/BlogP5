@@ -4,7 +4,9 @@ namespace App\router;
 
 use App\controller\Backend;
 use App\controller\Frontend;
+use App\controller\Login;
 use App\entity\Superglobals;
+
 
 
 class Router
@@ -52,7 +54,8 @@ class Router
             }
 
             else if ($this->url == '/contact') {
-                require ('App/views/frontend/contact.php');
+                    $controller= new Backend();
+                    $controller->sendMail();
             }
 
             else if ($this->url == '/legalesMentions') {
@@ -62,12 +65,12 @@ class Router
 
         // login
             else if ($this->url == '/connexion') {
-                $controller= new Backend();
+                $controller= new Login();
                 $controller->connexion();
             }
 
             else if ($this->url == '/logOut') {
-                $controller= new Backend();
+                $controller= new Login();
                 $controller->logOut();
             }
 
@@ -129,7 +132,7 @@ class Router
             }
 
             else if ($this->url == '/addUser') {
-                $controller= new Backend();
+                $controller= new Login();
                 $controller->addUser();
             }
 

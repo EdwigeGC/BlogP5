@@ -10,7 +10,8 @@ class Frontend extends AbstractController{
     public function home(){
 
         $posts = new PostManager;
-        $resultat = $posts->getPosts(4);
+        $resultat= $posts->getPosts(4);
+        //$this->render('frontend/homeView', $resultat);
         require 'App/views/frontend/homeView.php';
     }
 

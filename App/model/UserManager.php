@@ -62,7 +62,7 @@ class UserManager
     {
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
-        $datas= $connexion ->prepare('UPDATE user SET e_mail= :e_mail, login= :login, role= :role, password= :password WHERE id=:id');
+        $datas= $connexion ->prepare('UPDATE user SET e_mail= :e_mail, password= :password WHERE id=:id');
         $datas->execute($param);
     }
 

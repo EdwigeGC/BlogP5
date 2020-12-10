@@ -1,6 +1,4 @@
-<?php ob_start();
-$leadTitle= '';
-$leadText='Mention légales';?>
+<?php ob_start() ?>
 
 <div class="container">
     <p>mentions légales</p>
@@ -8,4 +6,4 @@ $leadText='Mention légales';?>
 </div>
 <?php $content = ob_get_clean();
 
-require('templateFrontend.php');?>
+require 'templateFrontend.php' ?>

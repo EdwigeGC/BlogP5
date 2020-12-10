@@ -1,4 +1,59 @@
 
+/* main style */
+
+@font-face {
+  font-family: 'Pacifico';
+  src: url('font/Pacifico/Pacifico-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Permanent_Marker';
+  src: url('font/Permanent_Marker/PermanentMarker-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+hr {
+  border-color: #cda499;
+  line-height: 2;
+}
+
+.bg-custom {
+  background-color: #f9f8f5;
+}
+
+a:hover {
+  color: #97dfc6;
+}
+
+.page-title {
+  color: #343a40;
+  font-size: large;
+}
+
+.btn-pink {
+  background-color: #cda499;
+  border-color: #cda499;
+  color: #343a40;
+  font-family: "Pacifico", Arial, Helvetica, sans-serif;
+}
+
+.btn-pink:hover {
+  background-color: #f9f8f5;
+}
+
+.btn-green {
+  background-color: #97dfc6;
+  border-color: #97dfc6;
+  color: #343a40;
+}
+
+.btn-green:hover {
+  background-color: #ffffff;
+}
+
 /* template style */
 .jumbotron {
   padding-top: 3rem;
@@ -15,6 +70,10 @@
   }
 }
 
+.italic {
+  font-style: italic;
+}
+
 footer p {
   margin-bottom: 0.25rem;
 }
@@ -29,13 +88,12 @@ footer p {
 
 .jumbotron .container {
   max-width: 40rem;
-  background-color: #f9f8f5;
-
 }
 
 footer {
   padding-top: 3rem;
   padding-bottom: 3rem;
+  background-color: #343a40;
 }
 
 .bd-placeholder-img {
@@ -70,15 +128,42 @@ footer {
 }
 
 .fa-github {
-  color: #343a40;
+  color: #FFFFFF;
 }
 
 .session-text {
-  color: #d3566a;
+  color: #cda499;
 }
 
-.main-title {
+.main-title-style {
+  font-family: 'Permanent_Marker', Arial, Helvetica, sans-serif;
+}
+
+.btn-contact {
+  background-color: #224058;
+  border-color: #224058;
+  color: #FFFFFF;
+}
+
+.btn-contact:hover {
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.btn-download {
+  background-color: #97dfc6;
+  border-color: #97dfc6;
   color: #343a40;
+}
+
+.btn-download:hover {
+  font-weight: bold;
+  color: #343a40;
+}
+
+.link-style {
+  color: #343a40;
+  text-decoration: underline;
 }
 
 /* posts */
@@ -105,7 +190,15 @@ textarea {
 
 /* homeView style */
 .card-style {
-  background-color: #f9f8f5;
+  background-color: #FFFFFF;
+}
+
+h3 {
+  font-family: "Pacifico", Arial, Helvetica, sans-serif;
+}
+
+.secondary-title {
+  margin-bottom: 30px;
 }
 
 /* form style */

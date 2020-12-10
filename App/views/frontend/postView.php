@@ -1,63 +1,47 @@
-<?php 
-session_start();?>
+<?php session_start();?>
 
-<?php ob_start();
-$leadTitle= '';
-$leadText='';?>
+<?php ob_start()?>
 
 <div class="container">
 
-<div class="row">
-        <div class="col-lg-12">
-            <p><a href="/listPosts">Retour à la liste des articles</a></p>
-        </div>
-    </div>
-
     <div class="row">
-       
-        <div class="col-md-12">
-            <h1 class='title-post-details'><?= htmlentities($resultat['title']) ?></h1>
-            <div class="card mb-4 shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title> <?= htmlentities($resultat['title']) ?></title><rect width="100%" height="100%" fill="#55595c"/></svg>
-                <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted"> <?= htmlentities($resultat['category'])?></small>
-                </div>
-                <p class="mini-text">Par <?= htmlentities($resultat['author']) ?></p>
-                <p class="mini-text">Mis à jour le <?= htmlentities($resultat['date']) ?></p>
-
-                <p class="justify-content"><?= htmlentities($resultat['chapo']) ?></p>
-                <p class="justify-content"><?= nl2br(htmlentities($resultat['content'])) ?></p>
-                </div>
-       
+            <div class="col-lg-12">
+                <a class="link-style" href="/listPosts"><i class="fas fa-undo-alt"></i> Retour à la liste des articles</a>
             </div>
         </div>
-     
-    </div>
 
-    <div class="row">
-
-    <h3 id='comment-anchor'>Commentaires</h3>
-
-    <?php foreach ($resultat['comments'] as $key){
-        if ($key['status'] == "agreed"){?>
-        
-        <div class="col-md-12">
-            <div class="card mb-4 shadow-sm">
-                 <div class="card-body">
-                    <p>De <?= htmlentities($key['author'])?>, le <?= htmlentities($key['comment_date_fr'])?></p>
-                    <p class="card-text"><?= htmlentities($key['message']) ?></p>
-                    <div class="d-flex justify-content-between align-items-center">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class='main-title-style'><?= htmlentities($resultat['title']) ?></h1>
+                <div class="card mb-4 shadow-sm">
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title> <?= htmlentities($resultat['title']) ?></title><rect width="100%" height="100%" fill="#55595c"/></svg>
+                    <div class="card-body">
+                        <p class="justify-content italic"><?= htmlentities($resultat['chapo']) ?></p>
+                        <p class="justify-content"><?= nl2br(htmlentities($resultat['content'])) ?></p>
+                        <p class="mini-text">Par <?= htmlentities($resultat['author']) ?> Mis à jour le <?= htmlentities($resultat['date']) ?></p>
                     </div>
                 </div>
             </div>
         </div>
 
-    <?php }
-    }  ?>
+        <div class="row">
+            <h3 id='comment-anchor'>Commentaires</h3>
+            <?php foreach ($resultat['comments'] as $key){
+                if ($key['status'] == "agreed"){?>
+                <div class="col-md-12">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <p>De <?= htmlentities($key['author'])?>, le <?= htmlentities($key['comment_date_fr'])?></p>
+                            <p class="card-text"><?= htmlentities($key['message']) ?></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-           
-    </div>
+            <?php }
+            }  ?>
+        </div>
 
     <section class= contact-form>
     <h4>Ecrivez un commentaire</h4>
@@ -74,7 +58,7 @@ $leadText='';?>
 
                 <div class="col-md-6">
                 <div class="form-group">
-                <label for="author"><?= $_SESSION['login']?></label>
+                <label class="session-text" for="author"><?= $_SESSION['login']?></label>
                 <input type="hidden" name="author" value="<?= htmlentities($_SESSION['login']) ?>"/>
                 </div>
                 </div>
@@ -85,7 +69,7 @@ $leadText='';?>
                     <textarea name="message" class="form-control" id="InputMessage" required></textarea>
                 </div>
             
-                <button type="submit" class="btn btn-primary">Envoyer</button>
+                <button type="submit" class="btn btn-green">Envoyer</button>
                 </div>
 
             </div>
@@ -108,4 +92,4 @@ $leadText='';?>
 
 <?php $content = ob_get_clean();
 
-require('templateFrontend.php');?>
+require 'templateFrontend.php' ?>

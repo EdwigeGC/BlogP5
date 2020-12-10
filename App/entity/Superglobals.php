@@ -4,7 +4,6 @@ namespace App\entity;
 
 class Superglobals
 {
-    private $_SERVER;
     private $_POST;
     private $_GET;
     private $_SESSION;
@@ -12,15 +11,6 @@ class Superglobals
     public function __construct()
     {
         $this->define_superglobals();
-    }
-    
-    public function get_SERVER($key = null)
-    {
-        if (null !== $key) {
-            return (isset($this->_SERVER["$key"])) ? $this->_SERVER["$key"] : null;
-        } else {
-            return $this->_SERVER;
-        }
     }
     
     public function get_POST($key = null)
@@ -56,7 +46,6 @@ class Superglobals
         // Store a local copy of the PHP superglobals
         // This should avoid dealing with the global scope directly
         // $this->_SERVER = $_SERVER;
-        $this->_SERVER = (isset($_SERVER)) ? $_SERVER : null;
         $this->_POST = (isset($_POST)) ? $_POST : null;
         $this->_GET = (isset($_GET)) ? $_GET : null;
         $this->_SESSION = (isset($_SESSION)) ? $_SESSION : null;
@@ -65,7 +54,6 @@ class Superglobals
     
     public function unset_superglobals()
     {
-        unset($_SERVER);
         unset($_POST);
         unset($_GET);
         unset($_SESSION);

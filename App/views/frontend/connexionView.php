@@ -18,12 +18,10 @@
             <label for="inputPassword" class="sr-only">Mot de passe</label>
             <input type="password" name="password" class="form-control" placeholder="Mot de passe" required>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Valider</button>
-
+            <button class="btn btn-lg btn-pink btn-block" type="submit">Valider</button>
         </form>
         </div>
-
-
+        
         <div class="col-md-8 order-md-1">
             <h2 class="h3 mb-3 font-weight-normal">Créer un compte</h2>
             <form class="needs-validation" method="POST" action="/addUser">
@@ -60,7 +58,7 @@
                     </div>
                 </div>
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Enregistrer</button>
+                <button class="btn btn-pink btn-lg btn-block" type="submit">Enregistrer</button>
             </form>
         </div>
     </div>
@@ -71,4 +69,4 @@
 </div>
 
 <?php $content = ob_get_clean();
-require('templateFrontend.php');?>
+require 'templateFrontend.php' ?>

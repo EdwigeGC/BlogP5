@@ -1,12 +1,10 @@
-<?php ob_start();
-$leadTitle= 'Administration';
-$leadText='gestion des utilisateurs';?>
+<?php ob_start()?>
 
 <div class="container">
 
         <div class="row">
             <div class="col-md-12">
-            <p class="lead text-muted">liste des utilisateurs<p>
+            <h3>liste des utilisateurs</h3>
             </div>
         </div>
 
@@ -29,7 +27,7 @@ $leadText='gestion des utilisateurs';?>
                                 <td><?= htmlentities($tab['e_mail'])?></td>
                                 <td><?= htmlentities($tab['role'])?></td>
                                 <td>
-                                    <a class="btn btn-danger" href= "/deleteUser?id=<?= $tab['id']?>" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur?')">Supprimer</a>
+                                    <a class="btn btn-pink" href= "/deleteUser?id=<?= $tab['id']?>" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur?')">Supprimer</a>
                                 </td>
                             </tr>
                         <tbody>
@@ -43,4 +41,4 @@ $leadText='gestion des utilisateurs';?>
 
 <?php $content = ob_get_clean();
 
-require('templateBackend.php');?>
+require 'templateBackend.php' ?>

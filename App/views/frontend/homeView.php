@@ -1,11 +1,8 @@
-<?php ob_start();
-$leadTitle= 'Edwige Genty';
-$leadText='PHP/Symfony development';
-$formTitle='Contactez-moi'?>
+<?php ob_start() ?>
 
-<div class="container">
+<div class="container bg-custom">
 
-    <p>Les derniers articles</p>
+    <h3 class="secondary-title text-center">Les derniers articles</h3>
 
     <div class="row">
 
@@ -13,15 +10,13 @@ $formTitle='Contactez-moi'?>
         
         <div class="col-md-6">
             <div class="card mb-4 shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title> <?= $tab['title']?></title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em"> <?= $tab['title']?></text></svg>
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill="#55595c"/></svg>
                 <div class="card-body card-style">
+                <h4> <?= $tab['title']?></h4>
                 <p class="card-text">
                     <?= $tab['chapo']?></p>
                 <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted"> <?= $tab['category']?></small>
-                    <div class="btn-group">
-                    <a class="btn btn-sm btn-outline-secondary" href= "/post?id=<?= $tab['id']?>">Lire l'article</a>
-                    </div>
+                    <a class="btn btn-sm btn-green" href= "/post?id=<?= $tab['id']?>">Lire l'article</a>  
                 </div>
                 </div>
             </div>
@@ -33,9 +28,7 @@ $formTitle='Contactez-moi'?>
     <hr class="col-md-12">
 
     <section class= contact-form >
-        <h3 class="h3 mb-3 font-weight-normal" id='contact-anchor'>Contactez-moi</h3>
-
-        <p><?= $validationText ?></p>
+        <h3 class="h3 mb-3 font-weight-normal text-center" id='contact-anchor'>Contactez-moi</h3>
 
         <div class="starter-template">
 
@@ -66,7 +59,7 @@ $formTitle='Contactez-moi'?>
                         <input type="checkbox" class="form-check-input" id="Check" required>
                         <label class="form-check-label" for="exampleCheck1">J'ai compris. En envoyant ce formulaire, j'autorise le destinataire à utiliser mes données personnelles pour me répondre. Mentions Légales *</label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                    <button type="submit" class="btn btn-pink">Envoyer</button>
                     </div>
 
                 </div>
@@ -79,5 +72,5 @@ $formTitle='Contactez-moi'?>
 
 <?php $content = ob_get_clean();
 
-require('templateFrontend.php');?>
+require 'templateFrontend.php' ?>
 

@@ -48,7 +48,7 @@ class CommentManager
     {
         $db= new PDOManager ();
         $connexion = $db->getMysqlConnexion();
-        $query = $connexion->prepare('DELETE FROM comment WHERE id = ? ');
+        $query = $connexion->prepare('DELETE FROM comment WHERE id = ?');
         $query->execute(array($commentId));
     }
 

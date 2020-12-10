@@ -1,12 +1,10 @@
-<?php ob_start();
-$leadTitle= 'Administration';
-$leadText='gestion des commentaires';?>
+<?php ob_start() ?>
 
 <div class="container">
 
         <div class="row">
             <div class="col-md-12">
-            <p class="lead text-muted">liste des commentaires en attente de validation<p>
+            <h3>liste des commentaires en attente de validation</h3>
             </div>
         </div>
 
@@ -18,6 +16,7 @@ $leadText='gestion des commentaires';?>
                             <tr>
                                 <th scope="col">Auteur</th>
                                 <th scope="col">Date</th>
+                                <th scope="col">Id de l'article</th>
                                 <th scope="col">Message</th>
                                 <th scope="col"></th>
                             </tr>
@@ -27,13 +26,14 @@ $leadText='gestion des commentaires';?>
                             <tr>
                                 <td><?= htmlentities($tab['author'])?></td>
                                 <td><?= htmlentities($tab['comment_date_fr'])?></td>
+                                <td><?= htmlentities($tab['post_id'])?></td>
                                 <td><?= htmlentities($tab['message'])?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-success" href= "/publishComment?id=<?= $tab['id']?>">Publier</a>                                    
+                                        <a class="btn btn-green" href= "/publishComment?id=<?= $tab['id']?>">Publier</a>                                    
                                     </div>
                                     <div class="btn-group">
-                                        <a class="btn btn-danger" href= "/deleteComment?id=<?= $tab['id']?>" onclick="return confirm('Voulez-vous vraiment supprimer ce commentaire?')">Supprimer</a>
+                                        <a class="btn btn-pink" href= "/deleteComment?id=<?= $tab['id']?>" onclick="return confirm('Voulez-vous vraiment supprimer ce commentaire?')">Supprimer</a>
                                     </div>
                                 </td>
                             </tr>
@@ -48,4 +48,4 @@ $leadText='gestion des commentaires';?>
 
 <?php $content = ob_get_clean();
 
-require('templateBackend.php');?>
+require 'templateBackend.php' ?>

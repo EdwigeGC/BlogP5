@@ -50,7 +50,7 @@ a:hover {
 }
 
 .btn-green:hover {
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 /* template style */
@@ -127,7 +127,7 @@ footer {
 }
 
 .fa-github {
-  color: #FFF;
+  color: #fff;
 }
 
 .session-text {
@@ -141,12 +141,12 @@ footer {
 .btn-contact {
   background-color: #224058;
   border-color: #224058;
-  color: #FFFFFF;
+  color: #fff;
 }
 
 .btn-contact:hover {
   font-weight: bold;
-  color: #FFFFFF;
+  color: #fff;
 }
 
 .btn-download {

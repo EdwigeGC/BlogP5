@@ -1,11 +1,13 @@
 <?php
+
 namespace App\model;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class ContactManager{
+class ContactManager
+{
     public function sendMail($name,  $email, $message)
     {
         try {
@@ -25,20 +27,18 @@ class ContactManager{
             $mail->addAddress('username@mail.com');    //add recipient e-mail adress
 
             // Content
-                
+
             $mail->isHTML(true);    // Set email format to HTML
-            $mail->Subject ='Blog P5: formulaire de contact';                            
+            $mail->Subject = 'Blog P5: formulaire de contact';
             $mail->Body = '<html>
-            <p>De:<br>'.$name. '<br></p>
-            <p>Adresse E-mail:<br> ' .$email. '<br></p>
-            <p>Message:<br>'.$message.'</p>
+            <p>De:<br>' . $name . '<br></p>
+            <p>Adresse E-mail:<br> ' . $email . '<br></p>
+            <p>Message:<br>' . $message . '</p>
             </html>';
-    
+
             $mail->send();
-
         } catch (Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }   
-
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
     }
 }

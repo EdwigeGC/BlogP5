@@ -16,7 +16,7 @@ class AbstractController
     {
         foreach ($list as $index => $post) {
 
-            $list[$index]=$this->dateChoice($post);
+            $list[$index] = $this->dateChoice($post);
         }
         return $list;
     }
@@ -27,14 +27,11 @@ class AbstractController
         if (isset($post['modification_date_fr'])) {
 
             $post['date'] = $post['modification_date_fr'];
-        } 
-        else {
+        } else {
             $post['date'] = $post['creation_date_fr'];
         }
         unset($post['creation_date_fr']);
         unset($post['modification_date_fr']);
         return $post;
     }
-
-    
 }

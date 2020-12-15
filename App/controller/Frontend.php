@@ -1,51 +1,54 @@
 <?php
 
-namespace App\controller; 
+namespace App\controller;
 
 use App\model\PostManager;
 use App\model\CommentManager;
 
-class Frontend extends AbstractController{
+class Frontend extends AbstractController
+{
 
-    public function home(){
-
+    public function home()
+    {
         $posts = new PostManager;
-        $resultat= $posts->getPosts(4);
+        $resultat = $posts->getPosts(4);
         require 'App/views/frontend/homeView.php';
     }
 
-    public function posts(){
+    public function posts()
+    {
         $posts = new PostManager;
         $resultat = $posts->getPosts(100);
-        $resultat= $this->prepareListPost($resultat);
+        $resultat = $this->prepareListPost($resultat);
         require 'App/views/frontend/listPostsView.php';
     }
 
-    public function post($postId){
-
-        $post= new PostManager;
-        $resultat= $this->dateChoice($post->getPost($postId));
-        $comment= new CommentManager;
-        $resultat['comments'] = $comment-> getComments($postId);
+    public function post($postId)
+    {
+        $post = new PostManager;
+        $resultat = $this->dateChoice($post->getPost($postId));
+        $comment = new CommentManager;
+        $resultat['comments'] = $comment->getComments($postId);
         require 'App/views/frontend/postView.php';
     }
 
-    public function addComment(){
+    public function addComment()
+    {
         $superglobalsPost = $this->getSuperglobals()->get_POST();
-        $newComment= new CommentManager;
+        $newComment = new CommentManager;
         $superglobalsPost['status'] = "waiting";
         $newComment->createComment($superglobalsPost);
-        if (isset($superglobalsPost['post_id'])){
-            $post_id= $superglobalsPost['post_id'];
+        if (isset($superglobalsPost['post_id'])) {
+            $post_id = $superglobalsPost['post_id'];
         }
-        $titleAction="Confirmation d'enregistrement";                       //confirmation message
-        $actionConfirmation= "/post?id=". $post_id;
-        $textConfirmation="Votre commentaire a bien été enregistré";
+        $titleAction = "Confirmation d'enregistrement";                       //confirmation message
+        $actionConfirmation = "/post?id=" . $post_id;
+        $textConfirmation = "Votre commentaire a bien été enregistré";
         require 'App/views/backend/confirmationTemplate.php';
     }
 
-    public function legalesMentions(){
+    public function legalesMentions()
+    {
         require 'App/views/frontend/legalesMentions.php';
     }
- 
 }

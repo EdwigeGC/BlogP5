@@ -5,11 +5,11 @@ namespace App\controller;
 use App\model\PostManager;
 use App\model\CommentManager;
 use App\model\UserManager;
-use App\model\ContactFormManager;
+use App\model\ContactManager;
 
 class Backend extends AbstractController{
-
-    public function adminAccess(){
+  
+    public function adminAccess(){                                                       //admin access only authorized for "administrateur" role
 
         session_start();
         $superglobals = $this->getSuperglobals()->get_SESSION();
@@ -29,6 +29,7 @@ class Backend extends AbstractController{
        
     }
 
+// Posts functions
     public function modifyPostForm($postId){
         $this->adminAccess();
         $post= new PostManager;
@@ -52,18 +53,10 @@ class Backend extends AbstractController{
         $superglobals= $this->getSuperglobals()->get_POST();
         $newPost= new PostManager;
         $newPost->updatePost($superglobals);
-    //message de confirmation
-        $titleAction="Confirmation d'enregistrement";
+        $titleAction="Confirmation d'enregistrement";                            //confirmation message
         $actionConfirmation= "/admin";
         $textConfirmation="Les modifications ont bien été enregistrées";
         require 'App/views/backend/confirmationTemplate.php';
-    }
-
-    public function publishComment($commentId){
-        $this->adminAccess();
-        $newComment= new CommentManager;
-        $newComment->publishComment($commentId);
-        header ('Location:/commentsManagerView');
     }
 
     public function addPostForm(){
@@ -87,16 +80,17 @@ class Backend extends AbstractController{
     public function deletePost($postId){
         $this->adminAccess();
         $post= new PostManager;
-        $resultat= $post->deletePost($postId);
+        $post->deletePost($postId);
         $comment= new CommentManager;
-        $resultat['comment'] = $comment->deleteComments($postId);
-        //message de confirmation
-        $titleAction="Confirmation d'enregistrement";
+        $comment->deleteComments($postId);
+        
+        $titleAction="Confirmation d'enregistrement";                            //confirmation message
         $actionConfirmation= "/admin";
         $textConfirmation="L'article a bien été supprimé";
         require 'App/views/backend/confirmationTemplate.php';
     }
 
+// Comments functions
     public function adminCommentsList(){
         $this->adminAccess();
         $comments= new CommentManager;
@@ -104,13 +98,21 @@ class Backend extends AbstractController{
         require 'App/views/backend/commentsManagerView.php';
     }
 
-    public function deleteComment($commentId){
+    public function validateComment($commentId){
         $this->adminAccess();
-        $comment= new CommentManager;
-        $resultat= $comment->deleteComment($commentId);
+        $newComment= new CommentManager;
+        $newComment->validateComment($commentId);
         header ('Location:/commentsManagerView');
     }
 
+    public function deleteComment($commentId){
+        $this->adminAccess();
+        $comment= new CommentManager;
+        $comment->deleteComment($commentId);
+        header ('Location:/commentsManagerView');
+    }
+
+// Users functions   
     public function usersList(){
         $this->adminAccess();
         $posts = new UserManager;
@@ -124,35 +126,49 @@ class Backend extends AbstractController{
         if(!empty ($userId) && $superglobals['id'] == $userId){
             $user= new UserManager;
             $resultat= $user->getUser($userId);
-            require 'App/views/backend/userFormTemplate.php';
+            require 'App/views/backend/userAccountView.php';
         }
     }
     
-    public function updateUser($userId){
+    public function updateUser(){
         session_start();
         $superglobalsPost= $this->getSuperglobals()->get_POST();
         $superglobalsSession= $this->getSuperglobals()->get_SESSION();
-       
-        if(isset($superglobalsPost)){
+        $errors=[];
+        $superglobalsPost['id']= $superglobalsSession['id'];
+ 
+        if(isset($superglobalsPost) && !empty($superglobalsPost)){
             $user= new UserManager;
-            $resultat= $user->getUser($userId);
-            if ($resultat['email'] != $superglobalsPost['email']){
-                return $superglobalsPost['email'];
-            }
+            $resultat= $user->getUser($superglobalsSession['id']);
+
+            if ($resultat['e_mail'] != $superglobalsPost['e_mail']){
+                $resultatEmail= $user->checkEmail($superglobalsPost['e_mail']);
+                    if($resultatEmail){
+                        $titleAction="Erreur";
+                        $textConfirmation="Le mot de passe modifé est déjà pris";
+                        $actionConfirmation= "/userForm?id=". $superglobalsSession['id'];
+                        require 'App/views/backend/confirmationTemplate.php';
+                    }
+                }
+
             if ($resultat['password'] != $superglobalsPost['password']){
                 $superglobalsPost['password'] = password_hash($superglobalsPost['password'], PASSWORD_BCRYPT);;
             }
-            $user->updateUser($superglobalsPost,$superglobalsSession['id']);
-            $titleAction="Confirmation d'enregistrement";
-            $textConfirmation="Vos informations ont bien été mises à jour.";
-               if ($superglobalsPost['role'] = "administrateur"){
-                    $actionConfirmation= "/admin";
-                }
-                else {
-                    $actionConfirmation= "/home";
-                }
-                require 'App/views/backend/confirmationTemplate.php';
-        }
+
+            if(empty($errors)){
+                $superglobals['password'] = password_hash($superglobalsPost['password'], PASSWORD_BCRYPT);
+                $superglobals['role'] = "visiteur";
+                $user->updateUser($superglobalsPost,$superglobalsSession['id']);
+                $titleAction="Confirmation d'enregistrement";
+                $textConfirmation="Vos informations ont bien été mises à jour.";
+                if ($superglobalsSession['role'] = "administrateur"){
+                        $actionConfirmation= "/admin";
+                    }
+                    else {
+                        $actionConfirmation= "/home";
+                    }
+                    require 'App/views/backend/confirmationTemplate.php';
+            }
         else {
             $titleAction="Erreur";
             $actionConfirmation= "/home";
@@ -160,7 +176,8 @@ class Backend extends AbstractController{
             require 'App/views/backend/confirmationTemplate.php';
             }
     }
-
+}
+    
     public function deleteUser($userId){
         $this->adminAccess();
         $user= new UserManager;
@@ -170,7 +187,7 @@ class Backend extends AbstractController{
 
     public function sendMail(){
         $superglobals= $this->getSuperglobals()->get_POST();
-        $mail = new ContactFormManager;
+        $mail = new ContactManager;
         $mail->sendMail(
             htmlentities($superglobals['name']),
             htmlentities($superglobals['email']),

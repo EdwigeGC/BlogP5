@@ -37,7 +37,7 @@
                 <?php }
                     else if(empty($errors) && isset($errors)){ ?>
                     <div class="alert alert-success">
-                        <p>Votre compte a bien été créé</p>
+                        <p>Votre compte a bien été créé. Vous pouvez vous connecter dès maintenant.</p>
                     </div>
                 <?php } ?>
             

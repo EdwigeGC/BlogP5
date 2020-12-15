@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class ContactFormManager{
+class ContactManager{
     public function sendMail($name,  $email, $message)
     {
         try {

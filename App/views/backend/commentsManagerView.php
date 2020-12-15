@@ -30,7 +30,7 @@
                                 <td><?= htmlentities($tab['message'])?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-green" href= "/publishComment?id=<?= $tab['id']?>">Publier</a>                                    
+                                        <a class="btn btn-green" href= "/validateComment?id=<?= $tab['id']?>">Publier</a>                                    
                                     </div>
                                     <div class="btn-group">
                                         <a class="btn btn-pink" href= "/deleteComment?id=<?= $tab['id']?>" onclick="return confirm('Voulez-vous vraiment supprimer ce commentaire?')">Supprimer</a>

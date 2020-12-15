@@ -10,8 +10,8 @@ class UserManager
 {
     public function checkLogin($login)
     {
-        $db = new PDOManager();
-        $connexion = $db->getMysqlConnexion();
+        $database = new PDOManager();
+        $connexion = $database->getMysqlConnexion();
         $query = $connexion->prepare('SELECT * FROM user WHERE login = :login');
         $query->execute(array(
             'login' => $login));
@@ -20,8 +20,8 @@ class UserManager
 
     public function checkEmail($eMail)
     {
-        $db = new PDOManager();
-        $connexion = $db->getMysqlConnexion();
+        $database = new PDOManager();
+        $connexion = $database->getMysqlConnexion();
         $query = $connexion->prepare('SELECT * FROM user WHERE e_mail = :e_mail') ;
         $query->execute(array(
             'e_mail' => $eMail));
@@ -29,11 +29,10 @@ class UserManager
         return $query->fetch(); 
     }
 
-
     public function getUsers()
     {
-        $db = new PDOManager();
-        $connexion = $db->getMysqlConnexion();
+        $database = new PDOManager();
+        $connexion = $database->getMysqlConnexion();
         $query = $connexion->query('SELECT * FROM user') ;
         $query->execute();
        
@@ -42,8 +41,8 @@ class UserManager
 
     public function getUser($userId) 
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $query = $connexion->prepare('SELECT * FROM user WHERE id = ?');
         $query->execute(array($userId));
 
@@ -52,24 +51,24 @@ class UserManager
 
     public function createUser($param)
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $datas= $connexion ->prepare('INSERT INTO user SET e_mail= :e_mail, login= :login, password= :password, role= :role ');
         $datas->execute($param);
     }
 
     public function updateUser($param)
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $datas= $connexion ->prepare('UPDATE user SET e_mail= :e_mail, password= :password WHERE id=:id');
         $datas->execute($param);
     }
 
     public function deleteUser($userId)
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $query = $connexion->prepare('DELETE FROM user WHERE id = ? ');
         $query->execute(array($userId));
     }

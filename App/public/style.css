@@ -51,7 +51,7 @@ a:hover {
 }
 
 .btn-green:hover {
-  background-color: #ffffff;
+  background-color: #FFF;
 }
 
 /* template style */
@@ -128,7 +128,7 @@ footer {
 }
 
 .fa-github {
-  color: #FFFFFF;
+  color: #FFF;
 }
 
 .session-text {
@@ -190,7 +190,7 @@ textarea {
 
 /* homeView style */
 .card-style {
-  background-color: #FFFFFF;
+  background-color: #FFF;
 }
 
 h3 {

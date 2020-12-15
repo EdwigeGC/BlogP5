@@ -4,15 +4,13 @@ namespace App\model;
 
 use App\model\PDOManager;
 use PDO;
-use App\entity\Comment;
-use Exception;
 
 class CommentManager
 {
     public function getComments($postId) 
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $comments= $connexion->prepare('SELECT id, author, message, status, DATE_FORMAT(date, \'%d/%m/%Y\') AS comment_date_fr FROM comment WHERE post_id = ? ORDER BY date DESC');
         $comments->execute(array($postId));
 
@@ -21,16 +19,16 @@ class CommentManager
 
     public function createComment($param)
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $datas= $connexion ->prepare('INSERT INTO comment  SET author = :author, message = :message, status = :status, date = NOW(), post_id= :post_id ');
         return $datas->execute($param);
     }
 
     public function adminComments()
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $query= $connexion->query('SELECT id, author, message, DATE_FORMAT(date, \'%d/%m/%Y\') AS comment_date_fr, post_id FROM comment WHERE status= "waiting" ORDER BY date');
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -38,24 +36,24 @@ class CommentManager
 
     public function deleteComments($postId)
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $query = $connexion->prepare('DELETE FROM comment WHERE post_id = ? ');
         $query->execute(array($postId));
     }
 
     public function deleteComment($commentId)
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $query = $connexion->prepare('DELETE FROM comment WHERE id = ?');
         $query->execute(array($commentId));
     }
 
-    public function publishComment($commentId)
+    public function validateComment($commentId)
     {
-        $db= new PDOManager ();
-        $connexion = $db->getMysqlConnexion();
+        $database= new PDOManager ();
+        $connexion = $database->getMysqlConnexion();
         $comment= $connexion ->prepare('UPDATE comment SET status= "agreed" WHERE id= ?');
         $comment->execute(array($commentId));
     }

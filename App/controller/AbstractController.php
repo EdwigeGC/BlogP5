@@ -6,7 +6,12 @@ use App\entity\Superglobals;
 
 class AbstractController
 {
+    public function getSuperglobals()
+    {
+        return new Superglobals;
+    }
 
+    //to simplify the display of dates
     public function prepareListPost($list)
     {
         foreach ($list as $index => $post) {
@@ -22,7 +27,8 @@ class AbstractController
         if (isset($post['modification_date_fr'])) {
 
             $post['date'] = $post['modification_date_fr'];
-        } else {
+        } 
+        else {
             $post['date'] = $post['creation_date_fr'];
         }
         unset($post['creation_date_fr']);
@@ -30,12 +36,5 @@ class AbstractController
         return $post;
     }
 
-    public function getSuperglobals()
-    {
-        return new Superglobals;
-    }
-
-    public function errors(){
-        
-    }
+    
 }

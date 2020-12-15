@@ -11,7 +11,6 @@ class Frontend extends AbstractController{
 
         $posts = new PostManager;
         $resultat= $posts->getPosts(4);
-        //$this->render('frontend/homeView', $resultat);
         require 'App/views/frontend/homeView.php';
     }
 
@@ -39,19 +38,13 @@ class Frontend extends AbstractController{
         if (isset($superglobalsPost['post_id'])){
             $post_id= $superglobalsPost['post_id'];
         }
-        //message de confirmation
-        $titleAction="Confirmation d'enregistrement";
-        $actionConfirmation= "/listPosts";
+        $titleAction="Confirmation d'enregistrement";                       //confirmation message
+        $actionConfirmation= "/post?id=". $post_id;
         $textConfirmation="Votre commentaire a bien été enregistré";
         require 'App/views/backend/confirmationTemplate.php';
     }
-    
-    public function login(){
-        require 'App/views/frontend/connexionView.php';
-    }
 
     public function legalesMentions(){
-
         require 'App/views/frontend/legalesMentions.php';
     }
  

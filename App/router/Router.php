@@ -30,7 +30,7 @@ class Router
 
         try {
 
-        // frontend
+    // frontend
             if ($this->url == '/' || $this->url == '/home') {
                 $controller= new Frontend();
                 $controller->home();
@@ -52,11 +52,6 @@ class Router
                 $controller->addComment();
             }
 
-            else if ($this->url == '/login') {
-                    $controller= new Frontend();
-                    $controller->login();
-            }
-
             else if ($this->url == '/contact') {
                     $controller= new Backend();
                     $controller->sendMail();
@@ -67,7 +62,12 @@ class Router
                 $controller->legalesMentions();
             }
 
-        // login
+    // login
+            else if ($this->url == '/login') {
+                $controller= new Login();
+                $controller->login();
+            }
+
             else if ($this->url == '/connexion') {
                 $controller= new Login();
                 $controller->connexion();
@@ -78,7 +78,7 @@ class Router
                 $controller->logOut();
             }
 
-        // backend
+    // backend
             else if ($this->url == '/admin') {
                 $controller= new Backend();
                 $controller->admin();
@@ -120,9 +120,9 @@ class Router
                 $controller->adminCommentsList();
             }
 
-            else if ($this->url == '/publishComment') {
+            else if ($this->url == '/validateComment') {
                 $controller= new Backend();
-                $controller->publishComment($superglobalGet['id']);    
+                $controller->validateComment($superglobalGet['id']);    
             }
 
             else if ($this->url == '/usersManagerView') {
@@ -142,7 +142,7 @@ class Router
 
             else if ($this->url == '/updateUser') {
                 $controller= new Backend();
-                $controller->updateUser($superglobalGet['id']);
+                $controller->updateUser();
             }
 
             else if ($this->url == '/deleteUser') {

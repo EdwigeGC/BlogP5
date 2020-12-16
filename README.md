@@ -1,6 +1,6 @@
 # EG_Blog
 
-This is a professional blog created to validate the « PHP/Symfony developer» training with OpenClassrooms. Creation of administration and public interfaces programmed with PHP language and MVC architecture. 
+This is a professional blog created "from scratch" to validate the « PHP/Symfony developer» training with OpenClassrooms. Creation of administration and public interfaces programmed with PHP language and MVC architecture. 
 
 ## Getting started
 
@@ -20,7 +20,7 @@ Installation of the project, requires:
 ###Installation
 1. Copy the link on GitHub and clone it on your local repository
 2. Install Composer
-3. Create a file in App/entity named __DatabaseConstant.php__ like this:
+3. Create a class in App/entity named __DatabaseConstant.php__ like this:
 
 ```
 <?php 
@@ -34,6 +34,7 @@ final class DatabaseConstant {
     const PASS='';
 }
 ```
+and write the parameter of your database between each ' '. 
 
 4. Create your database in MySQL named __EG-blog__ and import the file database.sql
 

@@ -1,2 +1,3 @@
 /vendor/
 App/public/bootstrap-4.5.3/
+App/entity/DatabaseConstant.php

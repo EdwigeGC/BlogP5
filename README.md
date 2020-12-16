@@ -17,7 +17,7 @@ Installation of the project, requires:
 * Apache Server 2.2.34
 * Composer 2.0
 
-###Installation
+### Installation
 1. Copy the link on GitHub and clone it on your local repository
 2. Install Composer
 3. Create a class in App/entity named __DatabaseConstant.php__ like this:

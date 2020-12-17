@@ -1,4 +1,4 @@
-# EG_Blog
+# Blog P5
 
 This is a professional blog created "from scratch" to validate the « PHP/Symfony developer» training with OpenClassrooms. Creation of administration and public interfaces programmed with PHP language and MVC architecture. 
 

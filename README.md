@@ -6,20 +6,7 @@ This is a professional blog created "from scratch" to validate the « PHP/Symfo
 ### Prerequisites
 
 Installation of the project, requires:
-<<<<<<< HEAD
-* PHP version 7.3.8
-* HTML 5
-* CSS 3
-* Bootstrap 4.5.3
-* MySQL
-* Apache Server 2.2.34
-* Composer 2.0
 
-### Installation
-1. Copy the link on GitHub and clone it on your local repository
-2. Install Composer
-3. Create a class in App/entity named __DatabaseConstant.php__ like this:
-=======
   * PHP version 7.3.8
   * HTML 5
   * CSS 3
@@ -32,7 +19,6 @@ Installation of the project, requires:
  1. Copy the link on GitHub and clone it on your local repository
  2. Install Composer
  3. Create a class in App/entity named __DatabaseConstant.php__ like this:
->>>>>>> correction read me et database syntax
 
 ```
 <?php 

@@ -205,4 +205,8 @@ class Backend extends AbstractController
         );
         header('Location:/home');
     }
+
+    public function errorPage(){
+        echo $this->getRender()->render('404.twig');
+    }
 }

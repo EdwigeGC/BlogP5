@@ -12,7 +12,8 @@ class Frontend extends AbstractController
     {
         $posts = new PostManager;
         $resultat = $posts->getPosts(4);
-        require 'App/views/frontend/homeView.php';
+        echo $this->getRender()->render('homeView.twig', ['resultat' => $resultat]);
+        //require 'App/views/frontend/homeView.php';
     }
 
     public function posts()
@@ -20,7 +21,8 @@ class Frontend extends AbstractController
         $posts = new PostManager;
         $resultat = $posts->getPosts(100);
         $resultat = $this->prepareListPost($resultat);
-        require 'App/views/frontend/listPostsView.php';
+        echo $this->getRender()->render('listPostsView.twig', ['posts' => $resultat]);
+        //require 'App/views/frontend/listPostsView.php';
     }
 
     public function post($postId)
@@ -28,8 +30,9 @@ class Frontend extends AbstractController
         $post = new PostManager;
         $resultat = $this->dateChoice($post->getPost($postId));
         $comment = new CommentManager;
-        $resultat['comments'] = $comment->getComments($postId);
-        require 'App/views/frontend/postView.php';
+        $res = $comment->getComments($postId);
+        echo $this->getRender()->render('postView.twig', ['post' => $resultat, 'comments' => $res]);
+        //require 'App/views/frontend/postView.php';
     }
 
     public function addComment()
@@ -49,6 +52,6 @@ class Frontend extends AbstractController
 
     public function legalesMentions()
     {
-        require 'App/views/frontend/legalesMentions.php';
+        echo $this->getRender()->render('legalesMentions.twig');
     }
 }

@@ -1,0 +1,90 @@
+{% extends 'templateFrontend.twig' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row">
+            <div class="col-lg-12">
+                <a class="link-style" href="/listPosts"><i class="fas fa-undo-alt"></i> Retour à la liste des articles</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class='main-title-style'>{{ post.title }}</h1>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <p class="justify-content italic">{{ post.chapo }}</p>
+                        <p class="justify-content">{{ post.content }}</p>
+                        <p class="mini-text">Par {{ post.author }} Mis à jour le {{ post.date }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 id='comment-anchor'>Commentaires</h3>
+            {% for tab in comments %}
+                {% if tab.status == "agreed") %}
+                <div class="col-md-12">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <p>De {{ tab.author }}, le {{ tab.date }}</p>
+                            <p class="card-text">{{ tab.message }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+    <section class= contact-form>
+    <h4>Ecrivez un commentaire</h4>
+
+    {% if session.login == true %}
+
+    <div class="starter-template">
+        <form method="POST" action="/addComment">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="hidden" name="post_id" value="{{post.id}}" required>       
+                </div>
+
+                <div class="col-md-6">
+                <div class="form-group">
+                <label class="session-text" for="author">{{session.login}}</label>
+                <input type="hidden" name="author" value="{{session.login}}"/>
+                </div>
+                </div>
+
+                <div class="col-md-12">
+                <div class="form-group">
+                    <label for="InputMessage">Votre commentaire</label>
+                    <textarea name="message" class="form-control" id="InputMessage" required></textarea>
+                </div>
+            
+                <button type="submit" class="btn btn-green">Envoyer</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    {% else %}
+    <p>Pour écrire un commentaire vous devez être connecté(e).</p>
+    <a href="/login">Se connecter</a>
+    {% endif %}
+
+
+</section>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="App/public/bootstrap-4.5.3/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="App/public/bootstrap-4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="form-validation.js"></script>
+
+{% endblock %}

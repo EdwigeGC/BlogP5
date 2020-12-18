@@ -108,7 +108,8 @@ class Router
                 $controller = new Backend();
                 $controller->deleteUser($superglobalGet['id']);
             } else {
-                require 'App/views/frontend/404.php';
+                $controller = new Backend();
+                $controller->errorPage();
             }
         } catch (\PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();

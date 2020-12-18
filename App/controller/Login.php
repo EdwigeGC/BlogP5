@@ -10,7 +10,8 @@ class Login extends AbstractController
     //access to connection page
     public function login()
     {
-        require 'App/views/frontend/loginView.php';
+
+        echo $this->getRender()->render('loginView.twig');
     }
 
     public function connexion()

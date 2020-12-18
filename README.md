@@ -7,13 +7,13 @@ This is a professional blog created "from scratch" to validate the « PHP/Symfo
 
 Installation of the project, requires:
 
-  * PHP version 7.3.8
-  * HTML 5
-  * CSS 3
-  * Bootstrap 4.5.3
-  * MySQL
-  * Apache Server 2.2.34
-  * Composer 2.0
+  *  PHP version 7.3.8
+  *  HTML 5
+  *  CSS 3
+  *  Bootstrap 4.5.3
+  *  MySQL
+  *  Apache Server 2.2.34
+  *  Composer 2.0
 
 ### Installation
  1. Copy the link on GitHub and clone it on your local repository
@@ -37,17 +37,17 @@ and write the parameter of your database between each ' '.
 
 ## Features
 ### Public interface
-  * display posts’ list
-  * read a post
-  * contact form via phpmailer
-  * log in/log out
-  * write a comment in a post
+  *  display posts’ list
+  *  read a post
+  *  contact form via phpmailer
+  *  log in/log out
+  *  write a comment in a post
 
 ### Admin interface
-  * add a post
-  * update a post
-  * delete a post
-  * validate a comment
+  *  add a post
+  *  update a post
+  *  delete a post
+  *  validate a comment
 
 ## Credit
 banner-image: Canva.com

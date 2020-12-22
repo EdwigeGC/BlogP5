@@ -12,7 +12,6 @@ class Backend extends AbstractController
 
     public function adminAccess()
     {                                                       //admin access only authorized for "administrateur" role
-
         session_start();
         $superglobals = $this->getSuperglobals()->get_SESSION();
 
@@ -23,16 +22,19 @@ class Backend extends AbstractController
 
     public function admin()
     {
-
         $this->adminAccess();
         $posts = new PostManager;
-        $resultat = $posts->getPostsAdmin();
-        $resultat = $this->prepareListPost($resultat);
-        require 'App/views/backend/admin.php';
+        $postsList = $posts->getPostsAdmin();
+        $postsList = $this->prepareListPost($postsList);
+        echo $this->getRender()->render('admin.twig', [
+            'posts' => $postsList,
+            'session' => $this->getSuperglobals()->get_SESSION()        
+            ]);
+        //require 'App/views/backend/admin.php';
     }
 
     // Posts functions
-    public function modifyPostForm($postId)
+    public function updatePostForm($postId)
     {
         $this->adminAccess();
         $post = new PostManager;
@@ -40,7 +42,6 @@ class Backend extends AbstractController
         $comment = new CommentManager;
         $commentList = $comment->getComments($postId);
         $resultat['comment'] = [];
-
         foreach ($commentList as $key => $value) {
             if ($commentList[$key]['status'] === 'agreed') {
                 $resultat['comment'][] = $value;
@@ -48,7 +49,13 @@ class Backend extends AbstractController
         }
         $subtitle = "Modifier l'article";
         $action = '/updatePost';
-        require 'App/views/backend/postTemplate.php';
+        echo $this->getRender()->render('postTemplate.twig', [
+            'post' => $resultat,
+            'comments' => $resultat['comment'],
+            'subtitle' => $subtitle,
+            'action'=> $action, 
+        ]);
+        //require 'App/views/backend/postTemplate.php';
     }
 
     public function updatePost($superglobals)
@@ -60,7 +67,12 @@ class Backend extends AbstractController
         $titleAction = "Confirmation d'enregistrement";                            //confirmation message
         $actionConfirmation = "/admin";
         $textConfirmation = "Les modifications ont bien été enregistrées";
-        require 'App/views/backend/confirmationTemplate.php';
+        echo $this->getRender()->render('confirmationTemplate.twig', [
+            'titleAction' => $titleAction,
+            'actionConfirmation' => $actionConfirmation,
+            'textConfirmation' => $textConfirmation
+            ]);
+        //require 'App/views/backend/confirmationTemplate.php';
     }
 
     public function addPostForm()
@@ -69,7 +81,12 @@ class Backend extends AbstractController
         $posts = new PostManager;
         $subtitle = "Ajouter un article";
         $action = '/addPost';
-        require 'App/views/backend/postTemplate.php';
+        echo $this->getRender()->render('postTemplate.twig', [
+            'posts' => $posts,
+            'subtitle' => $subtitle,
+            'action' => $action
+            ]);
+        //require 'App/views/backend/postTemplate.php';
     }
 
     public function addPost()
@@ -79,7 +96,11 @@ class Backend extends AbstractController
         if (!empty($superglobals) && isset($superglobals)) {
             $newPost = new PostManager;
             $newPost->createPost($superglobals);
-            header('Location:/admin');
+            $subtitle = "Ajouter un article";
+            $success= "L'artcle a bien été ajouté";
+            echo $this->getRender()->render('postTemplate.twig', [
+                'success' => $success,
+                'subtitle' => $subtitle]);
         }
     }
 
@@ -90,11 +111,8 @@ class Backend extends AbstractController
         $post->deletePost($postId);
         $comment = new CommentManager;
         $comment->deleteComments($postId);
-
-        $titleAction = "Confirmation d'enregistrement";                            //confirmation message
-        $actionConfirmation = "/admin";
-        $textConfirmation = "L'article a bien été supprimé";
-        require 'App/views/backend/confirmationTemplate.php';
+        header('Location:/admin');
+        //require 'App/views/backend/confirmationTemplate.php';
     }
 
     // Comments functions
@@ -103,7 +121,10 @@ class Backend extends AbstractController
         $this->adminAccess();
         $comments = new CommentManager;
         $resultat = $comments->adminComments();
-        require 'App/views/backend/commentsManagerView.php';
+        echo $this->getRender()->render('commentsManagerView.twig', [
+            'resultat' => $resultat,
+            'session' => $this->getSuperglobals()->get_SESSION()]);
+        //require 'App/views/backend/commentsManagerView.php';
     }
 
     public function validateComment($commentId)
@@ -128,7 +149,11 @@ class Backend extends AbstractController
         $this->adminAccess();
         $posts = new UserManager;
         $resultat = $posts->getUsers();
-        require 'App/views/backend/usersManagerView.php';
+        echo $this->getRender()->render('usersManagerView.twig', [
+            'resultat' => $resultat,
+            'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        //require 'App/views/backend/usersManagerView.php';
     }
 
     public function userForm($userId)
@@ -138,7 +163,11 @@ class Backend extends AbstractController
         if (!empty($userId) && $superglobals['id'] == $userId) {
             $user = new UserManager;
             $resultat = $user->getUser($userId);
-            require 'App/views/backend/userAccountView.php';
+            echo $this->getRender()->render('userAccountView.twig', [
+                'resultat' => $resultat,
+                'session' => $superglobals
+                ]);
+            //require 'App/views/backend/userAccountView.php';
         }
     }
 
@@ -159,7 +188,7 @@ class Backend extends AbstractController
                     $titleAction = "Erreur";
                     $textConfirmation = "Le mot de passe modifé est déjà pris";
                     $actionConfirmation = "/userForm?id=" . $superglobalsSession['id'];
-                    require 'App/views/backend/confirmationTemplate.php';
+                    //require 'App/views/backend/confirmationTemplate.php';
                 }
             }
             if ($resultat['password'] != $superglobalsPost['password']) {
@@ -176,12 +205,24 @@ class Backend extends AbstractController
                 } else {
                     $actionConfirmation = "/home";
                 }
-                require 'App/views/backend/confirmationTemplate.php';
+                echo $this->getRender()->render('confirmationTemplate.twig', [
+                    'titleAction' => $titleAction,
+                    'actionConfirmation' => $actionConfirmation,
+                    'textConfirmation' => $textConfirmation,
+                    'session' => $superglobalsSession
+                    ]);
+                //require 'App/views/backend/confirmationTemplate.php';
             } else {
                 $titleAction = "Erreur";
                 $actionConfirmation = "/home";
                 $textConfirmation = "Problème lors de la mise à jour de vos informations.";
-                require 'App/views/backend/confirmationTemplate.php';
+                echo $this->getRender()->render('confirmationTemplate.twig', [
+                    'titleAction' => $titleAction,
+                    'actionConfirmation' => $actionConfirmation,
+                    'textConfirmation' => $textConfirmation,
+                    'session' => $superglobalsSession
+                    ]);
+                //require 'App/views/backend/confirmationTemplate.php';
             }
         }
     }
@@ -204,5 +245,9 @@ class Backend extends AbstractController
             htmlentities($superglobals['message'])
         );
         header('Location:/home');
+    }
+
+    public function errorPage(){
+        echo $this->getRender()->render('404.twig');
     }
 }

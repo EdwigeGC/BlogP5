@@ -1,4 +1,6 @@
-<?php ob_start() ?>
+{% extends 'templateBackend.twig' %}
+
+{% block content %}
 
 <div class="container">
 
@@ -20,25 +22,22 @@
                             <th scope="col"></th>
                         </tr>
                     </thead>
-                    <?php foreach ($resultat as $tab) { ?>
+                    {% for tab in resultat %}
                         <tbody>
                             <tr>
-                                <td><?= htmlentities($tab['login']) ?></td>
-                                <td><?= htmlentities($tab['e_mail']) ?></td>
-                                <td><?= htmlentities($tab['role']) ?></td>
+                                <td>{{ tab.login }}</td>
+                                <td>{{ tab.e_mail }}</td>
+                                <td>{{ tab.role }}</td>
                                 <td>
-                                    <a class="btn btn-pink" href="/deleteUser?id=<?= $tab['id'] ?>" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur?')">Supprimer</a>
+                                    <a class="btn btn-pink" href="/deleteUser?id={{ tab.id }}" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur?')">Supprimer</a>
                                 </td>
                             </tr>
                         <tbody>
-                        <?php }  ?>
+                    {% endfor %}
                 </table>
             </div>
         </div>
     </div>
-
 </div>
 
-<?php $content = ob_get_clean();
-
-require 'templateBackend.php' ?>
+{% endblock %}

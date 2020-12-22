@@ -10,7 +10,8 @@ class Login extends AbstractController
     //access to connection page
     public function login()
     {
-        require 'App/views/frontend/loginView.php';
+
+        echo $this->getRender()->render('loginView.twig');
     }
 
     public function connexion()
@@ -31,11 +32,13 @@ class Login extends AbstractController
                 }
             } else {
                 $failed = "Erreur login et/ou mot de passe";
-                require 'App/views/frontend/loginView.php';
+                echo $this->getRender()->render('loginView.twig', ['failed' => $failed]);
+                //require 'App/views/frontend/loginView.php';
             }
         } else {
             $failed = "Tous les champs sont requis";
-            require 'App/views/frontend/loginView.php';
+            echo $this->getRender()->render('loginView.twig', ['failed' => $failed]);
+            //require 'App/views/frontend/loginView.php';
         }
     }
 
@@ -70,19 +73,27 @@ class Login extends AbstractController
                 $errors['password'] = "Votre mot de passe n'est pas valide";
             }
             if (!empty($errors)) {
-                require 'App/views/frontend/loginView.php';
+                echo $this->getRender()->render('loginView.twig', ['errors' => $errors]);
+                //require 'App/views/frontend/loginView.php';
             }
             if (empty($errors)) {
                 $superglobals['password'] = password_hash($superglobals['password'], PASSWORD_BCRYPT);
                 $superglobals['role'] = "visiteur";
                 $newUser->createUser($superglobals);
-                require 'App/views/frontend/loginView.php';
+                $success= "Votre compte a bien été créé. Vous pouvez vous connecter dès maintenant.";
+                echo $this->getRender()->render('loginView.twig', ['success'=> $success]);
+                //require 'App/views/frontend/loginView.php';
             }
         } else {
             $titleAction = "Erreur";                                                    //error message
             $actionConfirmation = "/connexion";
             $textConfirmation = "Erreur lors de l'enrgistrement de vos informations. Merci de réitérer l'opération.";
-            require 'App/views/backend/confirmationTemplate.php';
+            echo $this->getRender()->render('confirmationTemplate.twig', [
+                'titleAction' => $titleAction,
+                'actionConfirmation' => $actionConfirmation,
+                'textConfirmation' => $textConfirmation
+                ]);
+            //require 'App/views/backend/confirmationTemplate.php';
         }
     }
 

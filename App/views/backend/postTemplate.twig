@@ -1,41 +1,56 @@
-<?php ob_start(); ?>
+{% extends 'templateBackend.twig' %}
+
+{% block content %}
 
 <div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <a class="link-style" href="/admin"><i class="fas fa-undo-alt"></i> Retour à la liste des articles</a>
+        </div>
+    </div>
+
+    {% if success is defined and success is not null %}
+        <div class="alert alert-success">
+            <p>{{ success }}</p>
+        </div>
+    {% endif %}
+
     <div class="py-5 text-center">
-        <h2><?= $subtitle ?></h2>
+        <h2>{{ subtitle }}</h2>
     </div>
 
     <div class="row">
 
         <div class="col-md-12">
-            <form class="needs-validation" method="POST" action="<?= $action ?>" novalidate>
+            <form class="needs-validation" method="POST" action="{{ action }}">
 
                 <div class="col-md-12">
-                    <input type="hidden" name="id" value="<?= htmlentities($resultat['id']) ?>" required>
+                    <input type="hidden" name="id" value="{{ post.id }}" required>
                 </div>
 
                 <div class="col-md-12">
                     <label for="title">Titre de l'article</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="title" name="title" value="<?= htmlentities($resultat['title']) ?>" required>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}" required>
                     </div>
                 </div>
 
                 <div class="col-md-12">
                     <label for="author">Nom de l'auteur</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="author" name="author" value="<?= htmlentities($resultat['author']) ?>" required>
+                        <input type="text" class="form-control" id="author" name="author" value="{{ post.author }}" required>
                     </div>
                 </div>
 
                 <div class="col-md-12">
                     <label for="chapo">Chapô</label>
-                    <textarea class="form-control medium-content" id="chapo" name="chapo" required> <?= htmlentities($resultat['chapo']) ?></textarea>
+                    <textarea class="form-control medium-content" id="chapo" name="chapo" required>{{ post.chapo }}</textarea>
                 </div>
 
                 <div class="col-md-12">
                     <label for="content">Contenu</label>
-                    <textarea class="form-control big-content" id="content" name="content" required><?= htmlentities($resultat['content']) ?></textarea>
+                    <textarea class="form-control big-content" id="content" name="content" required>{{ post.content }}</textarea>
                 </div>
 
                 <hr class="col-md-12">
@@ -43,18 +58,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="published" name="published" value="Publié" required <?php if (isset($resultat['published'])) {
-                                                                                                                                            if ($resultat['published'] == "Publié") { ?> checked <?php }
-                                                                                                                                        } ?>>
+                            <input type="radio" class="custom-control-input" id="published" name="published" value="Publié" required {% if post.published == "Publié" %} checked {% endif %}}>
                             <label class="custom-control-label" for="published">Publier l'article</label>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" id="no-published" name="published" value="Non publié" required <?php if (isset($resultat['published'])) {
-                                                                                                                                                if ($resultat['published'] == "Non publié") { ?> checked <?php }
-                                                                                                                                            } ?>>
+                            <input type="radio" class="custom-control-input" id="no-published" name="published" value="Non publié" required {% if post.published == "Non publié" %} checked {% endif %}}>
                             <label class="custom-control-label" for="no-published">Enregistrer sans publier</label>
                         </div>
                     </div>
@@ -68,21 +79,21 @@
 
     <div class="row">
         <h3>Commentaires publiés</h3>
-        <?php foreach ($resultat['comment'] as $key => $value) { ?>
+        {% for key, tab in comments %}
             <div class="col-md-12">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
-                        <p>De <?= htmlentities($value['author']) ?>, le <?= $value['comment_date_fr'] ?></p>
-                        <p class="card-text"><?= nl2br(htmlentities($value['message'])) ?></p>
+                        <p>De {{ tab.author }}, le {{ tab.comment_date_fr }}</p>
+                        <p class="card-text">{{ tab.message }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                         </div>
                     </div>
                     <div class="btn-group">
-                        <a class="btn btn-sm btn-danger" href="/deleteComment?id=<?= $value['id'] ?>" onclick="return confirm('Voulez-vous vraiment supprimer cet article?')">Supprimer le commentaire</a>
+                        <a class="btn btn-sm btn-danger" href="/deleteComment?id={{ tab.id }}" onclick="return confirm('Voulez-vous vraiment supprimer cet article?')">Supprimer le commentaire</a>
                     </div>
                 </div>
             </div>
-        <?php }  ?>
+        {% endfor %}
     </div>
 </div>
 
@@ -94,6 +105,4 @@
 <script src="App/public/form-validation.js"></script>
 </body>
 
-
-<?php $content = ob_get_clean();
-require 'templateBackend.php'; ?>
+{% endblock %}

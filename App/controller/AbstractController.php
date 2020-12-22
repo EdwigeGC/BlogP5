@@ -2,6 +2,7 @@
 
 namespace App\controller;
 
+use App\entity\Renderer;
 use App\entity\Superglobals;
 
 class AbstractController
@@ -34,4 +35,16 @@ class AbstractController
         unset($post['modification_date_fr']);
         return $post;
     }
+
+    public function getRender() {
+        return new Renderer();
+    }
+
+    public function activeSession()
+    { 
+        session_start();
+        $currentSession= $this->getSuperglobals->get_SESSION;
+        return $currentSession;
+    }
 }
+

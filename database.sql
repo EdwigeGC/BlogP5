@@ -121,17 +121,17 @@ ALTER TABLE "user"
 --
 -- AUTO_INCREMENT for table `comment`
 --
-ALTER TABLE `comment`
+ALTER TABLE "comment"
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
-ALTER TABLE `post`
+ALTER TABLE "post"
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
-ALTER TABLE `user`
+ALTER TABLE "user"
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;

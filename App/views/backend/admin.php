@@ -38,7 +38,7 @@
                                 <td><?= htmlentities($tab['published']) ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-green" href="/modifyPost?id=<?= $tab['id'] ?>">Modifier</a>
+                                        <a class="btn btn-green" href="/updatePostForm?id=<?= $tab['id'] ?>">Modifier</a>
                                     </div>
                                     <div class="btn-group">
                                         <a class="btn btn-pink" href="/deletePost?id=<?= $tab['id'] ?>" onclick="return confirm('Voulez-vous vraiment supprimer cet article?')">Supprimer</a>

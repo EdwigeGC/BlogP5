@@ -54,8 +54,8 @@
             </ul>
 
 
-            {% if session.login == true %}
-                <a class="p-2 session-text" href="/userForm?id={{ session.login }}">Bienvenue {{ session.login }}</a>
+            {% if session.login is defined and session.login is not null %}
+                <a class="p-2 session-text" href="/userForm?id={{ session.id }}">Bienvenue {{ session.login }}</a>
 
                 <a class="btn btn-pink" href="/logOut">Déconnexion</a>
             {% else %}

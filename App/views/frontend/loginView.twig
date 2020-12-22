@@ -8,7 +8,7 @@
         <form class="form-signin" method="POST" action="/connexion">
             <h1 class="h3 mb-3 font-weight-normal">Connectez-vous</h1>
 
-            {% if failed is defined %}
+            {% if failed is defined and failed is not null %}
                     <div class="alert alert-danger">
                        <p>{{ failed }}</p>
                     </div>
@@ -27,7 +27,7 @@
         <div class="col-md-8 order-md-1">
             <h2 class="h3 mb-3 font-weight-normal">Créer un compte</h2>
             <form class="needs-validation" method="POST" action="/addUser">
-                {% if errors is defined %}
+                {% if errors is defined and errors is not null %}
                     <div class="alert alert-danger">
                         <p>Le formulaire est incomplet. Merci de corriger les erreurs suivantes:</p>
                         <ul>
@@ -37,9 +37,9 @@
                         </ul>
                     </div>
     
-                {% elseif errors is defined and errors == true %}
+                {% elseif success is defined and success is not null %}
                     <div class="alert alert-success">
-                        <p>Votre compte a bien été créé. Vous pouvez vous connecter dès maintenant.</p>
+                        <p>{{ success }}</p>
                     </div>
                 {% endif %}
             

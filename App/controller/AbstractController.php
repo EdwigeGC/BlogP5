@@ -39,4 +39,12 @@ class AbstractController
     public function getRender() {
         return new Renderer();
     }
+
+    public function activeSession()
+    { 
+        session_start();
+        $currentSession= $this->getSuperglobals->get_SESSION;
+        return $currentSession;
+    }
 }
+

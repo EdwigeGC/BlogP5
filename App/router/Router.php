@@ -73,10 +73,9 @@ class Router
             } else if ($this->url == '/addPost') {
                 $controller = new Backend();
                 $controller->addPost();
-            } else if ($this->url == '/modifyPost') {
-
+            } else if ($this->url == '/updatePostForm') {
                 $controller = new Backend();
-                $controller->modifyPostForm($superglobalGet['id']);
+                $controller->updatePostForm($superglobalGet['id']);
             } else if ($this->url == '/updatePost') {
                 $controller = new Backend();
                 $controller->updatePost($superglobalGet['id']);

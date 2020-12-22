@@ -15,6 +15,7 @@ class Renderer {
         $loader = new \Twig\Loader\FilesystemLoader(['App/views/backend', 'App/views/frontend', 'App/views/templates']);
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
+            'debug' => true
         ]);
         dump('TWIG MARCHE');
         return $twig->render($view, $param);

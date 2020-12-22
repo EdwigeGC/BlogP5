@@ -8,7 +8,7 @@
             <div class="col-lg-12">
                 <a class="link-style" href="/listPosts"><i class="fas fa-undo-alt"></i> Retour à la liste des articles</a>
             </div>
-        </div>
+    </div>
 
         <div class="row">
             <div class="col-md-12">
@@ -25,12 +25,14 @@
 
         <div class="row">
             <h3 id='comment-anchor'>Commentaires</h3>
-            {% for tab in comments %}
-                {% if tab.status == "agreed") %}
+            
+            {% for key, tab in comments %}
+
+                {% if tab.status == "agreed" %}
                 <div class="col-md-12">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
-                            <p>De {{ tab.author }}, le {{ tab.date }}</p>
+                            <p>De {{ tab.author }}, le {{ tab.comment_date_fr }}</p>
                             <p class="card-text">{{ tab.message }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                             </div>

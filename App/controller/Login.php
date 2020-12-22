@@ -80,8 +80,8 @@ class Login extends AbstractController
                 $superglobals['password'] = password_hash($superglobals['password'], PASSWORD_BCRYPT);
                 $superglobals['role'] = "visiteur";
                 $newUser->createUser($superglobals);
-                $success= "Votre compte a bien été créé. Vous pouvez vous connecter dès maintenant.";
-                echo $this->getRender()->render('loginView.twig', ['success'=> $success]);
+                $success = "Votre compte a bien été créé. Vous pouvez vous connecter dès maintenant.";
+                echo $this->getRender()->render('loginView.twig', ['success' => $success]);
                 //require 'App/views/frontend/loginView.php';
             }
         } else {
@@ -92,7 +92,7 @@ class Login extends AbstractController
                 'titleAction' => $titleAction,
                 'actionConfirmation' => $actionConfirmation,
                 'textConfirmation' => $textConfirmation
-                ]);
+            ]);
             //require 'App/views/backend/confirmationTemplate.php';
         }
     }

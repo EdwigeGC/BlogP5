@@ -2,22 +2,24 @@
 
 namespace App\entity;
 
-class Renderer {
+class Renderer
+{
 
     private $renderer;
-    private $path; 
+    private $path;
 
-    public function addPath(string $namespace, ?string $path): void {
+    public function addPath(string $namespace, ?string $path): void
+    {
         $this->path[$namespace] = $path;
     }
 
-    public function render(string $view, $param = []) {
+    public function render(string $view, $param = [])
+    {
         $loader = new \Twig\Loader\FilesystemLoader(['App/views/backend', 'App/views/frontend', 'App/views/templates']);
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
             'debug' => true
         ]);
-        dump('TWIG MARCHE');
         return $twig->render($view, $param);
     }
 }

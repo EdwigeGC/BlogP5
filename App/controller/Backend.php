@@ -28,8 +28,8 @@ class Backend extends AbstractController
         $postsList = $this->prepareListPost($postsList);
         echo $this->getRender()->render('admin.twig', [
             'posts' => $postsList,
-            'session' => $this->getSuperglobals()->get_SESSION()        
-            ]);
+            'session' => $this->getSuperglobals()->get_SESSION()
+        ]);
         //require 'App/views/backend/admin.php';
     }
 
@@ -53,7 +53,7 @@ class Backend extends AbstractController
             'post' => $resultat,
             'comments' => $resultat['comment'],
             'subtitle' => $subtitle,
-            'action'=> $action, 
+            'action' => $action,
         ]);
         //require 'App/views/backend/postTemplate.php';
     }
@@ -71,7 +71,7 @@ class Backend extends AbstractController
             'titleAction' => $titleAction,
             'actionConfirmation' => $actionConfirmation,
             'textConfirmation' => $textConfirmation
-            ]);
+        ]);
         //require 'App/views/backend/confirmationTemplate.php';
     }
 
@@ -85,7 +85,7 @@ class Backend extends AbstractController
             'posts' => $posts,
             'subtitle' => $subtitle,
             'action' => $action
-            ]);
+        ]);
         //require 'App/views/backend/postTemplate.php';
     }
 
@@ -97,10 +97,11 @@ class Backend extends AbstractController
             $newPost = new PostManager;
             $newPost->createPost($superglobals);
             $subtitle = "Ajouter un article";
-            $success= "L'artcle a bien été ajouté";
+            $success = "L'artcle a bien été ajouté";
             echo $this->getRender()->render('postTemplate.twig', [
                 'success' => $success,
-                'subtitle' => $subtitle]);
+                'subtitle' => $subtitle
+            ]);
         }
     }
 
@@ -123,7 +124,8 @@ class Backend extends AbstractController
         $resultat = $comments->adminComments();
         echo $this->getRender()->render('commentsManagerView.twig', [
             'resultat' => $resultat,
-            'session' => $this->getSuperglobals()->get_SESSION()]);
+            'session' => $this->getSuperglobals()->get_SESSION()
+        ]);
         //require 'App/views/backend/commentsManagerView.php';
     }
 
@@ -152,7 +154,7 @@ class Backend extends AbstractController
         echo $this->getRender()->render('usersManagerView.twig', [
             'resultat' => $resultat,
             'session' => $this->getSuperglobals()->get_SESSION()
-            ]);
+        ]);
         //require 'App/views/backend/usersManagerView.php';
     }
 
@@ -166,7 +168,7 @@ class Backend extends AbstractController
             echo $this->getRender()->render('userAccountView.twig', [
                 'resultat' => $resultat,
                 'session' => $superglobals
-                ]);
+            ]);
             //require 'App/views/backend/userAccountView.php';
         }
     }
@@ -210,7 +212,7 @@ class Backend extends AbstractController
                     'actionConfirmation' => $actionConfirmation,
                     'textConfirmation' => $textConfirmation,
                     'session' => $superglobalsSession
-                    ]);
+                ]);
                 //require 'App/views/backend/confirmationTemplate.php';
             } else {
                 $titleAction = "Erreur";
@@ -221,7 +223,7 @@ class Backend extends AbstractController
                     'actionConfirmation' => $actionConfirmation,
                     'textConfirmation' => $textConfirmation,
                     'session' => $superglobalsSession
-                    ]);
+                ]);
                 //require 'App/views/backend/confirmationTemplate.php';
             }
         }
@@ -247,7 +249,8 @@ class Backend extends AbstractController
         header('Location:/home');
     }
 
-    public function errorPage(){
+    public function errorPage()
+    {
         echo $this->getRender()->render('404.twig');
     }
 }

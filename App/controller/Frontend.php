@@ -15,8 +15,8 @@ class Frontend extends AbstractController
         $resultat = $posts->getPosts(4);
         echo $this->getRender()->render('homeView.twig', [
             'resultat' => $resultat,
-            'session'=> $this->getSuperglobals()->get_SESSION()
-            ]);
+            'session' => $this->getSuperglobals()->get_SESSION()
+        ]);
         //require 'App/views/frontend/homeView.php';
     }
 
@@ -41,10 +41,10 @@ class Frontend extends AbstractController
         $comment = new CommentManager;
         $res = $comment->getComments($postId);
         echo $this->getRender()->render('postView.twig', [
-            'post' => $resultat, 
+            'post' => $resultat,
             'comments' => $res,
             'session' => $this->getSuperglobals()->get_SESSION()
-            ]);
+        ]);
         //require 'App/views/frontend/postView.php';
     }
 

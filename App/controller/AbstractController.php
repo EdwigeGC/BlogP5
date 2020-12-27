@@ -2,8 +2,8 @@
 
 namespace App\controller;
 
-use App\entity\Renderer;
-use App\entity\Superglobals;
+use App\utilities\Renderer;
+use App\utilities\Superglobals;
 
 class AbstractController
 {

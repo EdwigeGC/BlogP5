@@ -5,7 +5,7 @@ namespace App\controller;
 use App\model\PostManager;
 use App\model\CommentManager;
 use App\model\UserManager;
-use App\model\ContactManager;
+use App\utilities\ContactConfiguration;
 
 class Backend extends AbstractController
 {
@@ -240,7 +240,7 @@ class Backend extends AbstractController
     public function sendMail()
     {
         $superglobals = $this->getSuperglobals()->get_POST();
-        $mail = new ContactManager;
+        $mail = new ContactConfiguration;
         $mail->sendMail(
             htmlentities($superglobals['name']),
             htmlentities($superglobals['email']),

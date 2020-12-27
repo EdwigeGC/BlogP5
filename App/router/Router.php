@@ -5,9 +5,7 @@ namespace App\router;
 use App\controller\Backend;
 use App\controller\Frontend;
 use App\controller\Login;
-use App\entity\Superglobals;
-
-
+use App\utilities\Superglobals;
 
 class Router
 {

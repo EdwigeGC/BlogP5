@@ -1,12 +1,12 @@
 <?php
 
-namespace App\model;
+namespace App\utilities;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class ContactManager
+class ContactConfiguration
 {
     public function sendMail($name,  $email, $message)
     {

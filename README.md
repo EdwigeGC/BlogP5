@@ -11,18 +11,20 @@ Installation of the project, requires:
   *  HTML 5
   *  CSS 3
   *  Bootstrap 4.5.3
-  *  MySQL
+  *  MySQL version 5.7.26
   *  Apache Server 2.2.34
   *  Composer 2.0
+  *  Twig 2.13
+  *  PHPMailer 6.2
 
 ### Installation
  1. Copy the link on GitHub and clone it on your local repository
  2. Install Composer
- 3. Create a class in App/entity named __DatabaseConstant.php__ like this:
+ 3. Create a class in App/utilities named __DatabaseConstant.php__ like this:
 
 ```
 <?php 
-namespace App\entity;
+namespace App\utilities;
 
 final class DatabaseConstant {
     const HOST= '';

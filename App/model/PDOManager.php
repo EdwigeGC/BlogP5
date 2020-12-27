@@ -2,7 +2,7 @@
 
 namespace App\model;
 
-use App\entity\DatabaseConstant;
+use App\utilities\DatabaseConstant;
 
 class PDOManager
 {

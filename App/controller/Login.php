@@ -33,12 +33,10 @@ class Login extends AbstractController
             } else {
                 $failed = "Erreur login et/ou mot de passe";
                 echo $this->getRender()->render('loginView.twig', ['failed' => $failed]);
-                //require 'App/views/frontend/loginView.php';
             }
         } else {
             $failed = "Tous les champs sont requis";
             echo $this->getRender()->render('loginView.twig', ['failed' => $failed]);
-            //require 'App/views/frontend/loginView.php';
         }
     }
 

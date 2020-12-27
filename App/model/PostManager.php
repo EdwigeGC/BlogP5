@@ -4,7 +4,6 @@ namespace App\model;
 
 use App\model\PDOManager;
 use PDO;
-use App\entity\Post;
 use Exception;
 
 class PostManager

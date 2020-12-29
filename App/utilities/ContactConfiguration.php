@@ -5,6 +5,7 @@ namespace App\utilities;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use App\utilities\ContactConstant;
 
 class ContactConfiguration
 {
@@ -15,16 +16,16 @@ class ContactConfiguration
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;
             //Ask PHPMailer to use SMTP
             $mail->IsSMTP();
-            $mail->Host = 'smtp.mail.com';                             //SMTP name
+            $mail->Host = ContactConstant::HOST;                             //SMTP name
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'username@mail.com';                    // SMTP username
-            $mail->Password   = 'password';                             // SMTP password
+            $mail->Username   = ContactConstant::USERNAME;                    // SMTP username
+            $mail->Password   = ContactConstant::PASSWORD;                             // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
             $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
             //Recipients
             $mail->setFrom($email, $name);
-            $mail->addAddress('username@mail.com');    //add recipient e-mail adress
+            $mail->addAddress(ContactConstant::USERNAME);    //add recipient e-mail adress
 
             // Content
 

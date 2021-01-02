@@ -4,7 +4,8 @@
             "App\\router\\": "App/router",
             "App\\controller\\": "App/controller",
             "App\\utilities\\": "App/utilities",
-            "App\\model\\": "App/model"
+            "App\\model\\": "App/model",
+            "App\\entity\\": "App/entity"
         }
     },
 

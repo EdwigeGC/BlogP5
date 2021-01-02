@@ -25,12 +25,10 @@ class Backend extends AbstractController
         $this->adminAccess();
         $posts = new PostManager;
         $postsList = $posts->getPostsAdmin();
-        $postsList = $this->prepareListPost($postsList);
         echo $this->getRender()->render('admin.twig', [
             'posts' => $postsList,
             'session' => $this->getSuperglobals()->get_SESSION()
         ]);
-        //require 'App/views/backend/admin.php';
     }
 
     // Posts functions
@@ -41,21 +39,20 @@ class Backend extends AbstractController
         $resultat = $post->getPostAdmin($postId);
         $comment = new CommentManager;
         $commentList = $comment->getComments($postId);
-        $resultat['comment'] = [];
+        $commentAgreed = [];
         foreach ($commentList as $key => $value) {
             if ($commentList[$key]['status'] === 'agreed') {
-                $resultat['comment'][] = $value;
+                $commentAgreed[] = $value;
             }
         }
         $subtitle = "Modifier l'article";
         $action = '/updatePost';
         echo $this->getRender()->render('postTemplate.twig', [
             'post' => $resultat,
-            'comments' => $resultat['comment'],
+            'comments' => $commentAgreed,
             'subtitle' => $subtitle,
             'action' => $action,
         ]);
-        //require 'App/views/backend/postTemplate.php';
     }
 
     public function updatePost($superglobals)
@@ -72,7 +69,6 @@ class Backend extends AbstractController
             'actionConfirmation' => $actionConfirmation,
             'textConfirmation' => $textConfirmation
         ]);
-        //require 'App/views/backend/confirmationTemplate.php';
     }
 
     public function addPostForm()
@@ -86,7 +82,6 @@ class Backend extends AbstractController
             'subtitle' => $subtitle,
             'action' => $action
         ]);
-        //require 'App/views/backend/postTemplate.php';
     }
 
     public function addPost()
@@ -113,7 +108,6 @@ class Backend extends AbstractController
         $comment = new CommentManager;
         $comment->deleteComments($postId);
         header('Location:/admin');
-        //require 'App/views/backend/confirmationTemplate.php';
     }
 
     // Comments functions
@@ -126,7 +120,6 @@ class Backend extends AbstractController
             'resultat' => $resultat,
             'session' => $this->getSuperglobals()->get_SESSION()
         ]);
-        //require 'App/views/backend/commentsManagerView.php';
     }
 
     public function validateComment($commentId)
@@ -155,7 +148,6 @@ class Backend extends AbstractController
             'resultat' => $resultat,
             'session' => $this->getSuperglobals()->get_SESSION()
         ]);
-        //require 'App/views/backend/usersManagerView.php';
     }
 
     public function userForm($userId)
@@ -169,7 +161,6 @@ class Backend extends AbstractController
                 'resultat' => $resultat,
                 'session' => $superglobals
             ]);
-            //require 'App/views/backend/userAccountView.php';
         }
     }
 
@@ -190,7 +181,6 @@ class Backend extends AbstractController
                     $titleAction = "Erreur";
                     $textConfirmation = "Le mot de passe modifé est déjà pris";
                     $actionConfirmation = "/userForm?id=" . $superglobalsSession['id'];
-                    //require 'App/views/backend/confirmationTemplate.php';
                 }
             }
             if ($resultat['password'] != $superglobalsPost['password']) {
@@ -213,7 +203,6 @@ class Backend extends AbstractController
                     'textConfirmation' => $textConfirmation,
                     'session' => $superglobalsSession
                 ]);
-                //require 'App/views/backend/confirmationTemplate.php';
             } else {
                 $titleAction = "Erreur";
                 $actionConfirmation = "/home";
@@ -224,7 +213,6 @@ class Backend extends AbstractController
                     'textConfirmation' => $textConfirmation,
                     'session' => $superglobalsSession
                 ]);
-                //require 'App/views/backend/confirmationTemplate.php';
             }
         }
     }

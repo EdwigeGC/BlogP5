@@ -17,7 +17,6 @@ class Frontend extends AbstractController
             'resultat' => $resultat,
             'session' => $this->getSuperglobals()->get_SESSION()
         ]);
-        //require 'App/views/frontend/homeView.php';
     }
 
     public function posts()
@@ -25,27 +24,30 @@ class Frontend extends AbstractController
         session_start();
         $posts = new PostManager;
         $resultat = $posts->getPosts(100);
-        $resultat = $this->prepareListPost($resultat);
         echo $this->getRender()->render('listPostsView.twig', [
             'posts' => $resultat,
             'session' => $this->getSuperglobals()->get_SESSION()
         ]);
-        //require 'App/views/frontend/listPostsView.php';
     }
 
     public function post($postId)
     {
         session_start();
         $post = new PostManager;
-        $resultat = $this->dateChoice($post->getPost($postId));
+        $resultat = $post->getPost($postId);
         $comment = new CommentManager;
         $res = $comment->getComments($postId);
-        echo $this->getRender()->render('postView.twig', [
-            'post' => $resultat,
-            'comments' => $res,
-            'session' => $this->getSuperglobals()->get_SESSION()
-        ]);
-        //require 'App/views/frontend/postView.php';
+        if(!empty($resultat)){
+            echo $this->getRender()->render('postView.twig', [
+                'post' => $resultat,
+                'comments' => $res,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);    
+        }
+        else{
+            echo $this->getRender()->render('404.twig');
+        }
+        
     }
 
     public function addComment()
@@ -67,7 +69,6 @@ class Frontend extends AbstractController
             'textConfirmation' => $textConfirmation,
             'session' => $this->getSuperglobals()->get_SESSION()
         ]);
-        //require 'App/views/backend/confirmationTemplate.php';
     }
 
     public function legalesMentions()

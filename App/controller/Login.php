@@ -4,16 +4,26 @@ namespace App\controller;
 
 use App\model\UserManager;
 
+/**
+ * Groups all the functions used for connecting to a user account
+ */
 class Login extends AbstractController
 {
 
-    //access to connection page
+    /**
+     * Displays forms for login or creation a user account
+     *
+     */
     public function login()
     {
 
         echo $this->getRender()->render('loginView.twig');
     }
 
+    /**
+     * Function used to check connection datas and open a session
+     *
+     */
     public function connexion()
     {
         $superglobalsPost = $this->getSuperglobals()->get_POST();
@@ -40,10 +50,12 @@ class Login extends AbstractController
         }
     }
 
-    //to create a user account
+    /**
+     * Function used to create a user account and manage errors (duplicate, empty filed...)
+     *
+     */
     public function addUser()
     {
-
         $superglobals = $this->getSuperglobals()->get_POST();
 
         //errors management: check for validity before asking database
@@ -72,7 +84,6 @@ class Login extends AbstractController
             }
             if (!empty($errors)) {
                 echo $this->getRender()->render('loginView.twig', ['errors' => $errors]);
-                //require 'App/views/frontend/loginView.php';
             }
             if (empty($errors)) {
                 $superglobals['password'] = password_hash($superglobals['password'], PASSWORD_BCRYPT);
@@ -80,7 +91,6 @@ class Login extends AbstractController
                 $newUser->createUser($superglobals);
                 $success = "Votre compte a bien été créé. Vous pouvez vous connecter dès maintenant.";
                 echo $this->getRender()->render('loginView.twig', ['success' => $success]);
-                //require 'App/views/frontend/loginView.php';
             }
         } else {
             $titleAction = "Erreur";                                                    //error message
@@ -91,10 +101,13 @@ class Login extends AbstractController
                 'actionConfirmation' => $actionConfirmation,
                 'textConfirmation' => $textConfirmation
             ]);
-            //require 'App/views/backend/confirmationTemplate.php';
         }
     }
 
+    /**
+     * Function used to log out of the user account and close session
+     *
+     */
     public function logOut()
     {
         session_start();

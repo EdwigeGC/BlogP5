@@ -3,3 +3,4 @@ App/public/bootstrap-4.5.3/
 App/utilities/DatabaseConstant.php
 App/views/*/*.php
 App/utilities/ContactConstant.php
+.phpdoc/*

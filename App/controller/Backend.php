@@ -7,11 +7,18 @@ use App\model\CommentManager;
 use App\model\UserManager;
 use App\utilities\ContactConfiguration;
 
+/**
+ * Groups all the functions used in backend side
+ */
 class Backend extends AbstractController
 {
 
+    /**
+     * Function which authorize access to administration functions to administrator only
+     *
+     */
     public function adminAccess()
-    {                                                       //admin access only authorized for "administrateur" role
+    {
         session_start();
         $superglobals = $this->getSuperglobals()->get_SESSION();
 
@@ -20,6 +27,10 @@ class Backend extends AbstractController
         }
     }
 
+    /**
+     * Administration page: display list of all the posts created
+     * 
+     */
     public function admin()
     {
         $this->adminAccess();
@@ -32,7 +43,13 @@ class Backend extends AbstractController
     }
 
     // Posts functions
-    public function updatePostForm($postId)
+
+    /**
+     * Display the form to edit a post
+     *
+     * @param int $postId
+     */
+    public function updatePostForm(int $postId)
     {
         $this->adminAccess();
         $post = new PostManager;
@@ -55,7 +72,11 @@ class Backend extends AbstractController
         ]);
     }
 
-    public function updatePost($superglobals)
+    /**
+     * Function used to save post's changes required by the administrator
+     *
+     */
+    public function updatePost()
     {
         $this->adminAccess();
         $superglobals = $this->getSuperglobals()->get_POST();
@@ -71,6 +92,10 @@ class Backend extends AbstractController
         ]);
     }
 
+    /**
+     * Display the form to add a post
+     *
+     */
     public function addPostForm()
     {
         $this->adminAccess();
@@ -84,23 +109,42 @@ class Backend extends AbstractController
         ]);
     }
 
+    /**
+     * Function used to save new post recorded by the administrator
+     *
+     */
     public function addPost()
     {
         $this->adminAccess();
         $superglobals = $this->getSuperglobals()->get_POST();
         if (!empty($superglobals) && isset($superglobals)) {
             $newPost = new PostManager;
-            $newPost->createPost($superglobals);
+            $isCreated = $newPost->createPost($superglobals);
             $subtitle = "Ajouter un article";
-            $success = "L'artcle a bien été ajouté";
-            echo $this->getRender()->render('postTemplate.twig', [
-                'success' => $success,
-                'subtitle' => $subtitle
-            ]);
+            if ($isCreated) {
+                $success = "L'article a bien été ajouté";
+                echo $this->getRender()->render('postTemplate.twig', [
+                    'message' => $success,
+                    'subtitle' => $subtitle,
+                    'class' => 'alert-success'
+                ]);
+            } else {
+                $error = "Erreur";
+                echo $this->getRender()->render('postTemplate.twig', [
+                    'message' => $error,
+                    'subtitle' => $subtitle,
+                    'class' => 'alert-danger'
+                ]);
+            }
         }
     }
 
-    public function deletePost($postId)
+    /**
+     * Function used to delete a post
+     *
+     * @param int $postId
+     */
+    public function deletePost(int $postId)
     {
         $this->adminAccess();
         $post = new PostManager;
@@ -111,6 +155,11 @@ class Backend extends AbstractController
     }
 
     // Comments functions
+
+    /**
+     * Display comments list to validate/delete by administrator before publishing them
+     *
+     */
     public function adminCommentsList()
     {
         $this->adminAccess();
@@ -122,7 +171,12 @@ class Backend extends AbstractController
         ]);
     }
 
-    public function validateComment($commentId)
+    /**
+     * Function used to agreed a comment's post
+     *
+     * @param int $commentId
+     */
+    public function validateComment(int $commentId)
     {
         $this->adminAccess();
         $newComment = new CommentManager;
@@ -130,7 +184,12 @@ class Backend extends AbstractController
         header('Location:/commentsManagerView');
     }
 
-    public function deleteComment($commentId)
+    /**
+     * Function used to delete a comment
+     *
+     * @param integer $commentId
+     */
+    public function deleteComment(int $commentId)
     {
         $this->adminAccess();
         $comment = new CommentManager;
@@ -139,6 +198,11 @@ class Backend extends AbstractController
     }
 
     // Users functions   
+
+    /**
+     * Display the list of all users account.
+     *
+     */
     public function usersList()
     {
         $this->adminAccess();
@@ -150,7 +214,12 @@ class Backend extends AbstractController
         ]);
     }
 
-    public function userForm($userId)
+    /**
+     * Display the form to edit user's information. Each one can access to his own information.
+     *
+     * @param int $userId
+     */
+    public function userForm(int $userId)
     {
         session_start();
         $superglobals = $this->getSuperglobals()->get_SESSION();
@@ -164,6 +233,10 @@ class Backend extends AbstractController
         }
     }
 
+    /**
+     * Function used to save user's information change
+     *
+     */
     public function updateUser()
     {
         session_start();
@@ -217,7 +290,12 @@ class Backend extends AbstractController
         }
     }
 
-    public function deleteUser($userId)
+    /**
+     * Function used to delete a user account
+     *
+     * @param int $userId
+     */
+    public function deleteUser(int $userId)
     {
         $this->adminAccess();
         $user = new UserManager;
@@ -225,6 +303,12 @@ class Backend extends AbstractController
         header('Location:/usersManagerView');
     }
 
+    // Contact form functions
+
+    /**
+     * Function used to get datas from the contact form
+     *
+     */
     public function sendMail()
     {
         $superglobals = $this->getSuperglobals()->get_POST();
@@ -237,6 +321,9 @@ class Backend extends AbstractController
         header('Location:/home');
     }
 
+    /**
+     * Function used to redirect browser to 404 page when requested file is not found 
+     */
     public function errorPage()
     {
         echo $this->getRender()->render('404.twig');

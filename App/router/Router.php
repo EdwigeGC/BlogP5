@@ -116,6 +116,9 @@ class Router
             } else if ($this->url == '/deleteUser') {
                 $controller = new Backend();
                 $controller->deleteUser($superglobalGet['id']);
+            } else if($this->url == '/forbidden'){
+                $controller = new Backend();
+                $controller->forbidden();
             } else {
                 $controller = new Backend();
                 $controller->errorPage();

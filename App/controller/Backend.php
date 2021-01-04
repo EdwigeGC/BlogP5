@@ -21,9 +21,11 @@ class Backend extends AbstractController
     {
         session_start();
         $superglobals = $this->getSuperglobals()->get_SESSION();
-
-        if (empty($superglobals['id']) || $superglobals['role'] != "administrateur") {
-            header('Location: /home');
+        if (isset($superglobals['id']) && $superglobals['role'] == "administrateur") {
+            return true;
+        }
+        else {
+            header('Location:/forbidden');
         }
     }
 
@@ -33,13 +35,14 @@ class Backend extends AbstractController
      */
     public function admin()
     {
-        $this->adminAccess();
-        $posts = new PostManager;
-        $postsList = $posts->getPostsAdmin();
-        echo $this->getRender()->render('admin.twig', [
-            'posts' => $postsList,
-            'session' => $this->getSuperglobals()->get_SESSION()
-        ]);
+        if ($this->adminAccess()){
+            $posts = new PostManager;
+            $postsList = $posts->getPostsAdmin();
+            echo $this->getRender()->render('admin.twig', [
+                'posts' => $postsList,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        }
     }
 
     // Posts functions
@@ -51,25 +54,27 @@ class Backend extends AbstractController
      */
     public function updatePostForm(int $postId)
     {
-        $this->adminAccess();
-        $post = new PostManager;
-        $resultat = $post->getPostAdmin($postId);
-        $comment = new CommentManager;
-        $commentList = $comment->getComments($postId);
-        $commentAgreed = [];
-        foreach ($commentList as $key => $value) {
-            if ($commentList[$key]['status'] === 'agreed') {
-                $commentAgreed[] = $value;
+        if($this->adminAccess()){
+            $post = new PostManager;
+            $resultat = $post->getPostAdmin($postId);
+            $comment = new CommentManager;
+            $commentList = $comment->getComments($postId);
+            $commentAgreed = [];
+            foreach ($commentList as $key => $value) {
+                if ($commentList[$key]['status'] === 'agreed') {
+                    $commentAgreed[] = $value;
+                }
             }
+            $subtitle = "Modifier l'article";
+            $action = '/updatePost';
+            echo $this->getRender()->render('postTemplate.twig', [
+                'post' => $resultat,
+                'comments' => $commentAgreed,
+                'subtitle' => $subtitle,
+                'action' => $action,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
         }
-        $subtitle = "Modifier l'article";
-        $action = '/updatePost';
-        echo $this->getRender()->render('postTemplate.twig', [
-            'post' => $resultat,
-            'comments' => $commentAgreed,
-            'subtitle' => $subtitle,
-            'action' => $action,
-        ]);
     }
 
     /**
@@ -78,18 +83,19 @@ class Backend extends AbstractController
      */
     public function updatePost()
     {
-        $this->adminAccess();
-        $superglobals = $this->getSuperglobals()->get_POST();
-        $newPost = new PostManager;
-        $newPost->updatePost($superglobals);
-        $titleAction = "Confirmation d'enregistrement";                            //confirmation message
-        $actionConfirmation = "/admin";
-        $textConfirmation = "Les modifications ont bien été enregistrées";
-        echo $this->getRender()->render('confirmationTemplate.twig', [
-            'titleAction' => $titleAction,
-            'actionConfirmation' => $actionConfirmation,
-            'textConfirmation' => $textConfirmation
-        ]);
+        if ($this->adminAccess()){
+            $superglobals = $this->getSuperglobals()->get_POST();
+            $newPost = new PostManager;
+            $newPost->updatePost($superglobals);
+            $titleAction = "Confirmation d'enregistrement";                            //confirmation message
+            $actionConfirmation = "/admin";
+            $textConfirmation = "Les modifications ont bien été enregistrées";
+            echo $this->getRender()->render('confirmationTemplate.twig', [
+                'titleAction' => $titleAction,
+                'actionConfirmation' => $actionConfirmation,
+                'textConfirmation' => $textConfirmation
+            ]);
+        }
     }
 
     /**
@@ -98,15 +104,17 @@ class Backend extends AbstractController
      */
     public function addPostForm()
     {
-        $this->adminAccess();
-        $posts = new PostManager;
-        $subtitle = "Ajouter un article";
-        $action = '/addPost';
-        echo $this->getRender()->render('postTemplate.twig', [
-            'posts' => $posts,
-            'subtitle' => $subtitle,
-            'action' => $action
-        ]);
+        if ($this->adminAccess()){
+            $posts = new PostManager;
+            $subtitle = "Ajouter un article";
+            $action = '/addPost';
+            echo $this->getRender()->render('postTemplate.twig', [
+                'posts' => $posts,
+                'subtitle' => $subtitle,
+                'action' => $action,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        }
     }
 
     /**
@@ -115,26 +123,27 @@ class Backend extends AbstractController
      */
     public function addPost()
     {
-        $this->adminAccess();
-        $superglobals = $this->getSuperglobals()->get_POST();
-        if (!empty($superglobals) && isset($superglobals)) {
-            $newPost = new PostManager;
-            $isCreated = $newPost->createPost($superglobals);
-            $subtitle = "Ajouter un article";
-            if ($isCreated) {
-                $success = "L'article a bien été ajouté";
-                echo $this->getRender()->render('postTemplate.twig', [
-                    'message' => $success,
-                    'subtitle' => $subtitle,
-                    'class' => 'alert-success'
-                ]);
-            } else {
-                $error = "Erreur";
-                echo $this->getRender()->render('postTemplate.twig', [
-                    'message' => $error,
-                    'subtitle' => $subtitle,
-                    'class' => 'alert-danger'
-                ]);
+        if ($this->adminAccess()){
+            $superglobals = $this->getSuperglobals()->get_POST();
+            if (!empty($superglobals) && isset($superglobals)) {
+                $newPost = new PostManager;
+                $isCreated = $newPost->createPost($superglobals);
+                $subtitle = "Ajouter un article";
+                if ($isCreated) {
+                    $success = "L'article a bien été ajouté";
+                    echo $this->getRender()->render('postTemplate.twig', [
+                        'message' => $success,
+                        'subtitle' => $subtitle,
+                        'class' => 'alert-success'
+                    ]);
+                } else {
+                    $error = "Erreur";
+                    echo $this->getRender()->render('postTemplate.twig', [
+                        'message' => $error,
+                        'subtitle' => $subtitle,
+                        'class' => 'alert-danger'
+                    ]);
+                }
             }
         }
     }
@@ -146,12 +155,13 @@ class Backend extends AbstractController
      */
     public function deletePost(int $postId)
     {
-        $this->adminAccess();
-        $post = new PostManager;
-        $post->deletePost($postId);
-        $comment = new CommentManager;
-        $comment->deleteComments($postId);
-        header('Location:/admin');
+        if ($this->adminAccess()){
+            $post = new PostManager;
+            $post->deletePost($postId);
+            $comment = new CommentManager;
+            $comment->deleteComments($postId);
+            header('Location:/admin');
+        }
     }
 
     // Comments functions
@@ -162,13 +172,14 @@ class Backend extends AbstractController
      */
     public function adminCommentsList()
     {
-        $this->adminAccess();
-        $comments = new CommentManager;
-        $resultat = $comments->adminComments();
-        echo $this->getRender()->render('commentsManagerView.twig', [
-            'resultat' => $resultat,
-            'session' => $this->getSuperglobals()->get_SESSION()
-        ]);
+        if ($this->adminAccess()){
+            $comments = new CommentManager;
+            $resultat = $comments->adminComments();
+            echo $this->getRender()->render('commentsManagerView.twig', [
+                'resultat' => $resultat,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        }
     }
 
     /**
@@ -178,10 +189,11 @@ class Backend extends AbstractController
      */
     public function validateComment(int $commentId)
     {
-        $this->adminAccess();
-        $newComment = new CommentManager;
-        $newComment->validateComment($commentId);
-        header('Location:/commentsManagerView');
+        if ($this->adminAccess()){
+            $newComment = new CommentManager;
+            $newComment->validateComment($commentId);
+            header('Location:/commentsManagerView');
+        }
     }
 
     /**
@@ -191,10 +203,11 @@ class Backend extends AbstractController
      */
     public function deleteComment(int $commentId)
     {
-        $this->adminAccess();
-        $comment = new CommentManager;
-        $comment->deleteComment($commentId);
-        header('Location:/commentsManagerView');
+        if ($this->adminAccess()){
+            $comment = new CommentManager;
+            $comment->deleteComment($commentId);
+            header('Location:/commentsManagerView');
+        }
     }
 
     // Users functions   
@@ -205,13 +218,14 @@ class Backend extends AbstractController
      */
     public function usersList()
     {
-        $this->adminAccess();
-        $posts = new UserManager;
-        $resultat = $posts->getUsers();
-        echo $this->getRender()->render('usersManagerView.twig', [
-            'resultat' => $resultat,
-            'session' => $this->getSuperglobals()->get_SESSION()
-        ]);
+        if ($this->adminAccess()){
+            $posts = new UserManager;
+            $resultat = $posts->getUsers();
+            echo $this->getRender()->render('usersManagerView.twig', [
+                'resultat' => $resultat,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        }
     }
 
     /**
@@ -297,10 +311,11 @@ class Backend extends AbstractController
      */
     public function deleteUser(int $userId)
     {
-        $this->adminAccess();
-        $user = new UserManager;
-        $resultat = $user->deleteUser($userId);
-        header('Location:/usersManagerView');
+        if ($this->adminAccess()){
+            $user = new UserManager;
+            $resultat = $user->deleteUser($userId);
+            header('Location:/usersManagerView');
+        }
     }
 
     // Contact form functions
@@ -327,5 +342,10 @@ class Backend extends AbstractController
     public function errorPage()
     {
         echo $this->getRender()->render('404.twig');
+    }
+
+    public function forbidden()
+    {
+        echo $this->getRender()->render('403.twig');
     }
 }

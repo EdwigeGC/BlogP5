@@ -1,20 +1,23 @@
 <?php
 
 namespace App\utilities;
+
+/**
+ * Definition of Twig views
+ */
 class Renderer
 {
-
-    private $renderer;
-    private $path;
-
-    public function addPath(string $namespace, ?string $path): void
-    {
-        $this->path[$namespace] = $path;
-    }
-
+    /**
+     * Views files setup and parameters to be transmitted
+     *
+     * @param string $view
+     * @param array $param
+     * @return mixed
+     */
     public function render(string $view, $param = [])
     {
-        $loader = new \Twig\Loader\FilesystemLoader(['App/views/backend', 'App/views/frontend', 'App/views/templates']);
+        $loader = new \Twig\Loader\FilesystemLoader(
+            ['App/views/backend', 'App/views/frontend', 'App/views/templates']);
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
             'debug' => true

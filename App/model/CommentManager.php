@@ -3,6 +3,7 @@
 namespace App\model;
 
 use App\model\PDOManager;
+use App\entity\Comment;
 use PDO;
 
 class CommentManager
@@ -11,10 +12,19 @@ class CommentManager
     {
         $database = new PDOManager();
         $connexion = $database->getMysqlConnexion();
-        $comments = $connexion->prepare('SELECT id, author, message, status, DATE_FORMAT(date, \'%d/%m/%Y\') AS comment_date_fr FROM comment WHERE post_id = ? ORDER BY date DESC');
+        $comments = $connexion->prepare('SELECT * FROM comment WHERE post_id = ? && status="agreed" ORDER BY date DESC');
         $comments->execute(array($postId));
-
-        return $comments->fetchAll(PDO::FETCH_ASSOC);
+        $value= $comments->fetchAll(PDO::FETCH_ASSOC);
+        if(!empty($value)){
+            $list=[];
+            foreach($value as $tab){
+                $list[]=new Comment($tab);
+            }
+            return $list;
+        }
+        else{
+            return null;
+        }
     }
 
     public function createComment($param)
@@ -22,7 +32,7 @@ class CommentManager
         $database = new PDOManager();
         $connexion = $database->getMysqlConnexion();
         $datas = $connexion->prepare('INSERT INTO comment  SET author = :author, message = :message, status = :status, date = NOW(), post_id= :post_id ');
-        return $datas->execute($param);
+        $datas->execute($param);
     }
 
     public function adminComments()

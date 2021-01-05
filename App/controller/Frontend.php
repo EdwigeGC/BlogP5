@@ -46,8 +46,7 @@ class Frontend extends AbstractController
         }
         else{
             echo $this->getRender()->render('404.twig');
-        }
-        
+        }  
     }
 
     public function addComment()

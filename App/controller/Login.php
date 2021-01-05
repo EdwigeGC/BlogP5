@@ -72,7 +72,6 @@ class Login extends AbstractController
             }
             if (!empty($errors)) {
                 echo $this->getRender()->render('loginView.twig', ['errors' => $errors]);
-                //require 'App/views/frontend/loginView.php';
             }
             if (empty($errors)) {
                 $superglobals['password'] = password_hash($superglobals['password'], PASSWORD_BCRYPT);
@@ -80,7 +79,6 @@ class Login extends AbstractController
                 $newUser->createUser($superglobals);
                 $success = "Votre compte a bien été créé. Vous pouvez vous connecter dès maintenant.";
                 echo $this->getRender()->render('loginView.twig', ['success' => $success]);
-                //require 'App/views/frontend/loginView.php';
             }
         } else {
             $titleAction = "Erreur";                                                    //error message
@@ -91,7 +89,6 @@ class Login extends AbstractController
                 'actionConfirmation' => $actionConfirmation,
                 'textConfirmation' => $textConfirmation
             ]);
-            //require 'App/views/backend/confirmationTemplate.php';
         }
     }
 

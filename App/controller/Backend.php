@@ -6,6 +6,7 @@ use App\model\PostManager;
 use App\model\CommentManager;
 use App\model\UserManager;
 use App\utilities\ContactConfiguration;
+use App\entity\User;
 
 /**
  * Groups all the functions used in backend side
@@ -262,15 +263,16 @@ class Backend extends AbstractController
         if (isset($superglobalsPost) && !empty($superglobalsPost)) {
             $user = new UserManager;
             $resultat = $user->getUser($superglobalsSession['id']);
-            if ($resultat['e_mail'] != $superglobalsPost['e_mail']) {
-                $resultatEmail = $user->checkEmail($superglobalsPost['e_mail']);
-                if ($resultatEmail) {
+            if ($resultat->getEmail() != $superglobalsPost['email']) {
+                $resultatEmail = $user->checkEmail($superglobalsPost['email']);
+                if (!empty($resultatEmail)) {
+                    $errors['email']='Email déjà utilisé';
                     $titleAction = "Erreur";
-                    $textConfirmation = "Le mot de passe modifé est déjà pris";
+                    $textConfirmation = "L'E-mail modifé est déjà utilisé par un autre compte";
                     $actionConfirmation = "/userForm?id=" . $superglobalsSession['id'];
                 }
             }
-            if ($resultat['password'] != $superglobalsPost['password']) {
+            if ($resultat->getPassword() != $superglobalsPost['password']) {
                 $superglobalsPost['password'] = password_hash($superglobalsPost['password'], PASSWORD_BCRYPT);;
             }
             if (empty($errors)) {
@@ -302,7 +304,7 @@ class Backend extends AbstractController
                 ]);
             }
         }
-    }
+}
 
     /**
      * Function used to delete a user account

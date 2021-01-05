@@ -7,11 +7,19 @@ use App\controller\Frontend;
 use App\controller\Login;
 use App\utilities\Superglobals;
 
+/**
+ * defines the path thanks to information of the url
+ */
 class Router
 {
+    /**
+     * @var string
+     */
     private $url;
 
-
+    /**
+     * Constructor which simplify url writing
+     */
     public function __construct()
 
     {
@@ -21,6 +29,10 @@ class Router
         }
     }
 
+    /**
+     * Groups all url paths and redirect to the correct controller. This function also catchs the Exceptions that can be thrown during the execution. 
+     *
+     */
     public function route()
     {
         $superglobals = new Superglobals();
@@ -76,7 +88,7 @@ class Router
                 $controller->updatePostForm($superglobalGet['id']);
             } else if ($this->url == '/updatePost') {
                 $controller = new Backend();
-                $controller->updatePost($superglobalGet['id']);
+                $controller->updatePost();
             } else if ($this->url == '/deletePost') {
                 $controller = new Backend();
                 $controller->deletePost($superglobalGet['id']);
@@ -104,6 +116,9 @@ class Router
             } else if ($this->url == '/deleteUser') {
                 $controller = new Backend();
                 $controller->deleteUser($superglobalGet['id']);
+            } else if($this->url == '/forbidden'){
+                $controller = new Backend();
+                $controller->forbidden();
             } else {
                 $controller = new Backend();
                 $controller->errorPage();

@@ -7,9 +7,19 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use App\utilities\ContactConstant;
 
+/**
+ * Configuration for contact form
+ */
 class ContactConfiguration
 {
-    public function sendMail($name,  $email, $message)
+    /**
+     * Function used to send datas filled in the form by email
+     *
+     * @param string $name name of the email sender
+     * @param string $email email adresse of the email sender
+     * @param string $message message of the email sender
+     */
+    public function sendMail(string $name,  string $email, string $message)
     {
         try {
             $mail = new PHPMailer(true);

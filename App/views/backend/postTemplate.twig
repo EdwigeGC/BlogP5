@@ -10,9 +10,9 @@
         </div>
     </div>
 
-    {% if success is defined and success is not null %}
-        <div class="alert alert-success">
-            <p>{{ success }}</p>
+    {% if message is defined and message is not null %}
+        <div class="alert {{ class }}">
+            <p>{{ message }}</p>
         </div>
     {% endif %}
 

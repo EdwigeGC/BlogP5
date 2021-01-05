@@ -9,6 +9,12 @@ use Exception;
 
 class PostManager
 {
+    /**
+     * Function used to get posts'list that can be read by everyone
+     *
+     * @param integer $limit can limit the number of posts on a page
+     * @return array|null list of published posts only (list of several Post objects)
+     */
     public function getPosts($limit)
     {
         $database = new PDOManager();
@@ -28,6 +34,11 @@ class PostManager
         }
     }
 
+    /**
+     * Function used to get posts'list that can be read by administrator only
+     *
+     * @return array|null list of Post objects
+     */
     public function getPostsAdmin()
     {
         $database = new PDOManager();
@@ -47,6 +58,12 @@ class PostManager
         }
     }
 
+    /**
+     * Function used to get a post'details that can be read by everyone
+     *
+     * @param integer $postId
+     * @return object|null new Post object beforehand validated by administrator and identified with its Id number
+     */
     public function getPost($postId)
     {
         $database = new PDOManager();
@@ -57,6 +74,12 @@ class PostManager
         return !empty($value) ? new Post($value) : null;   
     }
 
+    /**
+     * Function used to get a post'details that can be read by administrator only
+     *
+     * @param  integer $postId
+     * @return object|null new Post object identified with its Id number
+     */
     public function getPostAdmin($postId)
     {
         $database = new PDOManager();
@@ -67,16 +90,26 @@ class PostManager
         return !empty($value) ? new Post($value) : null; 
     }
 
+    /**
+     * Function used by administrator to add a new post to database
+     *
+     * @param array $param new post's parameters
+     * @return boolean
+     */
     public function createPost($param)
     {
         $database = new PDOManager();
         unset($param['id']);
         $connexion = $database->getMysqlConnexion();
-        $post= new Post($param);
-        $post = $connexion->prepare('INSERT INTO post (author, title, chapo, content, creation_date, published) VALUES(:author, :title, :chapo, :content, NOW(), :published)');
-        $post->execute($param);
+        $data = $connexion->prepare('INSERT INTO post (author, title, chapo, content, creation_date, published) VALUES(:author, :title, :chapo, :content, NOW(), :published)');
+        return $data->execute($param);        
     }
 
+    /**
+     * Function used by administrator to modify a post's details
+     *
+     * @param mixed $param identified post's parameters
+     */
     public function updatePost($param)
     {
         $database = new PDOManager();
@@ -86,6 +119,11 @@ class PostManager
         $post->execute($param);
     }
 
+    /**
+     * Function used by administrator to delete a post in database
+     *
+     * @param integer $postId
+     */
     public function deletePost($postId)
     {
         $database = new PDOManager();

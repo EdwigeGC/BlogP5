@@ -5,9 +5,16 @@ namespace App\controller;
 use App\model\PostManager;
 use App\model\CommentManager;
 
+/**
+ * Groups all the functions used in frontend side
+ */
 class Frontend extends AbstractController
 {
 
+    /**
+     * Displays home view and short list of recent posts
+     *
+     */
     public function home()
     {
         session_start();
@@ -19,6 +26,10 @@ class Frontend extends AbstractController
         ]);
     }
 
+    /**
+     * Displays the list oh published posts
+     *
+     */
     public function posts()
     {
         session_start();
@@ -30,25 +41,33 @@ class Frontend extends AbstractController
         ]);
     }
 
-    public function post($postId)
+    /**
+     * Displays a single post and its comments
+     *
+     * @param int $postId
+     */
+    public function post(int $postId)
     {
         session_start();
         $post = new PostManager;
         $resultat = $post->getPost($postId);
         $comment = new CommentManager;
         $res = $comment->getComments($postId);
-        if(!empty($resultat)){
+        if (!empty($resultat)) {
             echo $this->getRender()->render('postView.twig', [
                 'post' => $resultat,
                 'comments' => $res,
                 'session' => $this->getSuperglobals()->get_SESSION()
-            ]);    
-        }
-        else{
+            ]);
+        } else {
             echo $this->getRender()->render('404.twig');
         }  
     }
 
+    /**
+     * Function used to record a comment written by an identified user.
+     *
+     */
     public function addComment()
     {
         session_start();
@@ -70,6 +89,10 @@ class Frontend extends AbstractController
         ]);
     }
 
+    /**
+     * Displays legales mentions page
+     *
+     */
     public function legalesMentions()
     {
         echo $this->getRender()->render('legalesMentions.twig');

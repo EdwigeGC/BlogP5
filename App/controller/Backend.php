@@ -8,150 +8,233 @@ use App\model\UserManager;
 use App\utilities\ContactConfiguration;
 use App\entity\User;
 
+/**
+ * Groups all the functions used in backend side
+ */
 class Backend extends AbstractController
 {
 
+    /**
+     * Function which authorize access to administration functions to administrator only
+     *
+     */
     public function adminAccess()
-    {                                                       //admin access only authorized for "administrateur" role
+    {
         session_start();
         $superglobals = $this->getSuperglobals()->get_SESSION();
-
-        if (empty($superglobals['id']) || $superglobals['role'] != "administrateur") {
-            header('Location: /home');
+        if (isset($superglobals['id']) && $superglobals['role'] == "administrateur") {
+            return true;
+        }
+        else {
+            header('Location:/forbidden');
         }
     }
 
+    /**
+     * Administration page: display list of all the posts created
+     * 
+     */
     public function admin()
     {
-        $this->adminAccess();
-        $posts = new PostManager;
-        $postsList = $posts->getPostsAdmin();
-        echo $this->getRender()->render('admin.twig', [
-            'posts' => $postsList,
-            'session' => $this->getSuperglobals()->get_SESSION()
-        ]);
-    }
-
-    // Posts functions
-    public function updatePostForm($postId)
-    {
-        $this->adminAccess();
-        $post = new PostManager;
-        $resultat = $post->getPostAdmin($postId);
-        $comment = new CommentManager;
-        $commentList = $comment->getComments($postId);
-        $commentAgreed = [];
-        foreach ($commentList as $key => $value) {
-            if ($commentList[$key]['status'] === 'agreed') {
-                $commentAgreed[] = $value;
-            }
-        }
-        $subtitle = "Modifier l'article";
-        $action = '/updatePost';
-        echo $this->getRender()->render('postTemplate.twig', [
-            'post' => $resultat,
-            'comments' => $commentAgreed,
-            'subtitle' => $subtitle,
-            'action' => $action,
-        ]);
-    }
-
-    public function updatePost($superglobals)
-    {
-        $this->adminAccess();
-        $superglobals = $this->getSuperglobals()->get_POST();
-        $newPost = new PostManager;
-        $newPost->updatePost($superglobals);
-        $titleAction = "Confirmation d'enregistrement";                            //confirmation message
-        $actionConfirmation = "/admin";
-        $textConfirmation = "Les modifications ont bien été enregistrées";
-        echo $this->getRender()->render('confirmationTemplate.twig', [
-            'titleAction' => $titleAction,
-            'actionConfirmation' => $actionConfirmation,
-            'textConfirmation' => $textConfirmation
-        ]);
-    }
-
-    public function addPostForm()
-    {
-        $this->adminAccess();
-        $posts = new PostManager;
-        $subtitle = "Ajouter un article";
-        $action = '/addPost';
-        echo $this->getRender()->render('postTemplate.twig', [
-            'posts' => $posts,
-            'subtitle' => $subtitle,
-            'action' => $action
-        ]);
-    }
-
-    public function addPost()
-    {
-        $this->adminAccess();
-        $superglobals = $this->getSuperglobals()->get_POST();
-        if (!empty($superglobals) && isset($superglobals)) {
-            $newPost = new PostManager;
-            $newPost->createPost($superglobals);
-            $subtitle = "Ajouter un article";
-            $success = "L'artcle a bien été ajouté";
-            echo $this->getRender()->render('postTemplate.twig', [
-                'success' => $success,
-                'subtitle' => $subtitle
+        if ($this->adminAccess()){
+            $posts = new PostManager;
+            $postsList = $posts->getPostsAdmin();
+            echo $this->getRender()->render('admin.twig', [
+                'posts' => $postsList,
+                'session' => $this->getSuperglobals()->get_SESSION()
             ]);
         }
     }
 
-    public function deletePost($postId)
+    // Posts functions
+
+    /**
+     * Display the form to edit a post
+     *
+     * @param int $postId
+     */
+    public function updatePostForm(int $postId)
     {
-        $this->adminAccess();
-        $post = new PostManager;
-        $post->deletePost($postId);
-        $comment = new CommentManager;
-        $comment->deleteComments($postId);
-        header('Location:/admin');
+        if($this->adminAccess()){
+            $post = new PostManager;
+            $resultat = $post->getPostAdmin($postId);
+            $comment = new CommentManager;
+            $commentList = $comment->getComments($postId);
+            $commentAgreed = [];
+            foreach ($commentList as $key => $value) {
+                if ($commentList[$key]['status'] === 'agreed') {
+                    $commentAgreed[] = $value;
+                }
+            }
+            $subtitle = "Modifier l'article";
+            $action = '/updatePost';
+            echo $this->getRender()->render('postTemplate.twig', [
+                'post' => $resultat,
+                'comments' => $commentAgreed,
+                'subtitle' => $subtitle,
+                'action' => $action,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        }
+    }
+
+    /**
+     * Function used to save post's changes required by the administrator
+     *
+     */
+    public function updatePost()
+    {
+        if ($this->adminAccess()){
+            $superglobals = $this->getSuperglobals()->get_POST();
+            $newPost = new PostManager;
+            $newPost->updatePost($superglobals);
+            $titleAction = "Confirmation d'enregistrement";                            //confirmation message
+            $actionConfirmation = "/admin";
+            $textConfirmation = "Les modifications ont bien été enregistrées";
+            echo $this->getRender()->render('confirmationTemplate.twig', [
+                'titleAction' => $titleAction,
+                'actionConfirmation' => $actionConfirmation,
+                'textConfirmation' => $textConfirmation
+            ]);
+        }
+    }
+
+    /**
+     * Display the form to add a post
+     *
+     */
+    public function addPostForm()
+    {
+        if ($this->adminAccess()){
+            $posts = new PostManager;
+            $subtitle = "Ajouter un article";
+            $action = '/addPost';
+            echo $this->getRender()->render('postTemplate.twig', [
+                'posts' => $posts,
+                'subtitle' => $subtitle,
+                'action' => $action,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        }
+    }
+
+    /**
+     * Function used to save new post recorded by the administrator
+     *
+     */
+    public function addPost()
+    {
+        if ($this->adminAccess()){
+            $superglobals = $this->getSuperglobals()->get_POST();
+            if (!empty($superglobals) && isset($superglobals)) {
+                $newPost = new PostManager;
+                $isCreated = $newPost->createPost($superglobals);
+                $subtitle = "Ajouter un article";
+                if ($isCreated) {
+                    $success = "L'article a bien été ajouté";
+                    echo $this->getRender()->render('postTemplate.twig', [
+                        'message' => $success,
+                        'subtitle' => $subtitle,
+                        'class' => 'alert-success'
+                    ]);
+                } else {
+                    $error = "Erreur";
+                    echo $this->getRender()->render('postTemplate.twig', [
+                        'message' => $error,
+                        'subtitle' => $subtitle,
+                        'class' => 'alert-danger'
+                    ]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Function used to delete a post
+     *
+     * @param int $postId
+     */
+    public function deletePost(int $postId)
+    {
+        if ($this->adminAccess()){
+            $post = new PostManager;
+            $post->deletePost($postId);
+            $comment = new CommentManager;
+            $comment->deleteComments($postId);
+            header('Location:/admin');
+        }
     }
 
     // Comments functions
+
+    /**
+     * Display comments list to validate/delete by administrator before publishing them
+     *
+     */
     public function adminCommentsList()
     {
-        $this->adminAccess();
-        $comments = new CommentManager;
-        $resultat = $comments->adminComments();
-        echo $this->getRender()->render('commentsManagerView.twig', [
-            'resultat' => $resultat,
-            'session' => $this->getSuperglobals()->get_SESSION()
-        ]);
+        if ($this->adminAccess()){
+            $comments = new CommentManager;
+            $resultat = $comments->adminComments();
+            echo $this->getRender()->render('commentsManagerView.twig', [
+                'resultat' => $resultat,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        }
     }
 
-    public function validateComment($commentId)
+    /**
+     * Function used to agreed a comment's post
+     *
+     * @param int $commentId
+     */
+    public function validateComment(int $commentId)
     {
-        $this->adminAccess();
-        $newComment = new CommentManager;
-        $newComment->validateComment($commentId);
-        header('Location:/commentsManagerView');
+        if ($this->adminAccess()){
+            $newComment = new CommentManager;
+            $newComment->validateComment($commentId);
+            header('Location:/commentsManagerView');
+        }
     }
 
-    public function deleteComment($commentId)
+    /**
+     * Function used to delete a comment
+     *
+     * @param integer $commentId
+     */
+    public function deleteComment(int $commentId)
     {
-        $this->adminAccess();
-        $comment = new CommentManager;
-        $comment->deleteComment($commentId);
-        header('Location:/commentsManagerView');
+        if ($this->adminAccess()){
+            $comment = new CommentManager;
+            $comment->deleteComment($commentId);
+            header('Location:/commentsManagerView');
+        }
     }
 
     // Users functions   
+
+    /**
+     * Display the list of all users account.
+     *
+     */
     public function usersList()
     {
-        $this->adminAccess();
-        $posts = new UserManager;
-        $resultat = $posts->getUsers();
-        echo $this->getRender()->render('usersManagerView.twig', [
-            'resultat' => $resultat,
-            'session' => $this->getSuperglobals()->get_SESSION()
-        ]);
+        if ($this->adminAccess()){
+            $posts = new UserManager;
+            $resultat = $posts->getUsers();
+            echo $this->getRender()->render('usersManagerView.twig', [
+                'resultat' => $resultat,
+                'session' => $this->getSuperglobals()->get_SESSION()
+            ]);
+        }
     }
 
-    public function userForm($userId)
+    /**
+     * Display the form to edit user's information. Each one can access to his own information.
+     *
+     * @param int $userId
+     */
+    public function userForm(int $userId)
     {
         session_start();
         $superglobals = $this->getSuperglobals()->get_SESSION();
@@ -165,6 +248,10 @@ class Backend extends AbstractController
         }
     }
 
+    /**
+     * Function used to save user's information change
+     *
+     */
     public function updateUser()
     {
         session_start();
@@ -219,14 +306,26 @@ class Backend extends AbstractController
         }
 }
 
-    public function deleteUser($userId)
+    /**
+     * Function used to delete a user account
+     *
+     * @param int $userId
+     */
+    public function deleteUser(int $userId)
     {
-        $this->adminAccess();
-        $user = new UserManager;
-        $resultat = $user->deleteUser($userId);
-        header('Location:/usersManagerView');
+        if ($this->adminAccess()){
+            $user = new UserManager;
+            $resultat = $user->deleteUser($userId);
+            header('Location:/usersManagerView');
+        }
     }
 
+    // Contact form functions
+
+    /**
+     * Function used to get datas from the contact form
+     *
+     */
     public function sendMail()
     {
         $superglobals = $this->getSuperglobals()->get_POST();
@@ -239,8 +338,16 @@ class Backend extends AbstractController
         header('Location:/home');
     }
 
+    /**
+     * Function used to redirect browser to 404 page when requested file is not found 
+     */
     public function errorPage()
     {
         echo $this->getRender()->render('404.twig');
+    }
+
+    public function forbidden()
+    {
+        echo $this->getRender()->render('403.twig');
     }
 }

@@ -3,9 +3,16 @@
 namespace App\model;
 
 use App\utilities\DatabaseConstant;
-
+/**
+ * Connection to database
+ */
 class PDOManager
 {
+    /**
+     * Connection to MySQL and manage Exceptions
+     *
+     * @return PDO
+     */
     public static function getMysqlConnexion()
     {
         try{
@@ -15,8 +22,6 @@ class PDOManager
         } catch (\Exception $e) {
             dump($e);die;
         }
-
-
         return $database;
     }
 }

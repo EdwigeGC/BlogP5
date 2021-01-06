@@ -241,7 +241,14 @@ class Backend extends AbstractController
         if (!empty($userId) && $superglobals['id'] == $userId) {
             $user = new UserManager;
             $resultat = $user->getUser($userId);
+            if ($superglobals['role'] == 'administrateur'){
+                $template='templateBackend.twig';
+            }
+            else if ($superglobals['role'] == 'visiteur'){
+                $template='templateFrontend.twig';
+            }
             echo $this->getRender()->render('userAccountView.twig', [
+                'template'=> $template,
                 'resultat' => $resultat,
                 'session' => $superglobals
             ]);
@@ -281,7 +288,7 @@ class Backend extends AbstractController
                 $user->updateUser($superglobalsPost, $superglobalsSession['id']);
                 $titleAction = "Confirmation d'enregistrement";
                 $textConfirmation = "Vos informations ont bien été mises à jour.";
-                if ($superglobalsSession['role'] = "administrateur") {
+                if ($superglobalsSession['role'] == "administrateur") {
                     $actionConfirmation = "/admin";
                 } else {
                     $actionConfirmation = "/home";

@@ -16,6 +16,7 @@ Installation of the project, requires:
   *  Composer 2.0
   *  Twig 2.13
   *  PHPMailer 6.2
+  *  phpDocumentor 3.0
 
 ### Installation
  1. Copy the link on GitHub and clone it on your local repository
